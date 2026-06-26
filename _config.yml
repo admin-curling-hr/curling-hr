@@ -1,0 +1,16 @@
+title: Hrvatski curling savez
+description: Službene web stranice Hrvatskog curling saveza
+url: "https://curling.hr"
+baseurl: ""
+
+theme: minima
+
+lang: hr
+
+author:
+  name: Hrvatski curling savez
+  email: info@curling.hr
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
