@@ -1,7 +1,7 @@
 title: Hrvatski curling savez
 description: Službene web stranice Hrvatskog curling saveza
-url: "https://curling.hr"
-baseurl: ""
+url: "https://admin-curling-hr.github.io"
+baseurl: "/curling-hr"
 
 theme: minima
 
