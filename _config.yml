@@ -7,9 +7,8 @@ theme: minima
 
 lang: hr
 
-author:
-  name: Hrvatski curling savez
-  email: info@curling.hr
+minima:
+  author: Hrvatski curling savez
 
 plugins:
   - jekyll-feed
