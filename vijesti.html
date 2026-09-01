@@ -1,0 +1,36 @@
+---
+layout: default
+title: Vijesti
+permalink: /vijesti/
+---
+
+<div class="vijesti-archive">
+  <h1 data-hr="Vijesti" data-en="News">Vijesti</h1>
+
+  <div class="news-list">
+    {% for post in site.posts %}
+    <article class="news-item">
+      <a href="{{ post.url | relative_url }}" class="news-item-link">
+        <div class="news-thumb">
+          {% if post.image %}
+          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+          {% else %}
+          <div class="news-thumb-placeholder">
+            <img src="{{ '/assets/images/hcs-logo.png' | relative_url }}" alt="HCS">
+          </div>
+          {% endif %}
+        </div>
+        <div class="news-content">
+          <time class="news-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%d. %m. %Y." }}</time>
+          <h3 class="news-title">{{ post.title }}</h3>
+          <p class="news-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+
+    {% if site.posts.size == 0 %}
+    <p class="no-posts" data-hr="Nema objavljenih vijesti." data-en="No news published yet.">Nema objavljenih vijesti.</p>
+    {% endif %}
+  </div>
+</div>

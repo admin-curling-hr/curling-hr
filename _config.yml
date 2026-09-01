@@ -1,15 +1,21 @@
 title: Hrvatski curling savez
+title_en: Croatian Curling Federation
 description: Službene web stranice Hrvatskog curling saveza
-url: "https://admin-curling-hr.github.io"
-baseurl: "/curling-hr"
+description_en: Official website of the Croatian Curling Federation
+url: "https://curling.hr"
+baseurl: ""
 
-theme: minima
-
-lang: hr
-
-minima:
-  author: Hrvatski curling savez
+# Build
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title/
 
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
