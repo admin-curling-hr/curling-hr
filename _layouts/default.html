@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <link rel="icon" href="{{ '/assets/images/hcs-logo.png' | relative_url }}" type="image/png">
+</head>
+<body>
 
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{{ '/' | relative_url }}" class="header-brand">
+      <img src="{{ '/assets/images/hcs-logo.png' | relative_url }}" alt="HCS Logo" class="header-logo">
+      <div class="header-titles">
+        <span class="header-title" data-hr="Hrvatski curling savez" data-en="Croatian Curling Federation">Hrvatski curling savez</span>
+        <span class="header-subtitle" data-hr="Službene web stranice" data-en="Official website">Službene web stranice</span>
+      </div>
+    </a>
+    <div class="header-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Promjena teme">
+        <span class="theme-icon">☀️</span>
+      </button>
+      <button class="lang-toggle" id="langToggle" aria-label="Change language">
+        <span id="langLabel">EN</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Izbornik">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="site-nav" id="siteNav">
+    <ul>
+      <li><a href="{{ '/' | relative_url }}" data-hr="Početna" data-en="Home">Početna</a></li>
+      <li><a href="{{ '/vijesti/' | relative_url }}" data-hr="Vijesti" data-en="News">Vijesti</a></li>
+      <li><a href="{{ '/kalendar/' | relative_url }}" data-hr="Kalendar događanja" data-en="Events">Kalendar događanja</a></li>
+      <li><a href="{{ '/klubovi/' | relative_url }}" data-hr="Klubovi" data-en="Clubs">Klubovi</a></li>
+      <li><a href="{{ '/prvenstva-hrvatske/' | relative_url }}" data-hr="Prvenstva Hrvatske" data-en="Croatian Championships">Prvenstva Hrvatske</a></li>
+      <li><a href="{{ '/reprezentacija/' | relative_url }}" data-hr="Nastupi reprezentacije" data-en="National Team">Nastupi reprezentacije</a></li>
+      <li><a href="{{ '/o-curlingu/' | relative_url }}" data-hr="O curlingu" data-en="About Curling">O curlingu</a></li>
+      <li><a href="{{ '/o-nama/' | relative_url }}" data-hr="O nama" data-en="About Us">O nama</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="site-main">
+  {{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      <span data-hr="© {{ 'now' | date: '%Y' }} Hrvatski curling savez" data-en="© {{ 'now' | date: '%Y' }} Croatian Curling Federation">
+        © {{ 'now' | date: '%Y' }} Hrvatski curling savez
+      </span>
+    </p>
+    <p>
+      <a href="{{ '/o-nama/' | relative_url }}" data-hr="Kontakt" data-en="Contact">Kontakt</a>
+      &middot;
+      <a href="https://www.facebook.com/curling.hr" target="_blank" rel="noopener">Facebook</a>
+      &middot;
+      <a href="https://worldcurling.org" target="_blank" rel="noopener">World Curling Federation</a>
+    </p>
+  </div>
+</footer>
+
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

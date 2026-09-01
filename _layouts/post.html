@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<article class="post-article">
+  <header class="post-header">
+    {% if page.image %}
+    <div class="post-hero-image">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
+    <div class="post-meta">
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%d. %m. %Y." }}</time>
+      {% if page.categories %}
+      <span class="post-category">{{ page.categories | first }}</span>
+      {% endif %}
+    </div>
+    <h1 class="post-title">{{ page.title }}</h1>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <a href="{{ '/vijesti/' | relative_url }}" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+  </footer>
+</article>

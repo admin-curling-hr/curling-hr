@@ -1,0 +1,49 @@
+---
+layout: default
+---
+
+<div class="home-hero">
+  <p class="hero-lead" data-hr="Dobrodošli na službene stranice Hrvatskog curling saveza." data-en="Welcome to the official website of the Croatian Curling Federation.">
+    Dobrodošli na službene stranice Hrvatskog curling saveza.
+  </p>
+</div>
+
+<section class="home-news">
+  <h2 data-hr="Najnovije vijesti" data-en="Latest News">Najnovije vijesti</h2>
+
+  <div class="news-list">
+    {% assign posts = site.posts | limit: 5 %}
+    {% for post in posts %}
+    <article class="news-item">
+      <a href="{{ post.url | relative_url }}" class="news-item-link">
+        <div class="news-thumb">
+          {% if post.image %}
+          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+          {% else %}
+          <div class="news-thumb-placeholder">
+            <img src="{{ '/assets/images/hcs-logo.png' | relative_url }}" alt="HCS">
+          </div>
+          {% endif %}
+        </div>
+        <div class="news-content">
+          <time class="news-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%d. %m. %Y." }}</time>
+          <h3 class="news-title">{{ post.title }}</h3>
+          <p class="news-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+
+    {% if site.posts.size == 0 %}
+    <p class="no-posts" data-hr="Nema objavljenih vijesti." data-en="No news published yet.">Nema objavljenih vijesti.</p>
+    {% endif %}
+  </div>
+
+  {% if site.posts.size > 5 %}
+  <div class="news-more">
+    <a href="{{ '/vijesti/' | relative_url }}" class="btn-more" data-hr="Sve vijesti →" data-en="All news →">Sve vijesti →</a>
+  </div>
+  {% endif %}
+</section>
+
+{{ content }}
