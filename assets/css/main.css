@@ -1,1 +1,549 @@
+/* ============================================================
+   HRVATSKI CURLING SAVEZ — main.css
+   ============================================================ */
 
+/* --- Variables --- */
+:root {
+  --hcs-red:       #CC0000;
+  --hcs-red-dark:  #990000;
+  --hcs-red-light: #e63333;
+
+  /* Light theme */
+  --bg:            #ffffff;
+  --bg-secondary:  #f5f5f5;
+  --text:          #1a1a1a;
+  --text-muted:    #555555;
+  --border:        #dddddd;
+  --card-bg:       #ffffff;
+  --card-shadow:   0 1px 4px rgba(0,0,0,0.10);
+  --link:          #990000;
+  --link-hover:    #CC0000;
+}
+
+[data-theme="dark"] {
+  --bg:            #121212;
+  --bg-secondary:  #1e1e1e;
+  --text:          #e8e8e8;
+  --text-muted:    #999999;
+  --border:        #333333;
+  --card-bg:       #1e1e1e;
+  --card-shadow:   0 1px 4px rgba(0,0,0,0.40);
+  --link:          #e06060;
+  --link-hover:    #ff8080;
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* --- Header --- */
+.site-header {
+  background: var(--hcs-red);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.header-logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle,
+.lang-toggle {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.theme-toggle:hover,
+.lang-toggle:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+/* --- Navigation --- */
+.site-nav {
+  background: var(--hcs-red-dark);
+}
+
+.site-nav ul {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 0;
+}
+
+.site-nav ul li a {
+  display: block;
+  color: rgba(255,255,255,0.9);
+  padding: 0.55rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav ul li a:hover,
+.site-nav ul li a.active {
+  color: #fff;
+  background: rgba(255,255,255,0.12);
+  border-bottom-color: rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+
+/* --- Main Content --- */
+.site-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  width: 100%;
+  flex: 1;
+}
+
+/* --- Home Hero --- */
+.home-hero {
+  padding: 1.5rem 0 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.hero-lead {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* --- News List (Homepage) --- */
+.home-news h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+  border-left: 4px solid var(--hcs-red);
+  padding-left: 0.75rem;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.news-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-item-link {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.1rem 0;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.1s;
+  border-radius: 4px;
+}
+
+.news-item-link:hover {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.news-item-link:hover .news-title {
+  color: var(--hcs-red);
+}
+
+.news-thumb {
+  flex-shrink: 0;
+  width: 120px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+}
+
+.news-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+}
+
+.news-thumb-placeholder img {
+  width: 48px;
+  height: 48px;
+  opacity: 0.3;
+}
+
+.news-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.news-date {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.news-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  line-height: 1.35;
+  transition: color 0.15s;
+}
+
+.news-excerpt {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.news-more {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.btn-more {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: var(--hcs-red);
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btn-more:hover {
+  background: var(--hcs-red-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* --- Page --- */
+.page-article {
+  max-width: 820px;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.page-description {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.page-content h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; }
+.page-content h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+.page-content p  { margin-bottom: 1rem; }
+.page-content ul, .page-content ol { margin: 0.5rem 0 1rem 1.5rem; }
+.page-content li { margin-bottom: 0.3rem; }
+.page-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.page-content th, .page-content td { padding: 0.6rem 0.9rem; border: 1px solid var(--border); text-align: left; }
+.page-content th { background: var(--bg-secondary); font-weight: 600; }
+.page-content tr:nth-child(even) td { background: var(--bg-secondary); }
+
+/* --- Post --- */
+.post-article {
+  max-width: 820px;
+}
+
+.post-hero-image {
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  max-height: 420px;
+}
+
+.post-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.post-category {
+  background: var(--hcs-red);
+  color: #fff;
+  padding: 0.15rem 0.55rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.post-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.post-content { line-height: 1.75; }
+.post-content h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; }
+.post-content h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+.post-content p  { margin-bottom: 1.1rem; }
+.post-content ul, .post-content ol { margin: 0.5rem 0 1.1rem 1.5rem; }
+.post-content li { margin-bottom: 0.4rem; }
+.post-content img { border-radius: 5px; margin: 1.25rem 0; }
+.post-content iframe { max-width: 100%; margin: 1.25rem 0; }
+
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.back-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* --- Vijesti archive page --- */
+.vijesti-archive h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--hcs-red);
+  padding-left: 0.75rem;
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-inner a {
+  color: var(--text-muted);
+}
+
+.footer-inner a:hover {
+  color: var(--link-hover);
+}
+
+/* --- Clubs table --- */
+.clubs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.clubs-table th,
+.clubs-table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.clubs-table th {
+  background: var(--hcs-red);
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+}
+
+.clubs-table tr:nth-child(even) td {
+  background: var(--bg-secondary);
+}
+
+.club-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+/* --- Responsive --- */
+@media (max-width: 700px) {
+  .header-subtitle { display: none; }
+  .header-title { font-size: 1rem; }
+  .header-logo { width: 44px; height: 44px; }
+
+  .nav-toggle { display: flex; }
+
+  .site-nav {
+    display: none;
+  }
+
+  .site-nav.open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    padding: 0.5rem 0;
+  }
+
+  .site-nav ul li a {
+    padding: 0.65rem 1.25rem;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .site-nav ul li a:hover {
+    border-left-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .news-thumb {
+    width: 80px;
+    height: 60px;
+  }
+
+  .page-title, .post-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-inner { padding: 0.6rem 1rem; }
+  .site-main { padding: 1.5rem 1rem; }
+}
+
+/* --- No posts placeholder --- */
+.no-posts {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 1rem 0;
+}
