@@ -17,7 +17,6 @@
   function applyTheme(theme) {
     html.dataset.theme = theme;
     if (themeIcon) themeIcon.textContent = ICONS[theme] || ICONS.auto;
-    // For 'auto', let CSS media query handle it via prefers-color-scheme
     if (theme === 'auto') {
       html.removeAttribute('data-theme');
     }
@@ -31,7 +30,6 @@
     applyTheme(next);
   }
 
-  // Init theme
   const savedTheme = localStorage.getItem('hcs-theme') || 'auto';
   applyTheme(savedTheme);
 
@@ -39,7 +37,6 @@
     themeBtn.addEventListener('click', cycleTheme);
   }
 
-  // Support prefers-color-scheme for 'auto'
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
   function handleAutoTheme() {
     if (!localStorage.getItem('hcs-theme') || localStorage.getItem('hcs-theme') === 'auto') {
@@ -88,7 +85,12 @@
   const currentPath = window.location.pathname;
   document.querySelectorAll('.site-nav a').forEach(link => {
     const linkPath = new URL(link.href, window.location.origin).pathname;
-    if (linkPath === currentPath || (linkPath !== '/' && currentPath.startsWith(linkPath))) {
+    const isHome = linkPath === '/' || linkPath === '/curling-hr/';
+    if (isHome) {
+      if (currentPath === '/' || currentPath === '/curling-hr/') {
+        link.classList.add('active');
+      }
+    } else if (currentPath.startsWith(linkPath)) {
       link.classList.add('active');
     }
   });
