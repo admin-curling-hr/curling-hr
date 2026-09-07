@@ -335,9 +335,9 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .page-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .page-title {
@@ -546,4 +546,140 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-muted);
   font-style: italic;
   padding: 1rem 0;
+}
+
+/* --- Kalendar --- */
+.kalendar-wrap {
+  max-width: 860px;
+}
+
+.kalendar-naslov {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text);
+  border-left: 4px solid var(--hcs-red);
+  padding-left: 0.75rem;
+}
+
+.kalendar-sekcija {
+  margin-bottom: 1.5rem;
+}
+
+.sekcija-naslov {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.sekcija-naslov.trening {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.sekcija-naslov.domaca {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.sekcija-naslov.medjunarodna {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+[data-theme="dark"] .sekcija-naslov.trening    { background: #1b3a1c; color: #81c784; }
+[data-theme="dark"] .sekcija-naslov.domaca     { background: #3e2000; color: #ffb74d; }
+[data-theme="dark"] .sekcija-naslov.medjunarodna { background: #0d2a4a; color: #64b5f6; }
+
+.kalendar-kartica {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 0.5rem 1.25rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.15s;
+}
+
+
+
+.kartica-datum {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--hcs-red);
+  white-space: nowrap;
+}
+
+.kartica-sadrzaj {
+  min-width: 0;
+}
+
+.kartica-sezona {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.kartica-naziv {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.kartica-detalji {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.kartica-mjesto {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-align: right;
+}
+
+@media (max-width: 650px) {
+  .kalendar-kartica {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .kartica-datum {
+    font-size: 0.8rem;
+  }
+
+  .kartica-mjesto {
+    text-align: left;
+    font-size: 0.8rem;
+  }
+}
+
+/* --- Kalendar reprezentacija znak --- */
+.repr-znak {
+  color: var(--hcs-red);
+  font-size: 0.75rem;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+}
+
+.kalendar-legenda {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.kalendar-legenda .repr-znak {
+  font-size: 0.7rem;
 }
