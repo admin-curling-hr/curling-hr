@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prvenstva Hrvatske – Hrvatski curling savez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/prvenstva.css">
+  <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+</head>
+<body data-page="prvenstva">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+
+<div class="phc-wrap">
+
+<div id="phc-page-prvenstva" class="phc-page-section active">
+<div class="wrap">
+  <div class="filter-bar pregled-filter-bar">
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Kategorija</span>
+      </div>
+      <div class="radio-row" id="uzrastRow"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Disciplina</span>
+      </div>
+      <div class="radio-row" id="disRow"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Sezona</span>
+      </div>
+      <select id="seasonSel" class="season-select-single"></select>
+    </div>
+  </div>
+  <div id="content"></div>
+</div>
+</div>
+
+<div id="phc-page-statistika" class="phc-page-section">
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="poretci">Poretci</button>
+    <button class="tab-btn" data-tab="klubovi">Klubovi</button>
+    <button class="tab-btn" data-tab="ekipe">Ekipe</button>
+    <button class="tab-btn" data-tab="igraci">Igrači</button>
+    <button class="tab-btn" data-tab="klubovih2h">Klubovi međusobno</button>
+    <button class="tab-btn" data-tab="ekipeh2h">Ekipe međusobno</button>
+    <button class="tab-btn" data-tab="igracih2h">Igrači međusobno</button>
+    <button class="tab-btn" data-tab="rekordi">Rekordi</button>
+    <button class="tab-btn" data-tab="statistika">Statistika</button>
+  </div>
+  <div class="filter-bar">
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Kategorija</span>
+        <button class="radio-btn sve-btn mini active" id="katSveBtn" data-kat="sve">Sve</button>
+      </div>
+      <div class="radio-row" id="globalKatRow"></div>
+    </div>
+    <div class="filter-group" id="globalDisGroup">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Disciplina</span>
+        <button class="radio-btn sve-btn mini active" id="disSveBtn" data-dis="sve">Sve</button>
+      </div>
+      <div class="radio-row" id="globalDisRow"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Sezona</span>
+        <button class="radio-btn sve-btn mini active" id="seasonSveBtn">Sve</button>
+      </div>
+      <div class="season-controls">
+        <div class="season-dd">
+          <span class="season-dd-label">Od</span>
+          <select id="globalSeasonFrom"></select>
+        </div>
+        <div class="season-dd">
+          <span class="season-dd-label">Do</span>
+          <select id="globalSeasonTo"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel active" id="panel-poretci"><div id="poretciContent"></div></div>
+  <div class="panel" id="panel-statistika"><div id="statContent"></div></div>
+  <div class="panel" id="panel-rekordi"><div id="rekordiContent"></div></div>
+  <div class="panel" id="panel-klubovi"><div id="kluboviContent"></div></div>
+  <div class="panel" id="panel-ekipe"><div id="ekipeContent"></div></div>
+  <div class="panel" id="panel-igraci"><div id="igraciContent"></div></div>
+  <div class="panel" id="panel-klubovih2h"><div id="klubovih2hContent"></div></div>
+  <div class="panel" id="panel-ekipeh2h"><div id="ekipeh2hContent"></div></div>
+  <div class="panel" id="panel-igracih2h"><div id="igracih2hContent"></div></div>
+</div>
+</div>
+
+<div id="phc-page-postignuca" class="phc-page-section">
+<div class="wrap">
+  <div id="postignucaContent"></div>
+</div>
+</div>
+
+</div>
+
+
+
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script src="assets/js/header.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="assets/js/znacke-data.js"></script>
+<script src="assets/js/logo-data.js"></script>
+<script src="assets/js/prvenstva.js"></script>
+</body>
+</html>

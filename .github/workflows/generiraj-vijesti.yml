@@ -1,0 +1,32 @@
+name: Generiraj vijesti.json
+
+on:
+  push:
+    paths:
+      - 'vijesti/**.html'    # Pokreće se samo kad se mijenja nešto u vijesti/ folderu
+
+jobs:
+  generiraj:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Potrebno za commit nazad u repo
+
+    steps:
+      - name: Dohvati kod
+        uses: actions/checkout@v4
+
+      - name: Postavi Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generiraj vijesti.json
+        run: python skripte/generiraj-vijesti.py
+
+      - name: Commitaj vijesti.json ako se promijenio
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add vijesti.json
+          git diff --cached --quiet || git commit -m "Auto: ažuriraj vijesti.json"
+          git push

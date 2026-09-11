@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hrvatski curling savez</title>
+  <meta name="description" content="Službene web stranice Hrvatskog curling saveza">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+</head>
+<body data-page="pocetna">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <div class="home-hero">
+    <p class="hero-lead" data-hr="Dobrodošli na službene stranice Hrvatskog curling saveza." data-en="Welcome to the official website of the Croatian Curling Federation.">
+      Dobrodošli na službene stranice Hrvatskog curling saveza.
+    </p>
+  </div>
+
+  <section class="home-news">
+    <h2 data-hr="Najnovije vijesti" data-en="Latest News">Najnovije vijesti</h2>
+    <div class="news-list" id="newsList">
+      <p class="no-posts">Učitavanje vijesti...</p>
+    </div>
+  </section>
+</main>
+
+<script src="assets/js/header.js"></script>
+<script>
+(function() {
+  const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? '' : '/curling-hr';
+
+  function formatDatum(iso) {
+    const [y, m, d] = iso.split('-');
+    return `${d}. ${m}. ${y}.`;
+  }
+
+  fetch(BASE + '/vijesti.json')
+    .then(r => r.json())
+    .then(vijesti => {
+      const list = document.getElementById('newsList');
+      if (!vijesti || vijesti.length === 0) {
+        list.innerHTML = '<p class="no-posts">Nema objavljenih vijesti.</p>';
+        return;
+      }
+
+      // Show max 5, sorted by date descending
+      const prikazane = vijesti
+        .slice()
+        .sort((a, b) => b.datum.localeCompare(a.datum))
+        .slice(0, 5);
+
+      list.innerHTML = prikazane.map(v => `
+        <article class="news-item">
+          <a href="${BASE}/vijesti/${v.slug}.html" class="news-item-link">
+            <div class="news-thumb">
+              ${v.slika
+                ? `<img src="${BASE}/assets/images/vijesti/${v.slika}" alt="${v.naslov}">`
+                : `<div class="news-thumb-placeholder"><img src="${BASE}/assets/images/hcs-logo.png" alt="HCS"></div>`
+              }
+            </div>
+            <div class="news-content">
+              <time class="news-date" datetime="${v.datum}">${formatDatum(v.datum)}</time>
+              <h3 class="news-title">${v.naslov}</h3>
+              <p class="news-excerpt">${v.excerpt}</p>
+            </div>
+          </a>
+        </article>
+      `).join('');
+    })
+    .catch(() => {
+      document.getElementById('newsList').innerHTML =
+        '<p class="no-posts">Vijesti trenutno nisu dostupne.</p>';
+    });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nastupi reprezentacije – Hrvatski curling savez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/prvenstva.css">
+  <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+</head>
+<body data-page="reprezentacija">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+
+<div class="phc-wrap">
+
+<div id="phc-page-reprezentacija" class="phc-page-section active">
+<div class="wrap">
+  <div class="filter-bar">
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Kategorija</span>
+        <button class="radio-btn sve-btn mini active" id="repKatSveBtn" data-kat="sve">Sve</button>
+      </div>
+      <div class="radio-row" id="repKatRow"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Disciplina</span>
+        <button class="radio-btn sve-btn mini active" id="repDisSveBtn" data-dis="sve">Sve</button>
+      </div>
+      <div class="radio-row" id="repDisRow"></div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-label-row">
+        <span class="filter-group-label">Sezona</span>
+        <button class="radio-btn sve-btn mini active" id="repSeasonSveBtn">Sve</button>
+      </div>
+      <div class="season-controls">
+        <div class="season-dd">
+          <span class="season-dd-label">Od</span>
+          <select id="repSeasonFrom"></select>
+        </div>
+        <div class="season-dd">
+          <span class="season-dd-label">Do</span>
+          <select id="repSeasonTo"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="repContent"></div>
+</div>
+</div>
+
+</div>
+
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script src="assets/js/header.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="assets/js/znacke-data.js"></script>
+<script src="assets/js/logo-data.js"></script>
+<script src="assets/js/prvenstva.js"></script>
+</body>
+</html>

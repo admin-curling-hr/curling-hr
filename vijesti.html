@@ -1,36 +1,161 @@
----
-layout: default
-title: Vijesti
-permalink: /vijesti/
----
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vijesti – Hrvatski curling savez</title>
+  <meta name="description" content="Vijesti Hrvatskog curling saveza">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .vijesti-header {
+      margin-bottom: 1.5rem;
+    }
+    .vijesti-header h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      border-left: 4px solid var(--hcs-red);
+      padding-left: 0.75rem;
+    }
+    .godina-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .godina-tab {
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: none;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .godina-tab:hover {
+      border-color: var(--hcs-red);
+      color: var(--hcs-red);
+    }
+    .godina-tab.active {
+      background: var(--hcs-red);
+      border-color: var(--hcs-red);
+      color: #fff;
+    }
+    .godina-panel {
+      display: none;
+    }
+    .godina-panel.active {
+      display: block;
+    }
+    .no-posts {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body data-page="vijesti">
 
-<div class="vijesti-archive">
-  <h1 data-hr="Vijesti" data-en="News">Vijesti</h1>
+<div id="site-header"></div>
 
-  <div class="news-list">
-    {% for post in site.posts %}
-    <article class="news-item">
-      <a href="{{ post.url | relative_url }}" class="news-item-link">
-        <div class="news-thumb">
-          {% if post.image %}
-          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-          {% else %}
-          <div class="news-thumb-placeholder">
-            <img src="{{ '/assets/images/hcs-logo.png' | relative_url }}" alt="HCS">
-          </div>
-          {% endif %}
-        </div>
-        <div class="news-content">
-          <time class="news-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%d. %m. %Y." }}</time>
-          <h3 class="news-title">{{ post.title }}</h3>
-          <p class="news-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
-        </div>
-      </a>
-    </article>
-    {% endfor %}
-
-    {% if site.posts.size == 0 %}
-    <p class="no-posts" data-hr="Nema objavljenih vijesti." data-en="No news published yet.">Nema objavljenih vijesti.</p>
-    {% endif %}
+<main class="site-main">
+  <div class="vijesti-header">
+    <h1 data-hr="Vijesti" data-en="News">Vijesti</h1>
   </div>
-</div>
+
+  <div class="godina-tabs" id="godinaTabs"></div>
+  <div id="godinaPanels"></div>
+</main>
+
+<script src="assets/js/header.js"></script>
+<script>
+(function() {
+  const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? '' : '/curling-hr';
+
+  function formatDatum(iso) {
+    const [y, m, d] = iso.split('-');
+    return `${d}. ${m}. ${y}.`;
+  }
+
+  function newsItemHTML(v) {
+    return `
+      <article class="news-item">
+        <a href="${BASE}/vijesti/${v.slug}.html" class="news-item-link">
+          <div class="news-thumb">
+            ${v.slika
+              ? `<img src="${BASE}/assets/images/vijesti/${v.slika}" alt="${v.naslov}">`
+              : `<div class="news-thumb-placeholder"><img src="${BASE}/assets/images/hcs-logo.png" alt="HCS"></div>`
+            }
+          </div>
+          <div class="news-content">
+            <time class="news-date" datetime="${v.datum}">${formatDatum(v.datum)}</time>
+            <h3 class="news-title">${v.naslov}</h3>
+            <p class="news-excerpt">${v.excerpt}</p>
+          </div>
+        </a>
+      </article>`;
+  }
+
+  fetch(BASE + '/vijesti.json')
+    .then(r => r.json())
+    .then(vijesti => {
+      const tabsEl = document.getElementById('godinaTabs');
+      const panelsEl = document.getElementById('godinaPanels');
+
+      if (!vijesti || vijesti.length === 0) {
+        panelsEl.innerHTML = '<p class="no-posts">Nema objavljenih vijesti.</p>';
+        return;
+      }
+
+      // Sort descending by date
+      vijesti.sort((a, b) => b.datum.localeCompare(a.datum));
+
+      // Group by year
+      const byYear = {};
+      vijesti.forEach(v => {
+        const year = v.datum.split('-')[0];
+        if (!byYear[year]) byYear[year] = [];
+        byYear[year].push(v);
+      });
+
+      const years = Object.keys(byYear).sort((a, b) => b - a);
+
+      // Determine active year from URL hash or default to latest
+      const hashYear = window.location.hash.replace('#', '');
+      const activeYear = years.includes(hashYear) ? hashYear : years[0];
+
+      // Render tabs
+      tabsEl.innerHTML = years.map(y => `
+        <button class="godina-tab${y === activeYear ? ' active' : ''}" data-year="${y}">${y}</button>
+      `).join('');
+
+      // Render panels
+      panelsEl.innerHTML = years.map(y => `
+        <div class="godina-panel news-list${y === activeYear ? ' active' : ''}" id="panel-${y}">
+          ${byYear[y].map(newsItemHTML).join('')}
+        </div>
+      `).join('');
+
+      // Tab click handler
+      tabsEl.querySelectorAll('.godina-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const year = this.dataset.year;
+          tabsEl.querySelectorAll('.godina-tab').forEach(b => b.classList.remove('active'));
+          panelsEl.querySelectorAll('.godina-panel').forEach(p => p.classList.remove('active'));
+          this.classList.add('active');
+          document.getElementById('panel-' + year).classList.add('active');
+          history.replaceState(null, '', '#' + year);
+        });
+      });
+    })
+    .catch(() => {
+      document.getElementById('godinaPanels').innerHTML =
+        '<p class="no-posts">Vijesti trenutno nisu dostupne.</p>';
+    });
+})();
+</script>
+</body>
+</html>
