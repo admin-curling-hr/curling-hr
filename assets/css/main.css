@@ -82,6 +82,12 @@ img { max-width: 100%; height: auto; display: block; }
   flex-shrink: 0;
 }
 
+.header-brand:hover,
+.header-brand:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
 .header-logo {
   width: 58px;
   height: 58px;
@@ -193,6 +199,11 @@ img { max-width: 100%; height: auto; display: block; }
   padding: 2rem 1.25rem;
   width: 100%;
   flex: 1;
+}
+
+/* PHC pages - less top padding since subnav is right above */
+.phc-wrap {
+  margin-top: -1rem;
 }
 
 /* --- Home Hero --- */
@@ -360,7 +371,7 @@ img { max-width: 100%; height: auto; display: block; }
 .page-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
 .page-content th, .page-content td { padding: 0.6rem 0.9rem; border: 1px solid var(--border); text-align: left; }
 .page-content th { background: var(--bg-secondary); font-weight: 600; }
-.page-content tr:nth-child(even) td { background: var(--bg-secondary); }
+
 
 /* --- Post --- */
 .post-article {
@@ -683,3 +694,318 @@ img { max-width: 100%; height: auto; display: block; }
 .kalendar-legenda .repr-znak {
   font-size: 0.7rem;
 }
+
+
+
+
+
+/* --- Klubovi --- */
+.klubovi-wrap {
+  width: 100%;
+}
+
+.klubovi-sekcija {
+  margin-bottom: 2.5rem;
+}
+
+.klubovi-naslov {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--hcs-red);
+  padding-left: 0.75rem;
+  color: var(--text);
+}
+
+.neaktivni .klubovi-naslov {
+  border-left-color: var(--border);
+  color: var(--text-muted);
+}
+
+.klubovi-tablica {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.klubovi-tablica thead th {
+  background: var(--hcs-red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  white-space: nowrap;
+  border: none;
+}
+
+.klubovi-tablica tbody tr td {
+  background: var(--card-bg) !important;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.84rem;
+  color: var(--text);
+  border: none;
+  border-bottom: 2px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.klubovi-tablica tbody tr:last-child td {
+  border-bottom: 2px solid var(--border);
+}
+
+.klubovi-tablica tbody tr.neaktivan td {
+  opacity: 0.6;
+}
+
+.kol-logo {
+  width: 66px;
+  min-width: 66px;
+  padding: 0.3rem 0.4rem !important;
+  text-align: center;
+}
+
+.kol-logo img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+.kol-naziv {
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.kol-adresa {
+  white-space: normal;
+  min-width: 160px;
+}
+
+.kol-email a {
+  color: var(--link);
+  font-size: 0.82rem;
+}
+
+.kol-email a:hover {
+  color: var(--link-hover);
+}
+
+/* --- Responsive --- */
+@media (max-width: 750px) {
+  .klubovi-tablica thead {
+    display: none;
+  }
+
+  .klubovi-tablica,
+  .klubovi-tablica tbody,
+  .klubovi-tablica tr,
+  .klubovi-tablica td {
+    display: block;
+    width: 100%;
+  }
+
+  .klubovi-tablica tbody tr {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+  }
+
+  .klubovi-tablica td {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+    white-space: normal;
+    border-bottom: 1px solid var(--border);
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .klubovi-tablica td:last-child {
+    border-bottom: none;
+  }
+
+  .klubovi-tablica td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+
+  .kol-logo {
+    padding: 0.6rem 0.85rem !important;
+  }
+
+  .kol-logo::before { display: none; }
+
+  .kol-logo img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .kol-naziv {
+    font-size: 1rem;
+    font-weight: 700;
+    border-bottom: 2px solid var(--hcs-red) !important;
+  }
+
+  .kol-naziv::before { display: none; }
+}
+
+/* --- PHC dropdown navigation (razina 2 i 3) --- */
+
+/* Both nav bars span full width with coloured background */
+.phc-nav2 {
+  background: #990000;
+  width: 100%;
+}
+
+.phc-nav3 {
+  background: #7a0000;
+  width: 100%;
+}
+
+/* Inner wrapper constrains content to 1100px, same as site-main */
+.phc-nav2-inner,
+.phc-nav3-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+}
+
+/* nav3 items right-aligned: list fills space and pushes right */
+.phc-nav3-inner {
+  justify-content: flex-start;
+}
+.phc-nav3-inner .phc-nav3-list {
+  margin-left: auto;
+}
+
+.phc-nav2-list,
+.phc-nav3-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.phc-nav2-list li a,
+.phc-nav3-list li a {
+  display: block;
+  color: rgba(255,255,255,0.85);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.83rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.phc-nav2-list li a:hover,
+.phc-nav3-list li a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  text-decoration: none;
+}
+
+.phc-nav2-list li a.active,
+.phc-nav3-list li a.active {
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.08);
+}
+
+@media (max-width: 700px) {
+  .phc-nav2-inner,
+  .phc-nav3-inner {
+    justify-content: flex-start;
+  }
+}
+
+/* --- PHC subnav bars (razina 2 i 3) --- */
+
+/* Full-width bar - background fills edge to edge */
+.phc-subnav-bar {
+  background: #990000;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.phc-subnav-bar.ready {
+  opacity: 1;
+}
+.phc-subnav-bar--l3 {
+  background: #990000;
+}
+
+/* List uses same padding/centering as site-nav ul */
+.phc-subnav-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 0;
+}
+
+/* L2: offset list so first item aligns under navPrvenstva.
+   We use padding-left on the list itself. 
+   navPrvenstva is 5th item - we push with JS one time on load. */
+.phc-subnav-bar--l2 .phc-subnav-list {
+  padding-left: var(--phc-nav2-offset, 1.25rem);
+}
+
+/* L3: right-align by pushing list right */
+.phc-subnav-bar--l3 .phc-subnav-list {
+  justify-content: flex-end;
+}
+
+.phc-subnav-list li a {
+  display: block;
+  color: rgba(255,255,255,0.85);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.phc-subnav-list li a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  text-decoration: none;
+}
+
+.phc-subnav-list li a.active {
+  color: #fff;
+  background: rgba(255,255,255,0.12);
+  border-bottom-color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 700px) {
+  .phc-subnav-bar--l2 .phc-subnav-list {
+    padding-left: 1.25rem;
+  }
+  .phc-subnav-bar--l3 .phc-subnav-list {
+    justify-content: flex-start;
+  }
+}
+
