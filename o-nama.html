@@ -6,6 +6,145 @@
   <title>O nama – Hrvatski curling savez</title>
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .page-content {
+      max-width: 750px;
+    }
+    .ona-section {
+      margin-bottom: 2.5rem;
+    }
+    .ona-section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-left: 4px solid var(--hcs-red);
+      padding-left: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Kontakt */
+    .ona-kontakt {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.93rem;
+    }
+    .ona-kontakt dt { font-weight: 600; color: var(--hcs-red); }
+    .ona-kontakt dd { margin: 0; }
+
+    /* Tijela - kartica layout */
+    .tijela-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tijelo-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+    }
+    .tijelo-row:first-child { padding-top: 0; }
+    .tijelo-row:last-child { border-bottom: none; }
+    .tijelo-naziv {
+      font-weight: 600;
+      color: var(--hcs-red);
+      font-size: 0.88rem;
+      padding-right: 1rem;
+    }
+    .tijelo-clanovi {
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* Članovi */
+    .clanovi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .clan-row {
+      display: grid;
+      grid-template-columns: 1fr max-content max-content;
+      gap: 0 1.5rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      align-items: baseline;
+    }
+    .clan-row:last-child { border-bottom: none; }
+    .clan-naziv { font-weight: 600; }
+    .clan-oib { color: var(--text-muted); font-size: 0.82rem; font-family: monospace; }
+    .clan-period { color: var(--text-muted); font-size: 0.82rem; white-space: nowrap; }
+    .clan-row.neaktivan { opacity: 0.5; }
+
+    /* Cjenik */
+    .cjenik-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .cjenik-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+    .cjenik-row:last-child { border-bottom: none; }
+    .cjenik-iznos {
+      font-weight: 700;
+      color: var(--hcs-red);
+      white-space: nowrap;
+    }
+
+    /* Akti */
+    .akti-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .akti-skupina {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 0 1.5rem;
+    }
+    .akti-kat {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--hcs-red);
+      padding-top: 0.15rem;
+    }
+    .akti-stavke {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.9rem;
+    }
+    .akti-stavke a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    .akti-stavke a:hover {
+      text-decoration: underline;
+      color: var(--link-hover);
+    }
+    .akti-stavke span {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      .tijelo-row { grid-template-columns: 1fr; gap: 0.25rem; }
+      .clan-row { grid-template-columns: 1fr max-content; }
+      .clan-oib { display: none; }
+      .akti-skupina { grid-template-columns: 1fr; gap: 0.2rem; }
+      .akti-kat { color: var(--hcs-red); }
+    }
+  </style>
 </head>
 <body data-page="o-nama">
 
@@ -14,53 +153,192 @@
 <main class="site-main">
   <div class="page-content">
 
-## Hrvatski curling savez
+    <section class="ona-section">
+      <p>Hrvatski curling savez krovno je tijelo curling sporta u Republici Hrvatskoj, osnovan 2003. godine.</p>
+      <p>Hrvatski curling savez punopravni je član <a href="https://www.hoo.hr/" target="_blank" rel="noopener">Hrvatskog olimpijskog odbora</a> i <a href="https://worldcurling.org/" target="_blank" rel="noopener">Svjetske curling federacije</a>.</p>
+      <br>
+      <dl class="ona-kontakt">
+        <dt>Adresa</dt>
+        <dd>Vučetićev prilaz 3, HR–10000 Zagreb</dd>
+        <dt>Telefon</dt>
+        <dd><a href="tel:+385915346703">+385 91 5346703</a></dd>
+        <dt>E-pošta</dt>
+        <dd><a href="mailto:info@curling.hr">info@curling.hr</a></dd>
+        <dt>OIB</dt>
+        <dd>35927092577</dd>
+      </dl>
+    </section>
 
-Hrvatski curling savez (HCS) krovna je sportska organizacija koja upravlja razvojem i natjecanjima u curlingu u Republici Hrvatskoj. Savez je član **World Curling Federation (WCF)** i **European Curling Association (ECA)**.
+    <section class="ona-section">
+      <h2>Tijela Hrvatskog curling saveza</h2>
+      <div class="tijela-grid">
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Upravni odbor</div>
+          <div class="tijelo-clanovi">
+            Alberto Skendrović, predsjednik<br>
+            Ante Baus, dopredsjednik<br>
+            Marko Stokuća, dopredsjednik<br>
+            Bruno Samardžić, član, predstavnik Komisije sportaša<br>
+            Diego Einwalter, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Tajnik</div>
+          <div class="tijelo-clanovi">Dražen Ćutić</div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Nadzorni odbor</div>
+          <div class="tijelo-clanovi">
+            Dario Vuković, predsjednik<br>
+            Petra Beštak, član<br>
+            Davor Džepina, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Stegovna komisija</div>
+          <div class="tijelo-clanovi">
+            ?, predsjednik<br>
+            ?, član<br>
+            ?, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Komisija sportaša</div>
+          <div class="tijelo-clanovi">
+            Bruno Samardžić, član<br>
+            ?, član<br>
+            ?, član
+          </div>
+        </div>
+      </div>
+    </section>
 
-## Kontakt
+    <section class="ona-section">
+      <h2>Punopravni članovi Hrvatskog curling saveza</h2>
+      <div class="clanovi-list">
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Vis</div>
+          <div class="clan-oib">OIB: 49289106763</div>
+          <div class="clan-period">član od 2003.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Čudnovati Čunjaš</div>
+          <div class="clan-oib">OIB: 62904723481</div>
+          <div class="clan-period">član od 2004.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Silent</div>
+          <div class="clan-oib">OIB: 23060715807</div>
+          <div class="clan-period">član od 2010.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Legija Zagreb</div>
+          <div class="clan-oib">OIB: 29853315204</div>
+          <div class="clan-period">član od 2018.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Sisak</div>
+          <div class="clan-oib">OIB: 00545886834</div>
+          <div class="clan-period">član od 2018.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling club Zagreb</div>
+          <div class="clan-oib">OIB: 39039799048</div>
+          <div class="clan-period">2003. – 2024.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling klub Legija</div>
+          <div class="clan-oib">OIB: 16553574646</div>
+          <div class="clan-period">2003. – 2024.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling club Zapruđe</div>
+          <div class="clan-oib">OIB: 25782512086</div>
+          <div class="clan-period">2004. – 2016.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling klub Croling</div>
+          <div class="clan-oib">OIB: 29216894945</div>
+          <div class="clan-period">2007. – 2020.</div>
+        </div>
+      </div>
+    </section>
 
-**Hrvatski curling savez**  
-p.p. 123  
-10 000 Zagreb  
-Hrvatska
+    <section class="ona-section">
+      <h2>Cjenik Hrvatskog curling saveza</h2>
+      <div class="cjenik-list">
+        <div class="cjenik-row">
+          <span>Godišnja članarina</span>
+          <span class="cjenik-iznos">160 €</span>
+        </div>
+        <div class="cjenik-row">
+          <span>Kotizacija za nastup četveročlane ekipe na PH</span>
+          <span class="cjenik-iznos">40 €</span>
+        </div>
+        <div class="cjenik-row">
+          <span>Kotizacija za nastup dvočlane ekipe na PH</span>
+          <span class="cjenik-iznos">20 €</span>
+        </div>
+      </div>
+    </section>
 
-📧 [info@curling.hr](mailto:info@curling.hr)  
-🌐 [www.curling.hr](https://curling.hr)  
-📘 [Facebook](https://www.facebook.com/curling.hr)
-
-## Tijela saveza
-
-### Skupština
-Najviše tijelo Saveza. Sastoji se od predstavnika svih klubova članica.
-
-### Upravni odbor
-
-| Uloga | Ime i prezime |
-|-------|--------------|
-| Predsjednik | Ime Prezime |
-| Dopredsjednik | Ime Prezime |
-| Tajnik | Ime Prezime |
-| Blagajnik | Ime Prezime |
-
-### Nadzorni odbor
-
-| Uloga | Ime i prezime |
-|-------|--------------|
-| Predsjednik NO | Ime Prezime |
-| Član | Ime Prezime |
-| Član | Ime Prezime |
-
-## Dokumenti
-
-Sukladno zakonskim obvezama, objavljujemo sljedeće dokumente:
-
-- [Statut HCS (PDF)](/assets/dokumenti/statut-hcs.pdf)
-- [Financijski izvještaj 2024. (PDF)](/assets/dokumenti/financijski-izvjestaj-2024.pdf)
-- [Pravilnik o natjecanjima (PDF)](/assets/dokumenti/pravilnik-natjecanja.pdf)
-- [Etički kodeks (PDF)](/assets/dokumenti/eticki-kodeks.pdf)
-
-*Dokumenti su u pripremi i bit će dostupni uskoro.*
+    <section class="ona-section">
+      <h2>Akti Hrvatskog curling saveza</h2>
+      <div class="akti-grid">
+        <div class="akti-skupina">
+          <div class="akti-kat">Statut</div>
+          <div class="akti-stavke">
+            <span>Statut Hrvatskog curling saveza</span>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Pravilnici</div>
+          <div class="akti-stavke">
+            <span>Pravilnik o uvjetima za prijem u HCS</span>
+            <span>Pravilnik o registraciji</span>
+            <span>Pravilnik o natjecanjima</span>
+            <span>Pravilnik o reprezentacijama</span>
+            <span>Pravilnik o licenciranju trenera</span>
+            <span>Pravilnik o stegovnom postupku</span>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Poslovnici</div>
+          <div class="akti-stavke">
+            <span>Poslovnik o radu Skupštine</span>
+            <span>Poslovnik o radu Upravnog odbora</span>
+            <span>Poslovnik o radu Nadzornog odbora</span>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Planovi</div>
+          <div class="akti-stavke">
+            <span>Plan rada za 2025. godinu</span>
+            <span>Plan rada za 2024. godinu</span>
+            <span>Financijski plan za 2025. godinu</span>
+            <span>Financijski plan za 2024. godinu</span>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Izvješća</div>
+          <div class="akti-stavke">
+            <span>Izvješće o radu za 2025. godinu</span>
+            <span>Izvješće o radu za 2024. godinu</span>
+            <span>Financijsko izvješće za 2025. godinu</span>
+            <span>Financijsko izvješće za 2024. godinu</span>
+            <span>Izvješće o pristupu informacijama za 2025. godinu</span>
+            <span>Izvješće o pristupu informacijama za 2024. godinu</span>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Zapisnici</div>
+          <div class="akti-stavke">
+            <span>Zapisnik s redovne Skupštine 2025.</span>
+            <span>Zapisnik s izborne Skupštine 11.06.2026.</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </div>
 </main>
