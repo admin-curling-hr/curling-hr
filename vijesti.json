@@ -4,27 +4,41 @@
     "naslov": "Najava održavanja prvog prvenstva Hrvatske u curlingu za juniore i 18. prvenstva za žene",
     "datum": "2026-09-01",
     "excerpt": "19. i 20. rujna 2026. godine u Budimpešti, Mađarska, održat će se prvo prvenstvo Hrvatske u curlingu za juniore i 18. prvenstvo u curlingu za žene.",
-    "slika": "slike/2026-09-01-najava-ph/1.jpg"
+    "slika": null
+  },
+  {
+    "slug": "2026-06-15-dobrodosli",
+    "naslov": "Dobrodošli na nove web stranice Hrvatskog curling saveza",
+    "datum": "2026-06-15",
+    "excerpt": "Pokrenuli smo nove, modernije web stranice Hrvatskog curling saveza. Stranice su jednostavne za korištenje, prilagođene mobilnim uređajima i dostupne na hrvatskom i engleskom jeziku.",
+    "slika": null
   },
   {
     "slug": "2026-05-13-pretkvalifikacije",
     "naslov": "Nastup na pretkvalifikacijama za Svjetsko prvenstvo",
     "datum": "2026-05-13",
     "excerpt": "Hrvatska muška reprezentacija nastupila je na World Championship Pre-Qualifier (Europe) 2026. u Ljubljani i zauzela 11. mjesto.",
-    "slika": "slike/2026-05-13-pretkvalifikacije/9.jpg"
+    "slika": null
+  },
+  {
+    "slug": "2026-05-13-wcpq-ljubljana",
+    "naslov": "2026-05-13-wcpq-ljubljana",
+    "datum": "2026-05-13",
+    "excerpt": "",
+    "slika": null
   },
   {
     "slug": "2026-02-14-in-memoriam-neven-pufnik",
     "naslov": "Napustio nas je naš predsjednik Neven Pufnik",
     "datum": "2026-02-14",
     "excerpt": "S velikom tugom opraštamo se od našeg dragog predsjednika Nevena Pufnika. Naš Neven, naš dragi Puf,  svojom je predanošću, svojom vizijom i nevjerojatnom energijom obilježio veliko razdoblje hrvatskog curlinga.",
-    "slika": "slike/2026-02-14-in-memoriam-neven-pufnik/1.jpg"
+    "slika": null
   },
   {
     "slug": "2025-02-24-odrzano-ph",
     "naslov": "Održano 19. prvenstvo Hrvatske za muškarce i 17. prvenstvo Hrvatske za žene",
     "datum": "2025-02-24",
     "excerpt": "22. i 23. veljače 2025. godine u Budimpešti, Mađarska održano je 19. PH za muškarce i 17. PH za žene.",
-    "slika": "slike/2025-02-24-odrzano-ph/1.jpg"
+    "slika": null
   }
 ]
