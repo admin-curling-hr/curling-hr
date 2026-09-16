@@ -7,17 +7,25 @@
   <meta name="description" content="Službene web stranice Hrvatskog curling saveza">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .home-hero-img {
+      width: 100%;
+      max-width: 1100px;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 2rem;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body data-page="pocetna">
 
 <div id="site-header"></div>
 
 <main class="site-main">
-  <div class="home-hero">
-    <p class="hero-lead" data-hr="Dobrodošli na službene stranice Hrvatskog curling saveza." data-en="Welcome to the official website of the Croatian Curling Federation.">
-      Dobrodošli na službene stranice Hrvatskog curling saveza.
-    </p>
-  </div>
+
+  <img src="assets/images/hero.jpg" alt="Hrvatska curling reprezentacija" class="home-hero-img">
 
   <section class="home-news">
     <h2 data-hr="Najnovije vijesti" data-en="Latest News">Najnovije vijesti</h2>
@@ -25,6 +33,7 @@
       <p class="no-posts">Učitavanje vijesti...</p>
     </div>
   </section>
+
 </main>
 
 <script src="assets/js/header.js"></script>
@@ -47,18 +56,17 @@
         return;
       }
 
-      // Show max 5, sorted by date descending
       const prikazane = vijesti
         .slice()
         .sort((a, b) => b.datum.localeCompare(a.datum))
-        .slice(0, 5);
+        .slice(0, 3);
 
       list.innerHTML = prikazane.map(v => `
         <article class="news-item">
           <a href="${BASE}/vijesti/${v.slug}.html" class="news-item-link">
             <div class="news-thumb">
               ${v.slika
-                ? `<img src="${BASE}/assets/images/vijesti/${v.slika}" alt="${v.naslov}">`
+                ? `<img src="${BASE}/vijesti/${v.slika}" alt="${v.naslov}">`
                 : `<div class="news-thumb-placeholder"><img src="${BASE}/assets/images/hcs-logo.png" alt="HCS"></div>`
               }
             </div>

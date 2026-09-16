@@ -61,11 +61,7 @@
 <div id="site-header"></div>
 
 <main class="site-main">
-  <div class="vijesti-header">
-    <h1 data-hr="Vijesti" data-en="News">Vijesti</h1>
-  </div>
-
-  <div class="godina-tabs" id="godinaTabs"></div>
+<div class="godina-tabs" id="godinaTabs"></div>
   <div id="godinaPanels"></div>
 </main>
 
@@ -86,7 +82,7 @@
         <a href="${BASE}/vijesti/${v.slug}.html" class="news-item-link">
           <div class="news-thumb">
             ${v.slika
-              ? `<img src="${BASE}/assets/images/vijesti/${v.slika}" alt="${v.naslov}">`
+              ? `<img src="${BASE}/vijesti/${v.slika}" alt="${v.naslov}">`
               : `<div class="news-thumb-placeholder"><img src="${BASE}/assets/images/hcs-logo.png" alt="HCS"></div>`
             }
           </div>
