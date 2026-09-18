@@ -57,7 +57,7 @@ fetch(BASE + '/assets/json/prvenstva-data.json?v=' + Date.now(), { cache: 'no-st
     // --- URL rutiranje (npr. #statistika/igraci) ---
     applyHashRoute();
     if(!location.hash){
-      history.replaceState(null, '', '#prvenstva');
+      history.replaceState(null, '', '#pregled');
     }
   })
   .catch(err => {
@@ -118,17 +118,18 @@ function addTopScrollbar(containerEl, scrollWrapEl){
 }
 
 // ---------- tabs ----------
-function switchToTab(tab){
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
+function switchToTab(tab, silent){
+  const internalTab = tab === 'podaci' ? 'statistika' : tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === internalTab));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + internalTab));
   updateFilterVisibility();
   syncFilterBarToState();
   renderActiveTab();
+  if(!silent) updateHash();
 }
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     switchToTab(btn.dataset.tab);
-    updateHash();
   });
 });
 
@@ -2187,25 +2188,34 @@ function openH2hMatchListModal(entityA, entityB, groupByClub, dis, kat){
 }
 
 // ===================== Page switcher (Prvenstva / Statistika) =====================
-function switchToPage(pageId){
+function switchToPage(pageId, silent){
   document.querySelectorAll('.page-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.page === pageId));
   document.querySelectorAll('.phc-page-section').forEach(s => s.classList.toggle('active', s.id === 'phc-page-' + pageId));
+  if(!silent) updateHash();
 }
-// page-nav handled by Jekyll routing
 
 // ===================== URL rutiranje (npr. #statistika/igraci) =====================
-// Hash format: #prvenstva | #postignuca | #statistika | #statistika/<tab>
+// Hash format: #pregled | #postignuca | #statistika | #statistika/<tab>
 // updateHash() se zove SAMO iz klika (kad korisnik sam nešto promijeni) - koristi pushState
 // da tipke natrag/naprijed rade. applyHashRoute() se zove kad se hash promijeni izvana
 // (link, natrag/naprijed) i NIKAD sama ne zove updateHash() - hash je već točan jer na
 // njega reagiramo, a pozivanje updateHash() usred obrade natrag/naprijed bi pokvarilo
 // povijest (dodalo bi pogrešan međukorak u sredinu stoga povijesti).
 function updateHash(){
-  const pageId = document.querySelector('.phc-subnav-btn.active')?.dataset.page || 'prvenstva';
+  // Check both internal nav buttons and header nav2 links
+  const pageId = document.querySelector('.phc-subnav-btn.active')?.dataset.page
+              || document.querySelector('#phcNav2 a.active')?.dataset.page
+              || 'pregled';
   let h;
-  if(pageId === 'statistika'){
-    const tab = document.querySelector('.tab-btn.active')?.dataset.tab;
-    h = (tab && tab !== 'poretci') ? `#statistika/${tab}` : '#statistika';
+  if(pageId === 'postignuca'){
+    const activeBadge = document.querySelector('#phc-page-postignuca .badge-item.active')?.dataset.badge;
+    h = activeBadge ? `#postignuca/${badgeToSlug(activeBadge)}` : '#postignuca';
+  } else if(pageId === 'statistika'){
+    // Read from nav3 header links first, then internal tab-btns
+    // Map internal 'statistika' tab -> 'podaci' in URL
+    const rawTab = document.querySelector('#phcNav3 a.active')?.dataset.tab
+                || (document.querySelector('.tab-btn.active')?.dataset.tab === 'statistika' ? 'podaci' : document.querySelector('.tab-btn.active')?.dataset.tab);
+    h = rawTab ? `#statistika/${rawTab}` : '#statistika';
   } else {
     h = `#${pageId}`;
   }
@@ -2218,15 +2228,32 @@ function applyHashRoute(){
   const hash = location.hash.replace(/^#/, '');
   if(!hash) return;
   const [pageId, tab] = hash.split('/');
-  if(!document.getElementById('phc-page-' + pageId)) return;
-  switchToPage(pageId);
 
-  if(pageId === 'statistika'){
-    if(tab && document.getElementById('panel-' + tab)){
-      switchToTab(tab);
+  // #pregled maps to page section 'prvenstva'
+  const sectionId = pageId === 'pregled' ? 'prvenstva' : pageId;
+  const tabId = tab === 'podaci' ? 'statistika' : tab;
+  if(!document.getElementById('phc-page-' + sectionId)) return;
+  switchToPage(sectionId, true); // silent - ne prepisuj hash
+
+  if(sectionId === 'statistika'){
+    if(tabId && document.getElementById('panel-' + tabId)){
+      switchToTab(tabId, true);
     } else {
-      switchToTab('poretci');
+      switchToTab('poretci', true);
     }
+  } else if(sectionId === 'postignuca' && tab){
+    // Apply badge selection after renderPostignuca has run
+    requestAnimationFrame(() => {
+      const badgeName = slugToBadge(tab);
+      if(badgeName){
+        const btn = document.querySelector(`#phc-page-postignuca .badge-item[data-badge="${badgeName}"]`);
+        if(btn){
+          document.querySelectorAll('#phc-page-postignuca .badge-item').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderBadgeDetail(badgeName);
+        }
+      }
+    });
   }
 }
 
@@ -2779,6 +2806,18 @@ function playerBadges(name){
   return out;
 }
 
+// Badge name <-> URL slug conversion
+function badgeToSlug(name){
+  return name.toLowerCase()
+    .replace(/[čć]/g,'c').replace(/š/g,'s').replace(/ž/g,'z').replace(/đ/g,'d')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function slugToBadge(slug){
+  return (typeof BADGE_ORDER !== 'undefined')
+    ? BADGE_ORDER.find(n => badgeToSlug(n) === slug) || null
+    : null;
+}
+
 function renderPostignuca(){
   const content = document.getElementById('postignucaContent');
   let html = '<div class="badge-grid">';
@@ -2792,10 +2831,11 @@ function renderPostignuca(){
       content.querySelectorAll('.badge-item').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderBadgeDetail(btn.dataset.badge);
+      updateHash();
     });
   });
   const first = content.querySelector('.badge-item');
-  if(first) first.click();
+  if(first){ first.click(); }
 }
 
 function renderBadgeDetail(name){

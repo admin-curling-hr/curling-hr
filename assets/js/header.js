@@ -70,6 +70,21 @@
   const placeholder = document.getElementById('site-header');
   if (placeholder) placeholder.outerHTML = HEADER_HTML;
 
+  // closeMobileNav je na IIFE razini da je dostupna i initHeader i initPhcNav
+  function closeMobileNav() {
+    const siteNavEl = document.getElementById('siteNav');
+    if (siteNavEl) siteNavEl.classList.remove('open');
+    const nav2 = document.getElementById('phcNav2');
+    const nav3 = document.getElementById('phcNav3');
+    const overlay = document.getElementById('mobileNavOverlay');
+    if (nav2) {
+      nav2.classList.remove('mobile-open', 'ready');
+      nav2.style.cssText = 'display:none;';
+    }
+    if (nav3) nav3.classList.remove('mobile-open');
+    if (overlay) overlay.style.display = 'none';
+  }
+
   initHeader();
 
   function initHeader() {
@@ -94,6 +109,9 @@
     const nav3 = document.getElementById('phcNav3');
     if (page === 'prvenstva' && nav2) {
       nav2.style.display = '';
+      initPhcNav(nav2, nav3);
+    } else if (nav2) {
+      // Na svim stranicama — inicijaliziraj nav2 listenere za mobilni izbornik
       initPhcNav(nav2, nav3);
     }
 
@@ -149,9 +167,70 @@
     // Mobile nav
     const navToggle = document.getElementById('navToggle');
     const siteNav = document.getElementById('siteNav');
+
     if (navToggle && siteNav) {
-      navToggle.addEventListener('click', () => siteNav.classList.toggle('open'));
+      navToggle.addEventListener('click', () => {
+        siteNav.classList.toggle('open');
+        // Sakrij nav2/nav3 kad zatvorimo hamburger
+        if (!siteNav.classList.contains('open')) {
+          const nav2 = document.getElementById('phcNav2');
+          const nav3 = document.getElementById('phcNav3');
+          if (nav2) nav2.classList.remove('mobile-open');
+          if (nav3) nav3.classList.remove('mobile-open');
+        }
+      });
     }
+
+    // Na mobilnom: klik na "Prvenstva Hrvatske" otvori nav2 inline
+    // umjesto da odmah navigira na stranicu
+    const prvenstvaLink = document.getElementById('navPrvenstva');
+
+    // Kreiraj overlay koji blokira sadržaj ispod nav2
+    const mobileOverlay = document.createElement('div');
+    mobileOverlay.id = 'mobileNavOverlay';
+    mobileOverlay.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:998;background:transparent;';
+    document.body.appendChild(mobileOverlay);
+    mobileOverlay.addEventListener('click', closeMobileNav);
+
+    if (prvenstvaLink) {
+      prvenstvaLink.addEventListener('click', function(e) {
+        if (window.innerWidth > 700) return;
+        e.preventDefault();
+        const nav2 = document.getElementById('phcNav2');
+        if (!nav2) return;
+        const isOpen = nav2.classList.contains('mobile-open');
+        if (isOpen) {
+          closeMobileNav();
+        } else {
+          nav2.removeAttribute('style');
+          nav2.classList.add('mobile-open', 'ready');
+          nav2.style.cssText = 'display:block;position:fixed;left:0;right:0;z-index:999;';
+          // Pozicioniraj nav2 ispod site-nav
+          const siteNav = document.getElementById('siteNav');
+          if (siteNav) {
+            const navBottom = siteNav.getBoundingClientRect().bottom;
+            nav2.style.top = navBottom + 'px';
+          }
+          mobileOverlay.style.display = 'block';
+        }
+      });
+    }
+
+    // Sakrij nav2/nav3 kad se prozor umanji na mobitel
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 700) {
+        const siteNavEl = document.getElementById('siteNav');
+        if (!siteNavEl?.classList.contains('open')) {
+          closeMobileNav();
+        }
+      } else {
+        // Desktop — ukloni mobile-open klase
+        const nav2 = document.getElementById('phcNav2');
+        const nav3 = document.getElementById('phcNav3');
+        if (nav2) nav2.classList.remove('mobile-open');
+        if (nav3) nav3.classList.remove('mobile-open');
+      }
+    });
   }
 
   function initPhcNav(nav2, nav3) {
@@ -162,26 +241,34 @@
       const prvLink = document.getElementById('navPrvenstva');
       const nav2List = nav2.querySelector('.phc-subnav-list');
       if (!prvLink || !nav2List) { nav2.classList.add('ready'); return; }
+
+      // Reset padding first so measurement is clean
+      nav2List.style.paddingLeft = '';
+
       if (window.innerWidth <= 700) {
-        nav2List.style.paddingLeft = '';
         nav2.classList.add('ready');
         if (nav3) nav3.classList.add('ready');
         return;
       }
+
+      // Measure after reset
       const listRect = nav2List.getBoundingClientRect();
       const prvRect = prvLink.getBoundingClientRect();
-      const currentPad = parseFloat(getComputedStyle(nav2List).paddingLeft) || 0;
-      const needed = prvRect.left - listRect.left + currentPad;
+      const basePad = parseFloat(getComputedStyle(nav2List).paddingLeft) || 0;
+      const needed = prvRect.left - listRect.left + basePad;
       nav2List.style.paddingLeft = Math.max(0, needed) + 'px';
       nav2.classList.add('ready');
       if (nav3) nav3.classList.add('ready');
     }
 
     requestAnimationFrame(() => requestAnimationFrame(alignNav2));
+
+    let resizeTimer;
     window.addEventListener('resize', () => {
       nav2.classList.remove('ready');
       if (nav3) nav3.classList.remove('ready');
-      requestAnimationFrame(() => requestAnimationFrame(alignNav2));
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(alignNav2, 50);
     });
 
     function setNav2Active(pg) {
@@ -197,6 +284,37 @@
       link.addEventListener('click', function (e) {
         e.preventDefault();
         const pg = this.dataset.page;
+
+        // Na mobilnom
+        if (window.innerWidth <= 700) {
+          if (pg === 'statistika') {
+            // Prikaži treću razinu izbornika umjesto navigacije
+            nav2.classList.remove('mobile-open', 'ready');
+            nav2.style.cssText = 'display:none;';
+            const overlay = document.getElementById('mobileNavOverlay');
+            if (overlay) overlay.style.display = 'none';
+            // Prikaži nav3
+            if (nav3) {
+              nav3.removeAttribute('style');
+              nav3.classList.add('mobile-open', 'ready');
+              nav3.style.cssText = 'display:block;position:fixed;left:0;right:0;z-index:999;';
+              const siteNavEl = document.getElementById('siteNav');
+              if (siteNavEl) {
+                const navBottom = siteNavEl.getBoundingClientRect().bottom;
+                nav3.style.top = navBottom + 'px';
+              }
+              const overlay2 = document.getElementById('mobileNavOverlay');
+              if (overlay2) overlay2.style.display = 'block';
+            }
+          } else {
+            closeMobileNav();
+            const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+              ? '' : '/curling-hr';
+            window.location.href = base + '/prvenstva.html#' + pg;
+          }
+          return;
+        }
+
         setNav2Active(pg);
         if (typeof switchToPage === 'function') switchToPage(pg);
         if (pg === 'statistika') {
@@ -210,6 +328,16 @@
       link.addEventListener('click', function (e) {
         e.preventDefault();
         const tab = this.dataset.tab;
+
+        // Na mobilnom — navigiraj na stranicu s hashom
+        if (window.innerWidth <= 700) {
+          closeMobileNav();
+          const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? '' : '/curling-hr';
+          window.location.href = base + '/prvenstva.html#statistika/' + tab;
+          return;
+        }
+
         setNav3Active(tab);
         if (typeof switchToTab === 'function') switchToTab(tab);
       });
