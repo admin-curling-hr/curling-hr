@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2023-03-13">
+  <meta name="naslov"  content="Održano 17. prvenstvo Hrvatske za muškarce">
+  <meta name="excerpt" content="11. i 12.03.2023.godine u Budimpešti je odigrano 17. PH za muškarce na kojem je sudjelovalo šest ekipa.">
+  <meta name="slika"   content="">
+  <title>Održano 17. prvenstvo Hrvatske za muškarce - Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-naslovna {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .foto-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid a:hover img {
+      opacity: 0.85;
+    }
+    .foto-wide {
+      grid-column: 1 / -1;
+    }
+    .foto-wide img {
+      width: 100%;
+      border-radius: 4px;
+    }
+    @media (max-width: 600px) {
+      .foto-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex; justify-content:space-between; align-items:center;">
+        <a href="../vijesti.html" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2025-02-24">24. 02. 2025.</time>
+      </div>
+      <h1 class="post-title">Održano 17. prvenstvo Hrvatske za muškarce</h1>
+    </header>
+
+    <div class="post-content">
+
+      <a href="slike/2023-03-13-odrzano-ph/1.jpg" target="_blank">
+        <img src="slike/2023-03-13-odrzano-ph/1.jpg" alt="" class="foto-naslovna">
+      </a>
+
+      <p>11. i 12.03.2023. godine u Budimpešti je odigrano 17. PH za muškarce na kojem je sudjelovalo šest ekipa.</p>
+	  <p>Konačni poredak:</p>
+
+      <p>1. CK Vis<br>
+	  2. CC Legija Slavonski Brod<br>
+	  3. CK Legija Zagreb<br>
+	  4. CK Čudnovati Čunjaš<br>
+	  5. CC Zagreb<br>
+	  6. CK Sisak</p>
+
+      <div class="foto-grid">
+        <a href="slike/2023-03-13-odrzano-ph/1.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/1.jpg" alt=""></a>
+        <a href="slike/2023-03-13-odrzano-ph/2.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/2.jpg" alt=""></a>
+        <a href="slike/2023-03-13-odrzano-ph/3.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/3.jpg" alt=""></a>
+        <a href="slike/2023-03-13-odrzano-ph/4.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/4.jpg" alt=""></a>
+        <a href="slike/2023-03-13-odrzano-ph/5.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/5.jpg" alt=""></a>
+        <a href="slike/2023-03-13-odrzano-ph/6.jpg" target="_blank"><img src="slike/2023-03-13-odrzano-ph/6.jpg" alt=""></a>
+      </div>
+
+    </div>
+
+    <footer class="post-footer">
+      <a href="../vijesti.html" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../assets/js/header.js"></script>
+
+<script>
+(function() {
+  const datum = document.querySelector('meta[name="datum"]');
+  if (datum) {
+    const godina = datum.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(function(a) {
+      a.href = '../vijesti.html#' + godina;
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
