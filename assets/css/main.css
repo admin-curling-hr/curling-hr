@@ -59,7 +59,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: #fff;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
@@ -519,6 +519,8 @@ img { max-width: 100%; height: auto; display: block; }
 
   .site-nav.open {
     display: block;
+    position: relative;
+    z-index: 100;
   }
 
   .site-nav ul {
@@ -1001,11 +1003,67 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 @media (max-width: 700px) {
+  /* Sakrij nav2 i nav3 na mobilnom — JS ih kontrolira */
+  .phc-subnav-bar {
+    display: none !important;
+  }
+  /* Kad JS prikaže nav2 ili nav3 na mobilnom — vertikalni prikaz */
+  .phc-subnav-bar.mobile-open {
+    display: block !important;
+    background: #880000;
+    position: relative;
+    z-index: 200;
+  }
+  .phc-subnav-bar.mobile-open .phc-subnav-list {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 0;
+    overflow: visible;
+    max-width: 100%;
+  }
+  .phc-subnav-bar.mobile-open .phc-subnav-list li {
+    display: block;
+  }
+  .phc-subnav-bar.mobile-open .phc-subnav-list li a {
+    padding: 0.65rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid transparent;
+    font-size: 0.88rem;
+    font-weight: 500;
+    display: block;
+    color: rgba(255,255,255,0.9);
+    cursor: pointer;
+    pointer-events: all;
+  }
+  .phc-subnav-bar.mobile-open .phc-subnav-list li a:hover,
+  .phc-subnav-bar.mobile-open .phc-subnav-list li a.active {
+    border-left-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+  #phcNav3.mobile-open {
+    background: #770000;
+  }
+  .phc-subnav-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .phc-subnav-list::-webkit-scrollbar {
+    display: none;
+  }
   .phc-subnav-bar--l2 .phc-subnav-list {
-    padding-left: 1.25rem;
+    padding-left: 1rem;
+    justify-content: flex-start;
   }
   .phc-subnav-bar--l3 .phc-subnav-list {
     justify-content: flex-start;
+  }
+  .phc-subnav-list li a {
+    white-space: nowrap;
   }
 }
 
