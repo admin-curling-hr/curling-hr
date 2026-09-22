@@ -1524,7 +1524,7 @@ async function loadCaptions(url){
   }
 }
 
-const DATA_BASE = 'prvenstva';
+const DATA_BASE = '../prvenstva';
 
 function rawFaza(phase){
   const prefix = { group: 'K', playoff: 'D', placement: 'P' }[phase.type] || '?';
@@ -2428,7 +2428,7 @@ async function render(){
   // documents
   let html2 = '';
   const seasonTag = `${season-1}-${season}`;
-  const tournFolder = `prvenstva/${seasonTag}/${dis}-${kat}`;
+  const tournFolder = `../prvenstva/${seasonTag}/${dis}-${kat}`;
   const sustavHref = `${tournFolder}/PHC-${seasonTag}-${dis}-${kat}-Sustav.pdf`;
   const sustavOk = await fileExists(sustavHref);
   if(sustavOk){

@@ -53,7 +53,7 @@
     return `${d}. ${m}. ${y}.`;
   }
 
-  fetch(BASE + '/vijesti.json')
+  fetch(BASE + '/vijesti/vijesti.json')
     .then(r => r.json())
     .then(vijesti => {
       const list = document.getElementById('newsList');

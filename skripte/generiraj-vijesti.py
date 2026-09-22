@@ -3,7 +3,7 @@
 generiraj-vijesti.py
 --------------------
 Skenira sve foldere u vijesti/ (format yyyy-mm-dd, svaki sadrži index.html),
-čita meta tagove i generira vijesti.json u korijenu projekta.
+čita meta tagove i generira vijesti/vijesti.json.
 
 Meta tagovi koje čita iz svakog index.html:
   <meta name="datum"   content="2026-09-11">
@@ -21,7 +21,7 @@ import re
 import sys
 
 VIJESTI_DIR = os.path.join(os.path.dirname(__file__), '..', 'vijesti')
-OUTPUT_FILE = os.path.join(os.path.dirname(__file__), '..', 'vijesti.json')
+OUTPUT_FILE = os.path.join(os.path.dirname(__file__), '..', 'vijesti', 'vijesti.json')
 
 def get_meta(html, name):
     """Čita vrijednost meta taga po imenu."""

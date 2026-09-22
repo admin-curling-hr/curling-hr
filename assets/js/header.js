@@ -34,13 +34,13 @@
   <nav class="site-nav" id="siteNav">
     <ul>
       <li><a href="${BASE}/" data-hr="Početna" data-en="Home">Početna</a></li>
-      <li><a href="${BASE}/vijesti.html" data-hr="Vijesti" data-en="News">Vijesti</a></li>
-      <li><a href="${BASE}/kalendar.html" data-hr="Kalendar događanja" data-en="Events">Kalendar događanja</a></li>
-      <li><a href="${BASE}/klubovi.html" data-hr="Klubovi" data-en="Clubs">Klubovi</a></li>
-      <li><a href="${BASE}/prvenstva.html" id="navPrvenstva" data-hr="Prvenstva Hrvatske" data-en="Croatian Championships">Prvenstva Hrvatske</a></li>
-      <li><a href="${BASE}/reprezentacija.html" data-hr="Nastupi reprezentacije" data-en="National Team">Nastupi reprezentacije</a></li>
-      <li><a href="${BASE}/o-curlingu.html" data-hr="O curlingu" data-en="About Curling">O curlingu</a></li>
-      <li><a href="${BASE}/o-nama.html" data-hr="O nama" data-en="About Us">O nama</a></li>
+      <li><a href="${BASE}/vijesti/" data-hr="Vijesti" data-en="News">Vijesti</a></li>
+      <li><a href="${BASE}/kalendar/" data-hr="Kalendar događanja" data-en="Events">Kalendar događanja</a></li>
+      <li><a href="${BASE}/klubovi/" data-hr="Klubovi" data-en="Clubs">Klubovi</a></li>
+      <li><a href="${BASE}/prvenstva/" id="navPrvenstva" data-hr="Prvenstva Hrvatske" data-en="Croatian Championships">Prvenstva Hrvatske</a></li>
+      <li><a href="${BASE}/reprezentacija/" data-hr="Nastupi reprezentacije" data-en="National Team">Nastupi reprezentacije</a></li>
+      <li><a href="${BASE}/o-curlingu/" data-hr="O curlingu" data-en="About Curling">O curlingu</a></li>
+      <li><a href="${BASE}/o-nama/" data-hr="O nama" data-en="About Us">O nama</a></li>
     </ul>
   </nav>
 
@@ -310,7 +310,7 @@
             closeMobileNav();
             const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
               ? '' : '/curling-hr';
-            window.location.href = base + '/prvenstva.html#' + pg;
+            window.location.href = base + '/prvenstva/#' + pg;
           }
           return;
         }
@@ -334,7 +334,7 @@
           closeMobileNav();
           const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? '' : '/curling-hr';
-          window.location.href = base + '/prvenstva.html#statistika/' + tab;
+          window.location.href = base + '/prvenstva/#statistika/' + tab;
           return;
         }
 

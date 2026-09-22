@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vijesti – Hrvatski curling savez</title>
   <meta name="description" content="Vijesti Hrvatskog curling saveza">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="icon" href="assets/images/hcs-logo.png" type="image/png">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="../assets/images/hcs-logo.png" type="image/png">
   <style>
     .vijesti-header {
       margin-bottom: 1.5rem;
@@ -65,7 +65,7 @@
   <div id="godinaPanels"></div>
 </main>
 
-<script src="assets/js/header.js"></script>
+<script src="../assets/js/header.js"></script>
 <script>
 (function() {
   const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
@@ -95,7 +95,7 @@
       </article>`;
   }
 
-  fetch(BASE + '/vijesti.json')
+  fetch(BASE + '/vijesti/vijesti.json')
     .then(r => r.json())
     .then(vijesti => {
       const tabsEl = document.getElementById('godinaTabs');

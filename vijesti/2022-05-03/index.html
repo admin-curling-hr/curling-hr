@@ -40,7 +40,7 @@
 
     <header class="post-header">
       <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
-        <a href="../../vijesti.html" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
         <time datetime="2022-05-03">03. 05. 2022.</time>
       </div>
       <h1 class="post-title">Europsko prvenstvo C skupine, Kaunas 2022</h1>
@@ -96,7 +96,7 @@
     </div>
 
     <footer class="post-footer">
-      <a href="../../vijesti.html" class="back-link"
+      <a href="../" class="back-link"
          data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
     </footer>
 
@@ -109,7 +109,7 @@
   const d = document.querySelector('meta[name="datum"]');
   if (d) {
     const g = d.content.split('-')[0];
-    document.querySelectorAll('.back-link').forEach(a => { a.href = '../../vijesti.html#' + g; });
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
   }
 })();
 </script>
