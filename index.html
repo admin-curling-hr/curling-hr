@@ -69,10 +69,10 @@
 
       list.innerHTML = prikazane.map(v => `
         <article class="news-item">
-          <a href="${BASE}/vijesti/${v.slug}.html" class="news-item-link">
+          <a href="${BASE}/vijesti/${v.datum}/" class="news-item-link">
             <div class="news-thumb">
               ${v.slika
-                ? `<img src="${BASE}/vijesti/${v.slika}" alt="${v.naslov}">`
+                ? `<img src="${BASE}/vijesti/${v.datum}/${v.slika}" alt="${v.naslov}">`
                 : `<div class="news-thumb-placeholder"><img src="${BASE}/assets/images/hcs-logo.png" alt="HCS"></div>`
               }
             </div>

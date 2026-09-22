@@ -6,23 +6,25 @@
 
   <!-- ============================================================
        UPUTA ZA UREDNIKA
-       1. Preimenuj ovaj file: yyyy-mm-dd-kratki-opis.html
-          Primjer: 2026-09-11-vis-prvak-2026-2027.html
-       2. Promijeni ova 3 meta taga:
+       1. Napravi novi folder u vijesti/ s imenom u formatu yyyy-mm-dd
+          Primjer: vijesti/2026-09-11/
+          (datum je dovoljan jer nikad nema dvije vijesti istog dana)
+       2. Ovaj file spremi u taj folder kao "index.html"
+       3. Promijeni ova 3 meta taga:
   ============================================================ -->
   <meta name="datum"   content="2026-01-01">
   <meta name="naslov"  content="Naslov vijesti">
   <meta name="excerpt" content="Kratki opis vijesti koji se prikazuje na popisu vijesti (1-2 rečenice).">
   <!-- ============================================================
-       3. Opcijski: ako imaš naslovnu sliku vijesti, stavi je u
-          assets/images/vijesti/ i upiši ime filea ovdje:
+       4. Opcijski: ako imaš naslovnu sliku vijesti, stavi je u
+          isti folder kao ovaj file (npr. 1.jpg) i upiši ime ovdje:
   ============================================================ -->
   <meta name="slika" content="">
   <!-- ============================================================ -->
 
   <title>Naslov vijesti – Hrvatski curling savez</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <link rel="icon"       href="../assets/images/hcs-logo.png" type="image/png">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon"       href="../../assets/images/hcs-logo.png" type="image/png">
 </head>
 <body data-page="vijesti">
 
@@ -33,15 +35,15 @@
 
     <header class="post-header">
       <div class="post-meta" style="display:flex; justify-content:space-between; align-items:center;">
-        <a href="../vijesti.html" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <a href="../../vijesti.html" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
         <time datetime="2026-01-01">01. 01. 2026.</time>
       </div>
       <h1 class="post-title">Naslov vijesti</h1>
     </header>
 
-    <!-- Opcijska naslovna slika:
+    <!-- Opcijska naslovna slika (fajl u istom folderu kao ovaj index.html):
     <div class="post-hero-image">
-      <img src="../assets/images/vijesti/ime-slike.jpg" alt="Opis slike">
+      <img src="1.jpg" alt="Opis slike">
     </div>
     -->
 
@@ -55,9 +57,9 @@
 
       <p><em>Kurziv</em> se piše s <code>&lt;em&gt;</code>.</p>
 
-      <!-- Slika unutar teksta: -->
+      <!-- Slika unutar teksta (fajl u istom folderu kao ovaj index.html): -->
       <!--
-      <img src="../assets/images/vijesti/ime-slike.jpg" alt="Opis slike">
+      <img src="1.jpg" alt="Opis slike">
       -->
 
       <!-- YouTube video: -->
@@ -70,13 +72,13 @@
     </div>
 
     <footer class="post-footer">
-      <a href="../vijesti.html" class="back-link"
+      <a href="../../vijesti.html" class="back-link"
          data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
     </footer>
 
   </article>
 </main>
 
-<script src="../assets/js/header.js"></script>
+<script src="../../assets/js/header.js"></script>
 </body>
 </html>
