@@ -1,0 +1,32 @@
+name: Generiraj znacke-data.js
+
+on:
+  push:
+    paths:
+      - 'assets/json/prvenstva-data.json'   # Pokreće se samo kad se promijeni izvor podataka
+
+jobs:
+  generiraj:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Potrebno za commit nazad u repo
+
+    steps:
+      - name: Dohvati kod
+        uses: actions/checkout@v4
+
+      - name: Postavi Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generiraj znacke-data.js
+        run: python skripte/generiraj-znacke.py
+
+      - name: Commitaj znacke-data.js ako se promijenio
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/js/znacke-data.js
+          git diff --cached --quiet || git commit -m "Auto: ažuriraj znacke-data.js"
+          git push
