@@ -6,6 +6,7 @@
 <title>Editor vijesti — HCS</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -34,6 +35,8 @@ body {
   padding: 0.9rem 1.5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.75rem;
   position: sticky;
   top: 0;
@@ -107,40 +110,59 @@ input:focus { outline: none; border-color: var(--red); }
 .ql-container { border-radius: 0 0 var(--radius) var(--radius); border-color: var(--border) !important; min-height: 200px; }
 .ql-editor { min-height: 200px; line-height: 1.65; }
 
-/* Photo upload */
+/* Umetni fotografije (gumb u alatnoj traci) */
+#insertGalleryBtn {
+  border: none;
+  background: none;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 3px;
+  line-height: 1;
+  vertical-align: middle;
+}
+#insertGalleryBtn:hover { background: #e8e8e8; }
 
-
-.foto-grid {
+/* Umetnuta galerija unutar teksta (placeholder u editoru) */
+.gallery-embed {
   display: flex;
+  align-items: flex-start;
+  gap: 10px;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-.foto-item {
-  position: relative;
-  width: 90px;
-  height: 68px;
+  background: #f5f5f5;
+  border: 1.5px dashed #c8c8c8;
   border-radius: 4px;
-  overflow: visible;
+  padding: 0.6rem;
+  margin: 0.4rem 0;
+  /* .ql-editor koristi white-space: pre-wrap, što se nasljeđuje ovamo i
+     pretvara razmake/nove retke iz generiranog HTML-a (između img/gumba/
+     naziva) u vidljive prazne retke unutar svake stavke. Vraćamo normalno
+     ponašanje razmaka da bi thumbnailovi bili kompaktni. */
+  white-space: normal;
 }
-.foto-item img {
-  width: 100%;
-  height: 100%;
+.gallery-embed-item {
+  position: relative;
+  width: 64px;
+}
+.gallery-embed-item img {
+  width: 64px;
+  height: 64px;
   object-fit: cover;
   border-radius: 4px;
+  border: 1px solid var(--border);
   display: block;
 }
-.foto-item .foto-name {
+.gallery-embed-item-name {
   font-size: 9px;
   color: var(--muted);
   text-align: center;
   margin-top: 2px;
-  max-width: 90px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.foto-item button {
+.gallery-embed-item-remove {
   position: absolute;
   top: -6px; right: -6px;
   width: 18px; height: 18px;
@@ -154,7 +176,24 @@ input:focus { outline: none; border-color: var(--red); }
   align-items: center;
   justify-content: center;
   line-height: 1;
+  padding: 0;
 }
+.gallery-embed-item-remove:hover { background: var(--red-dark); }
+.gallery-embed-add {
+  width: 64px;
+  height: 64px;
+  border: 1.5px dashed #bbb;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gallery-embed-add:hover { border-color: var(--red); color: var(--red); }
 
 /* Naslovna slika */
 .naslov-slika-row {
@@ -203,17 +242,6 @@ input:focus { outline: none; border-color: var(--red); }
 .status.ok { background: #e6f4e6; color: #1f5c1f; display: block; }
 .status.err { background: #fde8e8; color: #8b1a1a; display: block; }
 
-/* Preview */
-.preview-wrap { display: none; }
-.preview-wrap.show { display: block; }
-.preview-iframe {
-  width: 100%;
-  height: 520px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  display: block;
-}
-
 /* Download card */
 .download-card {
   display: none;
@@ -244,23 +272,6 @@ select {
 }
 select:focus { outline: none; border-color: var(--red); }
 
-.foto-zona {
-  margin-bottom: 1.25rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border);
-}
-.foto-zona:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-.foto-zona-label {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--red);
-  margin-bottom: 0.5rem;
-}
-
 .section-tip {
   font-size: 0.78rem;
   background: #fff8e1;
@@ -270,6 +281,7 @@ select:focus { outline: none; border-color: var(--red); }
   color: #7a5c00;
   margin-bottom: 0.85rem;
 }
+
 </style>
 </head>
 <body>
@@ -301,8 +313,9 @@ select:focus { outline: none; border-color: var(--red); }
         <input type="text" id="excerpt" placeholder="1-2 rečenice...">
       </div>
       <div class="field">
-        <label for="slug">Naziv datoteke <span style="font-weight:400;color:var(--muted)">(automatski)</span></label>
-        <input type="text" id="slug" readonly style="background:#f5f5f5;color:var(--muted);">
+        <label for="folder">Folder vijesti <span style="font-weight:400;color:var(--muted)">(automatski, prema datumu)</span></label>
+        <input type="text" id="folder" readonly style="background:#f5f5f5;color:var(--muted);">
+        <p class="hint">Preuzeti ZIP raspakiraj u repozitorij — <b>index.html</b> i sve fotografije već su spremljene u ovom folderu, spremno za commit.</p>
       </div>
     </div>
   </div>
@@ -325,36 +338,36 @@ select:focus { outline: none; border-color: var(--red); }
   <div class="card">
     <div class="card-head">Tekst vijesti <span style="font-weight:400;opacity:0.7">(Koristi alatnu traku za oblikovanje teksta)</span></div>
     <div class="card-body">
+      <div id="quillToolbar">
+        <span class="ql-formats">
+          <select class="ql-header">
+            <option selected></option>
+            <option value="3">Heading 3</option>
+            <option value="2">Heading 2</option>
+          </select>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-bold"></button>
+          <button class="ql-italic"></button>
+          <button class="ql-underline"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-list" value="ordered"></button>
+          <button class="ql-list" value="bullet"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-link"></button>
+        </span>
+        <span class="ql-formats">
+          <button type="button" id="insertGalleryBtn" title="Umetni fotografije na mjesto kursora">📷</button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-clean"></button>
+        </span>
+      </div>
       <div id="quillEditor"></div>
-    </div>
-  </div>
-
-  <!-- Galerija fotografija - 3 zone -->
-  <div class="card">
-    <div class="card-head">Fotografije u tekstu <span style="font-weight:400;opacity:0.7">(Neobavezno)</span></div>
-    <div class="card-body">
-
-      <div class="foto-zona">
-        <div class="foto-zona-label">📌 Na početku vijesti</div>
-        <input type="file" id="fotoPocetak" multiple accept="image/*" style="display:none" onchange="handleFotos(this,'pocetak')">
-        <button class="btn btn-outline" onclick="document.getElementById('fotoPocetak').click()">📷 Odaberi fotografije</button>
-        <div class="foto-grid" id="fotoGridPocetak"></div>
-      </div>
-
-      <div class="foto-zona">
-        <div class="foto-zona-label">📌 Na sredini vijesti</div>
-        <input type="file" id="fotoSredina" multiple accept="image/*" style="display:none" onchange="handleFotos(this,'sredina')">
-        <button class="btn btn-outline" onclick="document.getElementById('fotoSredina').click()">📷 Odaberi fotografije</button>
-        <div class="foto-grid" id="fotoGridSredina"></div>
-      </div>
-
-      <div class="foto-zona">
-        <div class="foto-zona-label">📌 Na kraju vijesti</div>
-        <input type="file" id="fotoKraj" multiple accept="image/*" style="display:none" onchange="handleFotos(this,'kraj')">
-        <button class="btn btn-outline" onclick="document.getElementById('fotoKraj').click()">📷 Odaberi fotografije</button>
-        <div class="foto-grid" id="fotoGridKraj"></div>
-      </div>
-
+      <input type="file" id="galleryFileInput" multiple accept="image/*" style="display:none">
+      <p class="hint">Za novi redak unutar istog odlomka (bez velikog razmaka) pritisni <b>Shift+Enter</b>. Za umetanje fotografija na bilo koje mjesto u tekstu, postavi kursor gdje želiš i klikni na gumb 📷 u alatnoj traci.</p>
     </div>
   </div>
 
@@ -379,15 +392,14 @@ select:focus { outline: none; border-color: var(--red); }
       <strong id="downloadName"></strong>
     </div>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <button class="btn btn-green" onclick="preuzmi()">⬇ Preuzmi HTML</button>
-      <button class="btn btn-outline" onclick="togglePreview()">👁 Pregled</button>
+      <button class="btn btn-green" onclick="preuzmi()">⬇ Preuzmi ZIP</button>
     </div>
   </div>
 
   <!-- JSON entry -->
   <div class="download-card" id="jsonCard" style="display:none;background:#f0f4ff;border-color:#a3b4df;">
     <div style="width:100%">
-      <p style="color:#1a3a7a;margin-bottom:0.5rem;">📋 Dodaj ovaj redak u <b>vijesti.json</b>:</p>
+      <p style="color:#1a3a7a;margin-bottom:0.5rem;">📋 Ovako će izgledati zapis za ovu vijest u <b>vijesti/vijesti.json</b> (generira se automatski nakon commita, ovo je samo za provjeru):</p>
       <div style="position:relative;">
         <pre id="jsonOutput" style="background:#1e1e2e;color:#cdd6f4;padding:0.85rem 1rem;border-radius:6px;font-size:0.82rem;line-height:1.6;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-family:'Consolas','Courier New',monospace;"></pre>
         <button onclick="kopirajJSON()" class="btn btn-outline" style="position:absolute;top:0.5rem;right:0.5rem;font-size:0.75rem;padding:0.3rem 0.6rem;" id="btnKopiraj">📋 Kopiraj</button>
@@ -395,104 +407,212 @@ select:focus { outline: none; border-color: var(--red); }
     </div>
   </div>
 
-  <!-- Preview -->
-  <div class="preview-wrap" id="previewWrap">
-    <div class="card-head" style="border-radius:6px 6px 0 0;padding:0.6rem 1rem;">Pregled vijesti</div>
-    <iframe class="preview-iframe" id="previewFrame"></iframe>
-  </div>
-
 </div>
 
 <script>
 // ---- State ----
-const fotoFiles = { pocetak: [], sredina: [], kraj: [] };  // 3 galerije
 let naslovnaFile = null; // naslovna slika
+let naslovnaName = '';   // finalni, jedinstveni naziv naslovne slike
 let generatedHTML = '';
-let generatedSlug = '';
+let generatedFolder = '';
+
+const galleryBlocks = new Map(); // id umetnute galerije -> [{file, name, thumb}, ...]
+const usedFilenames = new Set(); // svi nazivi fotki već dodijeljeni u ovoj vijesti (naslovna + sve galerije)
+let galleryCounter = 0;
+
+// Osigurava jedinstven naziv fajla unutar iste vijesti (ako se dva puta odabere
+// fotografija istog imena, npr. IMG_001.jpg, druga se preimenuje u IMG_001-2.jpg
+// itd. — sve fotke idu u isti folder pa se ne smiju prepisati jedna preko druge).
+function uniqueFilename(originalName) {
+  const sanitized = originalName.replace(/[^a-zA-Z0-9._-]/g, '_');
+  if (!usedFilenames.has(sanitized)) { usedFilenames.add(sanitized); return sanitized; }
+  const dot = sanitized.lastIndexOf('.');
+  const stem = dot > -1 ? sanitized.slice(0, dot) : sanitized;
+  const ext = dot > -1 ? sanitized.slice(dot) : '';
+  let n = 2;
+  let candidate = `${stem}-${n}${ext}`;
+  while (usedFilenames.has(candidate)) { n++; candidate = `${stem}-${n}${ext}`; }
+  usedFilenames.add(candidate);
+  return candidate;
+}
 
 // ---- Init ----
 document.getElementById('datum').value = new Date().toISOString().split('T')[0];
-updateSlug();
+updateFolder();
 
 // Quill editor
 const quill = new Quill('#quillEditor', {
   theme: 'snow',
   placeholder: 'Upiši tekst vijesti ovdje...',
   modules: {
-    toolbar: [
-      [{ header: [2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'],
-      ['clean']
-    ]
+    toolbar: {
+      container: '#quillToolbar'
+    }
   }
 });
 
-// ---- Slug generator ----
-document.getElementById('naslov').addEventListener('input', updateSlug);
-document.getElementById('datum').addEventListener('input', updateSlug);
+// ---- Shift+Enter = novi redak (<br>) unutar istog odlomka, bez razmaka novog odlomka ----
+// Ubaci pravi <br> element (embed blot) umjesto novog Quill bloka. Osluškuje se na
+// document u "capture" fazi kako bi se ovaj hendler sigurno izvršio prije Quillovog
+// vlastitog rukovanja tipkom Enter (koji bi inače uvijek napravio novi odlomak).
+const BreakEmbed = Quill.import('blots/embed');
+class SoftBreak extends BreakEmbed {}
+SoftBreak.blotName = 'break';
+SoftBreak.tagName = 'BR';
+Quill.register(SoftBreak);
 
-function updateSlug() {
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter' || !e.shiftKey) return;
+  if (!quill.hasFocus()) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const range = quill.getSelection();
+  if (!range) return;
+  quill.insertEmbed(range.index, 'break', true, Quill.sources.USER);
+  quill.setSelection(range.index + 1, Quill.sources.SILENT);
+}, true);
+
+// ---- Umetanje fotografija na bilo koje mjesto u tekstu ----
+// Custom block-embed (isti princip kao ugrađeni Quill "video" embed): prikazuje
+// minijature (svaka sa svojim × za uklanjanje) i gumb "+" za dodavanje još fotki,
+// sve unutar samog teksta. Stvarni File objekti se ne mogu spremiti u Quillov Delta
+// model, pa se drže odvojeno u galleryBlocks (po id-u), a placeholder u tekstu nosi
+// samo taj id (data-gallery-id) — sadržaj se iscrtava/osvježava ručno preko DOM-a.
+const BlockEmbed = Quill.import('blots/block/embed');
+class GalleryBlot extends BlockEmbed {
+  static create(value) {
+    const node = super.create();
+    node.setAttribute('contenteditable', 'false');
+    node.setAttribute('data-gallery-id', value.id);
+    renderGalleryNode(value.id, node);
+    return node;
+  }
+  static value(node) {
+    return { id: node.getAttribute('data-gallery-id') };
+  }
+}
+GalleryBlot.blotName = 'gallery';
+GalleryBlot.tagName = 'DIV';
+GalleryBlot.className = 'gallery-embed';
+Quill.register(GalleryBlot);
+
+// Iscrta (ili osvježi) sadržaj jednog umetnutog bloka prema trenutnom stanju u galleryBlocks.
+function renderGalleryNode(id, node) {
+  node = node || quill.root.querySelector(`.gallery-embed[data-gallery-id="${id}"]`);
+  if (!node) return;
+  const records = galleryBlocks.get(id) || [];
+  const itemsHtml = records.map((r, i) => `
+      <div class="gallery-embed-item" contenteditable="false">
+        <img src="${r.thumb}" alt="">
+        <button type="button" class="gallery-embed-item-remove" data-gallery-id="${id}" data-photo-idx="${i}" title="Ukloni">×</button>
+        <div class="gallery-embed-item-name">${r.name}</div>
+      </div>`).join('');
+  node.innerHTML = itemsHtml +
+    `<button type="button" class="gallery-embed-add" data-gallery-add="${id}" title="Dodaj još fotografija">+</button>`;
+}
+
+let savedRange = null;  // pozicija kursora zabilježena PRIJE otvaranja dijaloga za odabir
+                         // datoteka (dijalog oduzme fokus editoru pa se selekcija ne smije
+                         // ponovno čitati nakon zatvaranja dijaloga — može biti izgubljena)
+let addTargetId = null; // ako je postavljen, novo odabrane fotke se dodaju U POSTOJEĆI
+                         // blok (klik na "+"), umjesto da se stvori novi blok
+
+document.getElementById('insertGalleryBtn').addEventListener('click', function () {
+  addTargetId = null;
+  savedRange = quill.getSelection(true);
+  document.getElementById('galleryFileInput').click();
+});
+
+document.getElementById('galleryFileInput').addEventListener('change', async function () {
+  const files = Array.from(this.files);
+  this.value = '';
+  if (!files.length) { addTargetId = null; return; }
+
+  const newRecords = await Promise.all(files.map(async f => ({
+    file: f,
+    name: uniqueFilename(f.name),
+    thumb: await fileToBase64(f)
+  })));
+
+  if (addTargetId) {
+    const id = addTargetId;
+    addTargetId = null;
+    const records = galleryBlocks.get(id) || [];
+    records.push(...newRecords);
+    galleryBlocks.set(id, records);
+    renderGalleryNode(id);
+    return;
+  }
+
+  const id = 'gal-' + (++galleryCounter) + '-' + Date.now();
+  galleryBlocks.set(id, newRecords);
+
+  const range = savedRange || quill.getSelection(true) || { index: quill.getLength(), length: 0 };
+  quill.insertEmbed(range.index, 'gallery', { id }, Quill.sources.USER);
+  quill.setSelection(range.index + 1, Quill.sources.SILENT);
+});
+
+// Klikovi unutar umetnute galerije: "+" dodaje još fotki u TAJ blok, × uklanja
+// pojedinačnu fotku (a ako je bila zadnja, briše se i sam blok iz teksta).
+quill.root.addEventListener('click', function (e) {
+  const addBtn = e.target.closest('[data-gallery-add]');
+  if (addBtn) {
+    addTargetId = addBtn.getAttribute('data-gallery-add');
+    savedRange = null;
+    document.getElementById('galleryFileInput').click();
+    return;
+  }
+
+  const removeBtn = e.target.closest('[data-photo-idx]');
+  if (removeBtn) {
+    const id = removeBtn.getAttribute('data-gallery-id');
+    const idx = Number(removeBtn.getAttribute('data-photo-idx'));
+    const records = galleryBlocks.get(id);
+    if (!records) return;
+    const [removed] = records.splice(idx, 1);
+    if (removed) usedFilenames.delete(removed.name);
+
+    if (records.length === 0) {
+      galleryBlocks.delete(id);
+      const container = removeBtn.closest('.gallery-embed');
+      const blot = container && Quill.find(container);
+      if (blot) quill.deleteText(quill.getIndex(blot), 1, Quill.sources.USER);
+    } else {
+      renderGalleryNode(id);
+    }
+  }
+});
+
+// ---- Naziv foldera (samo prema datumu — nikad dvije vijesti isti dan) ----
+document.getElementById('datum').addEventListener('input', updateFolder);
+
+function updateFolder() {
   const datum = document.getElementById('datum').value;
-  const naslov = document.getElementById('naslov').value;
-  if (!datum) return;
-  const slug = naslov
-    .toLowerCase()
-    .replace(/[čć]/g,'c').replace(/š/g,'s').replace(/ž/g,'z').replace(/đ/g,'d')
-    .replace(/[^a-z0-9\s-]/g,'').trim()
-    .replace(/\s+/g,'-').replace(/-+/g,'-').substring(0,50).replace(/-$/,'');
-  document.getElementById('slug').value = slug ? `${datum}-${slug}.html` : `${datum}.html`;
+  document.getElementById('folder').value = datum ? `vijesti/${datum}/` : '';
 }
 
 // ---- Naslovna slika ----
 function handleNaslovnaSlika(input) {
   if (!input.files[0]) return;
+  if (naslovnaName) usedFilenames.delete(naslovnaName); // oslobodi prijašnji naziv, ako je bio odabran
   naslovnaFile = input.files[0];
+  naslovnaName = uniqueFilename(naslovnaFile.name);
   const url = URL.createObjectURL(naslovnaFile);
   const thumb = document.getElementById('naslovnaThumb');
   thumb.src = url;
   thumb.style.display = 'block';
-  document.getElementById('naslovnaIme').textContent = naslovnaFile.name;
+  document.getElementById('naslovnaIme').textContent = naslovnaName;
   document.getElementById('naslovnaObrisi').style.display = '';
 }
 
 function ukloniNaslovnu() {
+  if (naslovnaName) usedFilenames.delete(naslovnaName);
   naslovnaFile = null;
+  naslovnaName = '';
   document.getElementById('naslovnaInput').value = '';
   document.getElementById('naslovnaThumb').style.display = 'none';
   document.getElementById('naslovnaIme').textContent = '';
   document.getElementById('naslovnaObrisi').style.display = 'none';
-}
-
-// ---- Galerija fotografija (3 zone) ----
-function handleFotos(input, zona) {
-  Array.from(input.files).forEach(f => {
-    if (!fotoFiles[zona].find(x => x.name === f.name)) fotoFiles[zona].push(f);
-  });
-  renderFotoGrid(zona);
-  input.value = '';
-}
-
-function renderFotoGrid(zona) {
-  const gridId = { pocetak: 'fotoGridPocetak', sredina: 'fotoGridSredina', kraj: 'fotoGridKraj' }[zona];
-  const grid = document.getElementById(gridId);
-  grid.innerHTML = '';
-  fotoFiles[zona].forEach((f, i) => {
-    const url = URL.createObjectURL(f);
-    const div = document.createElement('div');
-    div.className = 'foto-item';
-    div.innerHTML = `
-      <img src="${url}" alt="">
-      <div class="foto-name">${f.name}</div>
-      <button onclick="ukloniFoto('${zona}',${i})" title="Ukloni">×</button>`;
-    grid.appendChild(div);
-  });
-}
-
-function ukloniFoto(zona, i) {
-  fotoFiles[zona].splice(i, 1);
-  renderFotoGrid(zona);
 }
 
 // Fotografije se odabiru gumbom — bez drag&drop
@@ -515,14 +635,13 @@ function quillToHTML() {
     .trim();
 }
 
-// ---- Build foto grid HTML ----
-function buildFotoGrid(slug, files) {
-  if (!files.length) return '';
-  const folderSlug = slug.replace('.html','');
-  const items = files.map(f => {
-    const name = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    return `<a href="slike/${folderSlug}/${name}" target="_blank"><img src="slike/${folderSlug}/${name}" alt=""></a>`;
-  }).join('\n        ');
+// ---- Build foto grid HTML (slike su u istom folderu kao index.html) ----
+// 'records' su { name } objekti — naziv je već konačan i jedinstven (vidi uniqueFilename).
+function buildFotoGrid(records) {
+  if (!records.length) return '';
+  const items = records.map(r =>
+    `<a href="${r.name}" target="_blank"><img src="${r.name}" alt=""></a>`
+  ).join('\n        ');
   return `
       <div class="foto-grid-vijest">
         ${items}
@@ -534,7 +653,6 @@ async function generiraj() {
   const naslov = document.getElementById('naslov').value.trim();
   const datum  = document.getElementById('datum').value;
   const excerpt = document.getElementById('excerpt').value.trim();
-  const slug   = document.getElementById('slug').value;
   if (!naslov) { setStatus('Upiši naslov vijesti.', 'err'); return; }
   if (!datum)  { setStatus('Odaberi datum.', 'err'); return; }
   if (!quill.getText().trim()) { setStatus('Upiši tekst vijesti.', 'err'); return; }
@@ -544,39 +662,22 @@ async function generiraj() {
   const godina = y;
 
   const sadrzajHTML = quillToHTML();
-  const gridPocetak = buildFotoGrid(slug, fotoFiles.pocetak);
-  const gridSredina = buildFotoGrid(slug, fotoFiles.sredina);
-  const gridKraj    = buildFotoGrid(slug, fotoFiles.kraj);
 
-  // Naslovna slika — sprema se u slike/folder/
-  let naslovnaPath = '';
-  if (naslovnaFile) {
-    const folderSlug = slug.replace('.html','');
-    const name = naslovnaFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    naslovnaPath = `slike/${folderSlug}/${name}`;
-  }
+  // Naslovna slika — sprema se u isti folder kao index.html
+  const naslovnaPath = naslovnaName || '';
 
-  // Inject: početak + tekst s gridom na sredini + kraj
-  // "Sredina" = iza prvog odlomka koji je duži od 100 znakova, ili iza prvog <p>
-  let sadrzajSredinaInject = sadrzajHTML;
-  if (gridSredina) {
-    const parts = sadrzajHTML.split('</p>');
-    // Find first "substantial" paragraph (>100 chars) for inject point
-    let injectAt = 1; // default: after first paragraph
-    for (let i = 0; i < parts.length - 1; i++) {
-      if (parts[i].replace(/<[^>]*>/g,'').trim().length > 100) {
-        injectAt = i + 1;
-        break;
-      }
-    }
-    sadrzajSredinaInject = parts.slice(0, injectAt).join('</p>') + '</p>'
-      + gridSredina
-      + parts.slice(injectAt).join('</p>');
-  }
-
-  const finalContent = (gridPocetak ? gridPocetak + '\n' : '')
-    + sadrzajSredinaInject
-    + (gridKraj ? '\n' + gridKraj : '');
+  // Zamijeni svaki umetnuti "gallery" placeholder njegovim konačnim HTML-om
+  // (stvarna foto-grid-vijest galerija), točno na mjestu gdje je umetnut u tekstu.
+  const tmp = document.createElement('div');
+  tmp.innerHTML = sadrzajHTML;
+  tmp.querySelectorAll('.gallery-embed').forEach(node => {
+    const id = node.getAttribute('data-gallery-id');
+    const records = galleryBlocks.get(id) || [];
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = buildFotoGrid(records).trim();
+    node.replaceWith(...wrapper.childNodes);
+  });
+  const finalContent = tmp.innerHTML;
 
   const html = `<!DOCTYPE html>
 <html lang="hr" data-theme="auto">
@@ -588,8 +689,8 @@ async function generiraj() {
   <meta name="excerpt" content="${(excerpt || naslov).replace(/"/g,'&quot;')}">
   <meta name="slika"   content="${naslovnaPath}">
   <title>${naslov} – Hrvatski curling savez</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <link rel="icon" href="../assets/images/hcs-logo.png" type="image/png">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
   <style>
     .foto-grid-vijest {
       display: grid;
@@ -620,7 +721,7 @@ async function generiraj() {
 
     <header class="post-header">
       <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
-        <a href="../vijesti.html" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
         <time datetime="${datum}">${datumHR}</time>
       </div>
       <h1 class="post-title">${naslov}</h1>
@@ -631,20 +732,21 @@ async function generiraj() {
     </div>
 
     <footer class="post-footer">
-      <a href="../vijesti.html" class="back-link"
+      <a href="../" class="back-link"
          data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
     </footer>
 
   </article>
 </main>
 
-<script src="../assets/js/header.js"><\/script>
+<script src="../../assets/js/header.js"><\/script>
+<script src="../../assets/js/vijesti-lightbox.js"><\/script>
 <script>
 (function(){
   const d = document.querySelector('meta[name="datum"]');
   if (d) {
     const g = d.content.split('-')[0];
-    document.querySelectorAll('.back-link').forEach(a => { a.href = '../vijesti.html#' + g; });
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
   }
 })();
 <\/script>
@@ -652,27 +754,21 @@ async function generiraj() {
 </html>`;
 
   generatedHTML = html;
-  generatedSlug = slug;
+  generatedFolder = datum;
 
-  document.getElementById('downloadName').textContent = slug;
+  const brojFotki = (naslovnaFile ? 1 : 0) +
+    Array.from(galleryBlocks.values()).reduce((sum, r) => sum + r.length, 0);
+  document.getElementById('downloadName').textContent =
+    `vijesti/${datum}/  (ZIP: index.html + ${brojFotki} fotografija)`;
   document.getElementById('downloadCard').className = 'download-card show';
+  document.getElementById('status').className = 'status';
 
-  const iframe = document.getElementById('previewFrame');
-  iframe.srcdoc = html;
-  document.getElementById('previewWrap').className = 'preview-wrap show';
-
-  setStatus(`✓ Vijest "${naslov}" je generirana i spremna za preuzimanje.`, 'ok');
-
-  // Build JSON entry
-  const folderSlug = slug.replace('.html','');
-  const naslovnaSlika = naslovnaFile
-    ? `slike/${folderSlug}/${naslovnaFile.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`
-    : null;
+  // Pregled zapisa (isti oblik kao ono što generira skripte/generiraj-vijesti.py)
+  const naslovnaSlika = naslovnaFile ? naslovnaName : null;
 
   const jsonEntry = {
-    slug: slug.replace('.html',''),
-    naslov: naslov,
     datum: datum,
+    naslov: naslov,
     excerpt: excerpt || naslov,
     slika: naslovnaSlika
   };
@@ -682,20 +778,25 @@ async function generiraj() {
   document.getElementById('jsonCard').style.display = 'block';
 }
 
-// ---- Download HTML ----
-function preuzmi() {
-  if (!generatedHTML) return;
-  const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = generatedSlug;
-  a.click();
-}
-
-// ---- Preview toggle ----
-function togglePreview() {
-  const w = document.getElementById('previewWrap');
-  w.className = w.className.includes('show') ? 'preview-wrap' : 'preview-wrap show';
+// ---- Download ZIP (index.html + sve fotografije, spremno za unzip ravno u repo) ----
+async function preuzmi() {
+  if (!generatedHTML || !generatedFolder) return;
+  try {
+    const zip = new JSZip();
+    const folder = zip.folder('vijesti').folder(generatedFolder);
+    folder.file('index.html', generatedHTML);
+    if (naslovnaFile && naslovnaName) folder.file(naslovnaName, naslovnaFile);
+    galleryBlocks.forEach(records => {
+      records.forEach(r => folder.file(r.name, r.file));
+    });
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `vijesti-${generatedFolder}.zip`;
+    a.click();
+  } catch (err) {
+    setStatus('Greška pri izradi ZIP-a: ' + err.message, 'err');
+  }
 }
 
 // ---- Status ----
@@ -721,28 +822,22 @@ function resetForm() {
   document.getElementById('excerpt').value = '';
   document.getElementById('datum').value = new Date().toISOString().split('T')[0];
   quill.setText('');
-  fotoFiles.pocetak = [];
-  fotoFiles.sredina = [];
-  fotoFiles.kraj = [];
+  galleryBlocks.clear();
+  usedFilenames.clear();
+  galleryCounter = 0;
   naslovnaFile = null;
-  ['fotoGridPocetak','fotoGridSredina','fotoGridKraj'].forEach(id => {
-    document.getElementById(id).innerHTML = '';
-  });
-  ['fotoPocetak','fotoSredina','fotoKraj'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+  naslovnaName = '';
   document.getElementById('naslovnaThumb').style.display = 'none';
   document.getElementById('naslovnaIme').textContent = '';
   document.getElementById('naslovnaObrisi').style.display = 'none';
   document.getElementById('naslovnaInput').value = '';
   generatedHTML = '';
-  generatedSlug = '';
+  generatedFolder = '';
   document.getElementById('downloadCard').className = 'download-card';
   document.getElementById('jsonCard').style.display = 'none';
   document.getElementById('jsonOutput').textContent = '';
-  document.getElementById('previewWrap').className = 'preview-wrap';
   document.getElementById('status').className = 'status';
-  updateSlug();
+  updateFolder();
 }
 </script>
 </body>

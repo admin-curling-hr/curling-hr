@@ -11,18 +11,13 @@
   <link rel="stylesheet" href="../../assets/css/main.css">
   <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
   <style>
-    .foto-naslovna {
-      width: 100%;
-      border-radius: 6px;
-      margin-bottom: 1.5rem;
-    }
-    .foto-grid {
+    .foto-grid-vijest {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.75rem;
       margin: 1.5rem 0;
     }
-    .foto-grid a img {
+    .foto-grid-vijest a img {
       width: 100%;
       aspect-ratio: 4/3;
       object-fit: cover;
@@ -30,18 +25,9 @@
       display: block;
       transition: opacity 0.15s;
     }
-    .foto-grid a:hover img {
-      opacity: 0.85;
-    }
-    .foto-wide {
-      grid-column: 1 / -1;
-    }
-    .foto-wide img {
-      width: 100%;
-      border-radius: 4px;
-    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
     @media (max-width: 600px) {
-      .foto-grid { grid-template-columns: repeat(2, 1fr); }
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -62,10 +48,6 @@
 
     <div class="post-content">
 
-      <a href="1.jpg" target="_blank">
-        <img src="1.jpg" alt="" class="foto-naslovna">
-      </a>
-
       <p>22. i 23. veljače 2025. godine u Budimpešti, Mađarska održano je 19. PH za muškarce i 17. PH za žene.</p>
 	  <p> U muškoj konkurenciji je nastupilo pet ekipa:</p>
 
@@ -77,7 +59,7 @@
 
       <p>Prvak Hrvatske u muškoj konkurenciji u sezoni 2024-2025 je ekipa <b>Curling kluba Vis</b>.</p>
 
-      <div class="foto-grid">
+      <div class="foto-grid-vijest">
         <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
         <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
         <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
@@ -88,7 +70,7 @@
       <p><b>Čudnovati Čunjaš</b> u sastavu: Luči Ana Pavelka, Paula Princip, Jelena Bukvić i Morana Ćuzela<br>
 	  <b>Silent</b> u sastavu: Marijana Barišić, Maja Sertić, Vanja Živković, Melani Turković i Emina Crnaić</p>
 
-      <div class="foto-grid">
+      <div class="foto-grid-vijest">
         <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
         <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
       </div>
@@ -106,5 +88,15 @@
 </main>
 
 <script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
 </body>
 </html>
