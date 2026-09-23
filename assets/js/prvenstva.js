@@ -125,7 +125,10 @@ function switchToTab(tab, silent){
   updateFilterVisibility();
   syncFilterBarToState();
   renderActiveTab();
-  if(!silent) updateHash();
+  if(!silent){
+    updateHash();
+    updateStatFilterHash();
+  }
 }
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -178,6 +181,69 @@ function availableKats(){
   return [...new Set(DATA.tournaments.map(t => t.kat))].sort((a,b) => KAT_ORDER.indexOf(a) - KAT_ORDER.indexOf(b));
 }
 
+// Upisuje trenutno stanje filtera AKTIVNOG taba (kat/dis/sezona) u URL, npr.
+// "#statistika/igraci?kat=sve&dis=M&sez=2015-2020" (ili "sez=sve" za sve sezone).
+// Ruta (dio prije "?") se preuzima iz trenutnog hasha - nju već ispravno postavlja
+// updateHash() kod promjene taba - ovdje se samo dodaje/osvježava query dio.
+// replaceState (ne pushState) da klikanje po filterima ne puni povijest pregledavanja.
+function updateStatFilterHash(){
+  const routePart = location.hash.replace(/^#/, '').split('?')[0];
+  if(!routePart || routePart.split('/')[0] !== 'statistika') return;
+  const st = currentState();
+  const params = new URLSearchParams();
+  params.set('kat', st.kat);
+  params.set('dis', st.dis);
+  params.set('sez', st.seasonMode === 'sve' ? 'sve' : `${st.seasonFrom}-${st.seasonTo}`);
+  const h = `#${routePart}?${params.toString()}`;
+  if(location.hash !== h){
+    history.replaceState(null, '', h);
+  }
+}
+
+// Primjenjuje kat/dis/sez iz URL-a na filter panel Statistike (dijeljene poveznice).
+// Neispravan ili nepostojeći parametar se tiho ignorira (ostaje spremljeno/zadano stanje).
+function applyStatFiltersFromQuery(queryPart){
+  const params = new URLSearchParams(queryPart);
+  const kat = params.get('kat');
+  const dis = params.get('dis');
+  const sez = params.get('sez');
+  const st = currentState();
+  let changed = false;
+
+  if(kat && (kat === 'sve' || availableKats().includes(kat)) && st.kat !== kat){
+    st.kat = kat;
+    changed = true;
+  }
+
+  if(dis && (dis === 'sve' || DIS_ORDER.includes(dis)) && st.dis !== dis){
+    st.dis = dis;
+    changed = true;
+  }
+
+  if(sez === 'sve'){
+    if(st.seasonMode !== 'sve'){
+      st.seasonMode = 'sve';
+      st.seasonFrom = MIN_SEASON;
+      st.seasonTo = MAX_SEASON;
+      changed = true;
+    }
+  } else if(sez){
+    const [odRaw, doRaw] = sez.split('-');
+    const od = Number(odRaw), do_ = Number(doRaw);
+    if(!Number.isNaN(od) && !Number.isNaN(do_) && od <= do_ && od >= MIN_SEASON && do_ <= MAX_SEASON){
+      st.seasonMode = 'range';
+      st.seasonFrom = od;
+      st.seasonTo = do_;
+      changed = true;
+    }
+  }
+
+  if(changed){
+    syncFilterBarToState();
+    renderActiveTab();
+  }
+}
+
 function initUniversalFilters(){
   // Kategorija
   const kats = availableKats();
@@ -189,6 +255,7 @@ function initUniversalFilters(){
     katSveBtn.classList.add('active');
     currentState().kat = 'sve';
     renderActiveTab();
+    updateStatFilterHash();
   });
   katRow.querySelectorAll('.radio-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -197,6 +264,7 @@ function initUniversalFilters(){
       btn.classList.add('active');
       currentState().kat = btn.dataset.kat;
       renderActiveTab();
+      updateStatFilterHash();
     });
   });
 
@@ -210,6 +278,7 @@ function initUniversalFilters(){
     disSveBtn.classList.add('active');
     currentState().dis = 'sve';
     renderActiveTab();
+    updateStatFilterHash();
   });
   disRow.querySelectorAll('.radio-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -219,6 +288,7 @@ function initUniversalFilters(){
       btn.classList.add('active');
       currentState().dis = btn.dataset.dis;
       renderActiveTab();
+      updateStatFilterHash();
     });
   });
 
@@ -243,6 +313,7 @@ function initUniversalFilters(){
     sveBtn.classList.add('active');
     document.querySelector('.season-controls').classList.remove('season-is-range');
     renderActiveTab();
+    updateStatFilterHash();
   });
   function onRangeChange(){
     const st = currentState();
@@ -254,6 +325,7 @@ function initUniversalFilters(){
     sveBtn.classList.remove('active');
     document.querySelector('.season-controls').classList.add('season-is-range');
     renderActiveTab();
+    updateStatFilterHash();
   }
   fromSel.addEventListener('change', onRangeChange);
   toSel.addEventListener('change', onRangeChange);
@@ -2217,7 +2289,10 @@ function updateHash(){
                 || (document.querySelector('.tab-btn.active')?.dataset.tab === 'statistika' ? 'podaci' : document.querySelector('.tab-btn.active')?.dataset.tab);
     h = rawTab ? `#statistika/${rawTab}` : '#statistika';
   } else {
-    h = `#${pageId}`;
+    // Interni pageId za ovu stranicu je 'prvenstva' (mora se poklapati s
+    // #phc-page-prvenstva), ali u URL-u se prikazuje kao "pregled" (isto
+    // ime kao stavka u izborniku "Pregled").
+    h = `#${pageId === 'prvenstva' ? 'pregled' : pageId}`;
   }
   if(location.hash !== h){
     history.pushState(null, '', h);
@@ -2225,8 +2300,9 @@ function updateHash(){
 }
 
 function applyHashRoute(){
-  const hash = location.hash.replace(/^#/, '');
-  if(!hash) return;
+  const rawHash = location.hash.replace(/^#/, '');
+  if(!rawHash) return;
+  const [hash, queryPart] = rawHash.split('?');
   const [pageId, tab] = hash.split('/');
 
   // #pregled maps to page section 'prvenstva'
@@ -2241,6 +2317,9 @@ function applyHashRoute(){
     } else {
       switchToTab('poretci', true);
     }
+    if(queryPart) applyStatFiltersFromQuery(queryPart);
+  } else if(sectionId === 'prvenstva' && queryPart){
+    applyPregledFiltersFromQuery(queryPart);
   } else if(sectionId === 'postignuca' && tab){
     // Apply badge selection after renderPostignuca has run
     requestAnimationFrame(() => {
@@ -2270,9 +2349,75 @@ function getDis(){
   return active ? active.dataset.dis : null;
 }
 
+// Upisuje trenutno odabrane filtere (kategorija/disciplina/sezona) u URL, npr.
+// "#pregled?kat=S&dis=M&sez=2019", da se poveznica može poslati drugima i
+// otvori točno na tom prvenstvu. Koristi replaceState (ne pushState) da klikanje
+// po filterima ne puni "natrag" gumb pregledniku dodatnim koracima.
+function updatePregledHash(){
+  const kat = getUzrast();
+  const dis = getDis();
+  const seasonSel = document.getElementById('seasonSel');
+  const sez = seasonSel ? seasonSel.value : '';
+  if(!kat || !dis || !sez) return;
+  const query = new URLSearchParams({ kat, dis, sez }).toString();
+  const h = `#pregled?${query}`;
+  if(location.hash !== h){
+    history.replaceState(null, '', h);
+  }
+}
+
+// Primjenjuje kat/dis/sez iz URL-a (query dio hasha, npr. "kat=S&dis=M&sez=2019")
+// na filter panel "Pregled prvenstava" - koristi se za dijeljene poveznice.
+// Neispravan ili nepostojeći parametar se tiho ignorira (ostaje zadano stanje).
+function applyPregledFiltersFromQuery(queryPart){
+  const params = new URLSearchParams(queryPart);
+  const kat = params.get('kat');
+  const dis = params.get('dis');
+  const sezRaw = params.get('sez');
+
+  const uzrastRow = document.getElementById('uzrastRow');
+  const disRow = document.getElementById('disRow');
+  const seasonSel = document.getElementById('seasonSel');
+  if(!uzrastRow || !disRow || !seasonSel) return;
+
+  let changed = false;
+
+  if(kat){
+    const btn = uzrastRow.querySelector(`.radio-btn[data-kat="${kat}"]`);
+    if(btn && !btn.classList.contains('active')){
+      uzrastRow.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateDisOptions();
+      updateSeasonOptions();
+      changed = true;
+    }
+  }
+
+  if(dis){
+    const btn = disRow.querySelector(`.radio-btn[data-dis="${dis}"]`);
+    if(btn && !btn.classList.contains('active')){
+      disRow.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateSeasonOptions();
+      changed = true;
+    }
+  }
+
+  if(sezRaw){
+    const sez = Number(sezRaw);
+    const hasSeason = [...seasonSel.options].some(o => Number(o.value) === sez);
+    if(!Number.isNaN(sez) && hasSeason && Number(seasonSel.value) !== sez){
+      seasonSel.value = sez;
+      changed = true;
+    }
+  }
+
+  if(changed) render();
+}
+
 function initFilters(){
   const seasonSel = document.getElementById('seasonSel');
-  seasonSel.addEventListener('change', render);
+  seasonSel.addEventListener('change', () => { render(); updatePregledHash(); });
 
   updateKatOptions();
   updateDisOptions();
@@ -2292,6 +2437,7 @@ function updateKatOptions(){
       updateDisOptions();
       updateSeasonOptions();
       render();
+      updatePregledHash();
     });
   });
 }
@@ -2310,6 +2456,7 @@ function updateDisOptions(){
       btn.classList.add('active');
       updateSeasonOptions();
       render();
+      updatePregledHash();
     });
   });
 }
@@ -3082,6 +3229,3 @@ function openRepPlayerModal(name){
   `;
   overlay.classList.add('open');
 }
-
-
-

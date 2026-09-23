@@ -1,5 +1,16 @@
 
-/* PHC CSS variables mapped to HCS design */
+/* PHC CSS variables mapped to HCS design.
+   NAPOMENA: --text i --text-muted su NAMJERNO izostavljeni odavde. Imali su
+   "--text: var(--text);" (isto ime s obje strane) što CSS tretira kao
+   kružnu (cirkularnu) referencu - takvo svojstvo postaje potpuno nevažeće
+   ("invalid at computed-value time"), pa se svaki color:var(--text-muted)/
+   var(--text) unutar .phc-wrap oslanjao na slučajan fallback umjesto na
+   pravu boju iz teme. U light modu se to slučajno nije primjećivalo (ispao
+   bi neki tamni ton na svijetloj pozadini), ali u dark modu je na formskim
+   elementima (button, npr. .badge-item) fallback ispadao CRN - otud
+   nevidljivi nazivi znački u "Postignuća igrača". Bez ovih redaka
+   --text/--text-muted se jednostavno nasljeđuju iz :root (main.css), što je
+   i bila prava namjera - ista imena, pa preimenovanje nije ni potrebno. */
 .phc-wrap {
   --ice:        var(--bg-secondary);
   --ice-2:      var(--border);
@@ -8,8 +19,6 @@
   --navy-2:     #2f4459;
   --stone-red:  var(--hcs-red);
   --stone-yellow: #c99a2e;
-  --text:       var(--text);
-  --text-muted: var(--text-muted);
   --white:      var(--card-bg);
 }
 
@@ -178,7 +187,10 @@
   tr.sub-row td{font-family:'IBM Plex Mono', monospace; font-weight:400; font-size:12px; color:var(--text-muted); padding-top:3px; padding-bottom:3px; border-top:none; border-bottom:none;}
   tr.sub-row td:first-child{padding-left:24px;}
   table.stats-table th.total-col, table.stats-table td.total-col{background:var(--ice-2); font-weight:700;}
-  tr.sub-row td.total-col{font-weight:500; background:#e4ebee;}
+  /* Boja teksta je namjerno fiksna (ne prati temu), iz istog razloga kao kod
+     .cell-best - ćelija ima vlastitu svijetlu pozadinu, pa u dark modu ne smije
+     preuzeti opću (svijetlu) boju teksta reda, inače broj postane nečitljiv. */
+  tr.sub-row td.total-col{font-weight:500; background:#e4ebee; color:#16262d;}
 
   .record-block{margin-bottom:30px;}
   .record-title{font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:600; color:var(--navy); margin:0 0 10px;}
@@ -261,7 +273,12 @@
   tr.row-highlight td{background:#fff3cf !important; transition:background 1.8s ease;}
   .top-scrollbar{overflow-x:auto; overflow-y:hidden; height:14px;}
   .top-scrollbar-spacer{height:1px;}
-  table.ekipe-table td.cell-best{background:#d7ecd9; font-weight:700;}
+  /* Boja teksta je namjerno fiksna (ne prati temu) - ćelija ima vlastitu
+     svijetlozelenu pozadinu kao "bedž" za najbolju vrijednost, pa mora imati i
+     vlastitu tamnu boju teksta da ostane čitljiva u oba moda. Bez ovoga se u
+     dark modu koristila svijetla boja teksta stranice (skoro bijela) na
+     svijetlozelenoj pozadini - broj je bio praktički nevidljiv. */
+  table.ekipe-table td.cell-best{background:#d7ecd9; color:#1a3a1a; font-weight:700;}
   table.ekipe-table td.cell-worst{background:#f6d9d6;}
 
   .empty-state{text-align:center; padding:36px 20px; color:var(--text-muted); font-size:13.5px; background:var(--white); border-radius:10px; box-shadow:0 0 0 1px var(--sheet-line);}
@@ -583,6 +600,27 @@
   --phc-text-muted: #999999;
 }
 
+/* --navy/--navy-2 su unutar .phc-wrap (na vrhu ove datoteke) tvrdo upisani u
+   tamnoplavu boju (#1c2b39 / #2f4459) za SVE teme - nikad nisu bili povezani
+   s --phc-navy iznad, pa ostaju tamnoplavi i u dark modu (npr. naslovi
+   "Seniori"/"Juniori", nazivi disciplina "Muškarci"/"Žene" u Poretcima).
+   U dark modu ih izjednačavamo s ostatkom teksta na stranici (isto svijetlo
+   siva kao --phc-navy/--phc-text). Veća specifičnost od ".phc-wrap" iznad
+   osigurava da ovo prevlada bez obzira na redoslijed u datoteci. */
+[data-theme="dark"] .phc-wrap {
+  --navy: var(--phc-navy);
+  --navy-2: var(--phc-navy);
+}
+
+/* Neki logotipi klubova su gotovo posve crno-bijeli (npr. Silent) i na tamnoj
+   pozadini praktički nestaju. Dodajemo tanku bijelu obrubu oko neprozirnih
+   piksela (dvostruki drop-shadow bez pomaka, s malim zamućenjem) - na
+   svijetlim/šarenim logotipima ta obruba je premalena da bi se primijetila. */
+[data-theme="dark"] .club-logo,
+[data-theme="dark"] .club-logo-lg {
+  filter: drop-shadow(0 0 1px rgba(255,255,255,0.9)) drop-shadow(0 0 1px rgba(255,255,255,0.9));
+}
+
 /* Modal variable overrides (modal is outside .phc-wrap) */
 .modal-overlay { --white: var(--phc-white); --navy: var(--phc-navy); --ice: var(--phc-ice); --ice-2: var(--phc-ice-2); --sheet-line: var(--phc-sheet-line); --text: var(--phc-text); --text-muted: var(--phc-text-muted); }
 
@@ -832,6 +870,16 @@ a.rep-card-infoblock--link:hover {
   box-shadow: inset 3px 0 0 var(--navy) !important;
   text-decoration: none;
   color: inherit;
+}
+/* Pozadina na hoveru je fiksna svijetloplava (iznad), neovisno o temi - pa i
+   tekst unutar nje u tom trenutku mora biti fiksno taman, inače u dark modu
+   (gdje su --navy/--text/--text-muted svijetli) postane nečitljiv. */
+a.rep-card-infoblock--link:hover .rep-card-natlabel,
+a.rep-card-infoblock--link:hover .rep-card-loc,
+a.rep-card-infoblock--link:hover .rep-card-dis,
+a.rep-card-infoblock--link:hover .rep-card-stats,
+a.rep-card-infoblock--link:hover .rep-card-stats-label {
+  color: #1c2b39 !important;
 }
 
 /* ---- Filter group alignment & season dropdown fixes ---- */
