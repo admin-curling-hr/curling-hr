@@ -52,22 +52,22 @@
 
   <div id="phcNav2" class="phc-subnav-bar phc-subnav-bar--l2" style="display:none;">
     <ul class="phc-subnav-list">
-      <li><a href="#" class="active" data-page="prvenstva">Pregled</a></li>
-      <li><a href="#" data-page="statistika">Statistika</a></li>
-      <li><a href="#" data-page="postignuca">Postignuća igrača</a></li>
+      <li><a href="#" class="active" data-page="prvenstva" data-hr="Pregled" data-en="Overview">Pregled</a></li>
+      <li><a href="#" data-page="statistika" data-hr="Statistika" data-en="Statistics">Statistika</a></li>
+      <li><a href="#" data-page="postignuca" data-hr="Postignuća igrača" data-en="Player Achievements">Postignuća igrača</a></li>
     </ul>
   </div>
   <div id="phcNav3" class="phc-subnav-bar phc-subnav-bar--l3" style="display:none;">
     <ul class="phc-subnav-list">
-      <li><a href="#" class="active" data-tab="poretci">Poretci</a></li>
-      <li><a href="#" data-tab="klubovi">Klubovi</a></li>
-      <li><a href="#" data-tab="ekipe">Ekipe</a></li>
-      <li><a href="#" data-tab="igraci">Igrači</a></li>
-      <li><a href="#" data-tab="klubovih2h">Klubovi međusobno</a></li>
-      <li><a href="#" data-tab="ekipeh2h">Ekipe međusobno</a></li>
-      <li><a href="#" data-tab="igracih2h">Igrači međusobno</a></li>
-      <li><a href="#" data-tab="rekordi">Rekordi</a></li>
-      <li><a href="#" data-tab="statistika">Podaci</a></li>
+      <li><a href="#" class="active" data-tab="poretci" data-hr="Poretci" data-en="Standings">Poretci</a></li>
+      <li><a href="#" data-tab="klubovi" data-hr="Klubovi" data-en="Clubs">Klubovi</a></li>
+      <li><a href="#" data-tab="ekipe" data-hr="Ekipe" data-en="Teams">Ekipe</a></li>
+      <li><a href="#" data-tab="igraci" data-hr="Igrači" data-en="Players">Igrači</a></li>
+      <li><a href="#" data-tab="klubovih2h" data-hr="Klubovi međusobno" data-en="Clubs Head-to-Head">Klubovi međusobno</a></li>
+      <li><a href="#" data-tab="ekipeh2h" data-hr="Ekipe međusobno" data-en="Teams Head-to-Head">Ekipe međusobno</a></li>
+      <li><a href="#" data-tab="igracih2h" data-hr="Igrači međusobno" data-en="Players Head-to-Head">Igrači međusobno</a></li>
+      <li><a href="#" data-tab="rekordi" data-hr="Rekordi" data-en="Records">Rekordi</a></li>
+      <li><a href="#" data-tab="statistika" data-hr="Podaci" data-en="Data">Podaci</a></li>
     </ul>
   </div>
 </header>`;
@@ -164,6 +164,16 @@
       // se ne smije mijenjati textContent elementa, samo naslov koji se vidi na hover.
       document.querySelectorAll('[data-title-hr][data-title-en]').forEach(el => {
         el.title = lang === 'en' ? el.dataset.titleEn : el.dataset.titleHr;
+      });
+      // Prijevod odlomaka koji sadrže ugniježđeni HTML (npr. <strong> pojmovi usred rečenice)
+      // - ovdje se mijenja innerHTML umjesto textContent kako bi se sačuvalo podebljavanje.
+      document.querySelectorAll('[data-hr-html][data-en-html]').forEach(el => {
+        el.innerHTML = lang === 'en' ? el.dataset.enHtml : el.dataset.hrHtml;
+      });
+      // Prijevod data-label atributa (npr. responzivne tablice na mobitelu gdje se
+      // naziv stupca prikazuje preko CSS-a: content: attr(data-label)).
+      document.querySelectorAll('[data-label-hr][data-label-en]').forEach(el => {
+        el.dataset.label = lang === 'en' ? el.dataset.labelEn : el.dataset.labelHr;
       });
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
       if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';
