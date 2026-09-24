@@ -25,7 +25,7 @@
       <button class="lang-toggle" id="langToggle" aria-label="Change language">
         <span id="langLabel">EN</span>
       </button>
-      <a class="m365-link" id="m365Link" href="https://teams.microsoft.com/" target="_blank" rel="noopener noreferrer"
+      <a class="m365-link" id="m365Link" href="https://login.microsoftonline.com/" target="_blank" rel="noopener noreferrer"
          data-title-hr="Prijava na interne stranice saveza"
          data-title-en="Sign in to the federation's staff pages"
          title="Prijava na interne stranice saveza">
