@@ -127,9 +127,14 @@
     const THEMES = ['auto', 'light', 'dark'];
     const ICONS = { auto: '🖥️', light: '☀️', dark: '🌙' };
 
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
     function applyTheme(theme) {
+      // Kod "auto" načina odmah postavljamo stvarnu boju (light/dark) prema
+      // trenutnoj postavci sustava - ne smijemo samo maknuti data-theme atribut,
+      // jer stranica nema CSS pravilo koje bi samo od sebe pratilo sustav.
       if (theme === 'auto') {
-        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.dataset.theme = mq.matches ? 'dark' : 'light';
       } else {
         document.documentElement.dataset.theme = theme;
       }
@@ -143,14 +148,13 @@
       applyTheme(THEMES[(THEMES.indexOf(current) + 1) % THEMES.length]);
     });
 
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    function handleAutoTheme() {
-      if (!localStorage.getItem('hcs-theme') || localStorage.getItem('hcs-theme') === 'auto') {
-        document.documentElement.dataset.theme = mq.matches ? 'dark' : 'light';
+    // Ako je odabran "auto" način i korisnik promijeni postavku sustava
+    // (npr. sustav prijeđe iz light u dark) dok je stranica otvorena, osvježi temu.
+    mq.addEventListener('change', () => {
+      if ((localStorage.getItem('hcs-theme') || 'auto') === 'auto') {
+        applyTheme('auto');
       }
-    }
-    mq.addEventListener('change', handleAutoTheme);
-    handleAutoTheme();
+    });
 
     // Language
     const langBtn = document.getElementById('langToggle');
