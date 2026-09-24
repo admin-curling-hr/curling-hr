@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2022-03-20">
+  <meta name="naslov"  content="Održano 16. PH za muškarce">
+  <meta name="excerpt" content="U Brnu, Češka, održano je 16. prvenstvo Hrvatske u curlingu za muškarce.">
+  <meta name="slika"   content="1.jpg">
+  <title>Održano 16. PH za muškarce – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2022-03-20">20. 03. 2022.</time>
+      </div>
+      <h1 class="post-title">Održano 16. PH za muškarce</h1>
+    </header>
+
+    <div class="post-content">
+      <p>U Brnu, Češka, završeno je 16. PH za muškarce. Konačni poredak:</p><ol><li>mjesto: Zagreb – Zlatna medalja i nastup na EP</li><li>mjesto: Legija Zagreb – Srebro</li><li>mjesto: Sisak 1 – Bronca</li><li>mjesto: VIS</li><li>mjesto : Sisak 2</li><li>mjesto: Čudnovati čunjaš 1</li><li>mjesto: Legija Slavonski Brod</li><li>mjesto: Čudnovati čunjaš 2</li></ol><p>Ekipa Zagreba je ostvarila pravo nastupa na EP C skupine koje se od 30. travnja do 5. svibnja održava u Kaunasu, Litva.</p><div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>
