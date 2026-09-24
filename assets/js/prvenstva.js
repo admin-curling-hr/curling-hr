@@ -2114,6 +2114,13 @@ function openEntityModal(name, groupByClub, kat, dis, seasonFrom, seasonTo){
 
 const BADGE_TIER_LABELS = {zlatni: 'Zlatna značka', srebrni: 'Srebrna značka', broncani: 'Brončana značka'};
 
+// Trenutni jezik stranice (isti mehanizam kao header.js/applyLang) - koristi se
+// samo za prikaz značaka (nazivi, opisi, oznake razina), interni hrvatski nazivi
+// značaka (BADGE_ORDER) ostaju nepromijenjeni kao identifikatori.
+function currentLang(){
+  return localStorage.getItem('hcs-lang') || 'hr';
+}
+
 function openPlayerModal(name, kat, dis, seasonFrom, seasonTo){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
@@ -2125,8 +2132,13 @@ function openPlayerModal(name, kat, dis, seasonFrom, seasonTo){
   const prvenstava = history.length;
 
   const earnedBadges = playerBadges(name);
+  const modalLang = currentLang();
   const badgesHtml = earnedBadges.length
-    ? `<div class="player-badge-row">${earnedBadges.map(e => `<span class="badge-icon" data-tip="${escapeHtml(e.badge)} - ${BADGE_TIER_LABELS[e.tier]}">${BADGE_ICONS[e.badge][e.tier]}</span>`).join('')}</div>`
+    ? `<div class="player-badge-row">${earnedBadges.map(e => {
+        const bName = modalLang === 'en' ? (BADGE_NAMES_EN[e.badge] || e.badge) : e.badge;
+        const tLabel = modalLang === 'en' ? BADGE_TIER_LABELS_EN[e.tier] : BADGE_TIER_LABELS[e.tier];
+        return `<span class="badge-icon" data-tip="${escapeHtml(bName)} - ${tLabel}">${BADGE_ICONS[e.badge][e.tier]}</span>`;
+      }).join('')}</div>`
     : '';
 
   // Detaljna statistika - isti izračun (i isti brojevi) kao glavna tablica Igrači, u okviru
@@ -2997,9 +3009,11 @@ function slugToBadge(slug){
 
 function renderPostignuca(){
   const content = document.getElementById('postignucaContent');
+  const lang = currentLang();
   let html = '<div class="badge-grid">';
   BADGE_ORDER.forEach(name => {
-    html += `<button class="badge-item" data-badge="${escapeHtml(name)}"><span class="badge-icon">${BADGE_ICONS[name].neutral}</span><span class="badge-label">${escapeHtml(name)}</span></button>`;
+    const label = lang === 'en' ? (BADGE_NAMES_EN[name] || name) : name;
+    html += `<button class="badge-item" data-badge="${escapeHtml(name)}"><span class="badge-icon">${BADGE_ICONS[name].neutral}</span><span class="badge-label">${escapeHtml(label)}</span></button>`;
   });
   html += '</div><div id="badgeDetailArea"></div>';
   content.innerHTML = html;
@@ -3015,15 +3029,40 @@ function renderPostignuca(){
   if(first){ first.click(); }
 }
 
+// Osvježi prikaz Postignuća (nazivi i detaljni prikaz) nakon promjene jezika,
+// bez gubitka trenutno odabrane značke (za razliku od renderPostignuca() koja
+// bi ponovno odabrala prvu značku u nizu).
+function refreshPostignucaLang(){
+  const content = document.getElementById('postignucaContent');
+  if(!content) return;
+  const grid = content.querySelector('.badge-grid');
+  if(!grid) return; // Postignuća tab još nije renderiran
+  const lang = currentLang();
+  grid.querySelectorAll('.badge-item').forEach(btn => {
+    const badgeName = btn.dataset.badge;
+    const label = btn.querySelector('.badge-label');
+    if(label) label.textContent = lang === 'en' ? (BADGE_NAMES_EN[badgeName] || badgeName) : badgeName;
+  });
+  const activeBadge = grid.querySelector('.badge-item.active')?.dataset.badge;
+  if(activeBadge) renderBadgeDetail(activeBadge);
+}
+document.addEventListener('hcs-lang-change', refreshPostignucaLang);
+
 function renderBadgeDetail(name){
   const area = document.getElementById('badgeDetailArea');
-  const meta = BADGE_META[name] || ['', null, null, null];
+  const lang = currentLang();
+  const meta = (lang === 'en' ? BADGE_META_EN[name] : BADGE_META[name]) || ['', null, null, null];
   const [, bcrit, scrit, gcrit] = meta;
   const tiers = BADGES[name] || {broncani:[], srebrni:[], zlatni:[]};
+  const displayName = lang === 'en' ? (BADGE_NAMES_EN[name] || name) : name;
+  const tierLabels = lang === 'en' ? BADGE_TIER_LABELS_EN : BADGE_TIER_LABELS;
 
   function formatBadgeValue(v){
     if(v == null) return '';
-    if(name === 'Kirurg') return ` (${v.toFixed(1).replace('.', ',')} cm)`;
+    if(name === 'Kirurg'){
+      // Hrvatski prikaz koristi decimalni zarez (5,2 cm), engleski decimalnu točku (5.2 cm).
+      return lang === 'en' ? ` (${v.toFixed(1)} cm)` : ` (${v.toFixed(1).replace('.', ',')} cm)`;
+    }
     return ` (${v})`;
   }
 
@@ -3033,16 +3072,16 @@ function renderBadgeDetail(name){
       ? entries.map(e => `<div class="badge-tier-list-item">${escapeHtml(e[0])}${formatBadgeValue(e[1])}</div>`).join('')
       : '<div class="badge-tier-list-item" style="color:var(--text-muted);">-</div>';
     return `<div class="badge-tier-col">
-      <div class="badge-tier-col-title"><span class="badge-icon badge-icon-lg">${BADGE_ICONS[name][tier]}</span><div><div>${escapeHtml(name)} - ${label}</div>${crit ? `<div class="badge-tier-crit">${crit}</div>` : ''}</div></div>
+      <div class="badge-tier-col-title"><span class="badge-icon badge-icon-lg">${BADGE_ICONS[name][tier]}</span><div><div>${escapeHtml(displayName)} - ${label}</div>${crit ? `<div class="badge-tier-crit">${crit}</div>` : ''}</div></div>
       <div class="badge-tier-list">${items}</div>
     </div>`;
   }
 
   area.innerHTML = `<div class="badge-detail">
     <div class="badge-tier-cols">
-      ${col('zlatni', gcrit, 'Zlatna značka')}
-      ${col('srebrni', scrit, 'Srebrna značka')}
-      ${col('broncani', bcrit, 'Brončana značka')}
+      ${col('zlatni', gcrit, tierLabels.zlatni)}
+      ${col('srebrni', scrit, tierLabels.srebrni)}
+      ${col('broncani', bcrit, tierLabels.broncani)}
     </div>
   </div>`;
 }

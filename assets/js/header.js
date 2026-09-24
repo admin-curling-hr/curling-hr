@@ -182,6 +182,10 @@
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
       if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';
       localStorage.setItem('hcs-lang', lang);
+      // Javljamo ostatku stranice (npr. prvenstva.js) da se jezik promijenio, za
+      // dijelove koji sami generiraju svoj HTML pa ih ovaj querySelectorAll pristup
+      // ne dohvaća automatski (npr. dinamički prikaz značaka na Postignućima).
+      document.dispatchEvent(new CustomEvent('hcs-lang-change', { detail: { lang } }));
     }
 
     applyLang(localStorage.getItem('hcs-lang') || 'hr');

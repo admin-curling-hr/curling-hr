@@ -2,6 +2,43 @@ const BADGE_ORDER = ["Zvijezda", "Osnivač", "Pionir", "Svestranost", "Veteran",
 
 const BADGE_META = {"Zvijezda": ["Osvojenih NHC bodova", "Osvojio/la 200+ NHC bodova", "Osvojio/la 300+ NHC bodova", "Osvojio/la 400+ NHC bodova"], "Osnivač": ["Nastupio/la u ranoj sezoni saveza", "Nastupio/la u trećoj sezoni 2007-2008", "Nastupio/la u drugoj sezoni 2006-2007", "Nastupio/la u prvoj sezoni 2005-2006"], "Pionir": ["Nastupio/la na ranom prvenstvu kategorije", "Nastupio/la na trećem prvenstvu kategorije", "Nastupio/la na drugom prvenstvu kategorije", "Nastupio/la na prvom prvenstvu kategorije"], "Svestranost": ["Broj disciplina u kojima je nastupio/la", "Nastupio/la u 2 različite discipline", "Nastupio/la u 3 različite discipline", "Osvojio/la medalju u 3 različite discipline"], "Veteran": ["Broj sezona nastupa", "Nastupio/la u 10+ sezona", "Nastupio/la u 15+ sezona", "Nastupio/la u 20+ sezona"], "Upornost": ["Broj odigranih utakmica", "Odigrao/la 50+ utakmica", "Odigrao/la 100+ utakmica", "Odigrao/la 150+ utakmica"], "Par": ["Broj odigranih utakmica parova", "Odigrao/la 20+ utakmica parova", "Odigrao/la 40+ utakmica parova", "Odigrao/la 60+ utakmica parova"], "Vjernost": ["Broj odigranih sezona za isti klub", "Igrao/la 10+ sezona za isti klub", "Igrao/la 15+ sezona za isti klub", "Igrao/la 20+ sezona za isti klub"], "Kovač": ["Osvajač medalje", "Osvojio/la brončanu medalju", "Osvojio/la srebrnu medalju", "Osvojio/la zlatnu medalju"], "Kolekcionar": ["Broj osvojenih medalja", "Osvojio/la 5+ medalja", "Osvojio/la 10+ medalja", "Osvojio/la 20+ medalja"], "Hat-trick": ["Broj uzastopnih sezona s osvojenom medaljom", "Osvojio/la medalju u 3+ uzastopnih sezona", "Osvojio/la medalju u 5+ uzastopnih sezona", "Osvojio/la medalju u 10+ uzastopnih sezona"], "Prvak": ["Prvak Hrvatske", "Osvojio/la 1+ zlatnih medalja", "Osvojio/la 5+ zlatnih medalja", "Osvojio/la 10+ zlatnih medalja"], "Kirurg": ["Preciznost preciznih polaganja", "Bacio/la precizno polaganje unutar 30 cm", "Bacio/la precizno polaganje unutar 20 cm", "Bacio/la precizno polaganje unutar 10 cm"], "Skip": ["Broj nastupa kao skip", "25+ puta nastupio/la kao skip", "50+ puta nastupio/la kao skip", "100+ puta nastupio/la kao skip"], "Vice-skip": ["Broj nastupa kao vice-skip", "25+ puta nastupio/la kao vice-skip", "50+ puta nastupio/la kao vice-skip", "100+ puta nastupio/la kao vice-skip"], "Četvrti": ["Broj nastupa kao četvrti/a", "25+ puta nastupio/la kao četvrti/a", "50+ puta nastupio/la kao četvrti/a", "100+ puta nastupio/la kao četvrti/a"], "Treći": ["Broj nastupa kao treći/a", "25+ puta nastupio/la kao treći/a", "50+ puta nastupio/la kao treći/a", "100+ puta nastupio/la kao treći/a"], "Drugi": ["Broj nastupa kao drugi/a", "25+ puta nastupio/la kao drugi/a", "50+ puta nastupio/la kao drugi/a", "100+ puta nastupio/la kao drugi/a"], "Prvi": ["Broj nastupa kao prvi/a", "25+ puta nastupio/la kao prvi/a", "50+ puta nastupio/la kao prvi/a", "100+ puta nastupio/la kao prvi/a"], "Rezerva": ["Broj nastupa kao rezerva", "10+ puta nastupio/la kao rezerva", "25+ puta nastupio/la kao rezerva", "50+ puta nastupio/la kao rezerva"]};
 
+// Engleski prijevodi za prikaz značaka (Postignuća igrača). Hrvatski nazivi u
+// BADGE_ORDER/BADGE_META OSTAJU interni identifikatori (data-badge atributi,
+// ključevi u BADGES objektu, URL slug za direktne poveznice) - ovo su samo
+// prijevodi za prikaz kad je odabran engleski jezik (assets/js/header.js applyLang).
+const BADGE_NAMES_EN = {
+  "Zvijezda": "Star", "Osnivač": "Founder", "Pionir": "Pioneer", "Svestranost": "All-Rounder",
+  "Veteran": "Veteran", "Upornost": "Persistence", "Par": "Pairs", "Vjernost": "Loyalty",
+  "Kovač": "Medal Smith", "Kolekcionar": "Collector", "Hat-trick": "Hat-trick", "Prvak": "Champion",
+  "Kirurg": "Surgeon", "Skip": "Skip", "Vice-skip": "Vice-Skip", "Četvrti": "Fourth",
+  "Treći": "Third", "Drugi": "Second", "Prvi": "Lead", "Rezerva": "Alternate"
+};
+
+const BADGE_META_EN = {
+  "Zvijezda": ["NHC points earned", "Earned 200+ NHC points", "Earned 300+ NHC points", "Earned 400+ NHC points"],
+  "Osnivač": ["Competed in an early federation season", "Competed in the third season, 2007-2008", "Competed in the second season, 2006-2007", "Competed in the first season, 2005-2006"],
+  "Pionir": ["Competed in an early championship of the category", "Competed in the third championship of the category", "Competed in the second championship of the category", "Competed in the first championship of the category"],
+  "Svestranost": ["Number of disciplines competed in", "Competed in 2 different disciplines", "Competed in 3 different disciplines", "Won a medal in 3 different disciplines"],
+  "Veteran": ["Number of seasons competed", "Competed in 10+ seasons", "Competed in 15+ seasons", "Competed in 20+ seasons"],
+  "Upornost": ["Number of matches played", "Played 50+ matches", "Played 100+ matches", "Played 150+ matches"],
+  "Par": ["Number of pairs matches played", "Played 20+ pairs matches", "Played 40+ pairs matches", "Played 60+ pairs matches"],
+  "Vjernost": ["Number of seasons played for the same club", "Played 10+ seasons for the same club", "Played 15+ seasons for the same club", "Played 20+ seasons for the same club"],
+  "Kovač": ["Medal winner", "Won a bronze medal", "Won a silver medal", "Won a gold medal"],
+  "Kolekcionar": ["Number of medals won", "Won 5+ medals", "Won 10+ medals", "Won 20+ medals"],
+  "Hat-trick": ["Number of consecutive seasons with a medal", "Won a medal in 3+ consecutive seasons", "Won a medal in 5+ consecutive seasons", "Won a medal in 10+ consecutive seasons"],
+  "Prvak": ["Croatian Champion", "Won 1+ gold medals", "Won 5+ gold medals", "Won 10+ gold medals"],
+  "Kirurg": ["Precision of draw shots", "Threw a draw shot within 30 cm", "Threw a draw shot within 20 cm", "Threw a draw shot within 10 cm"],
+  "Skip": ["Number of appearances as skip", "25+ appearances as skip", "50+ appearances as skip", "100+ appearances as skip"],
+  "Vice-skip": ["Number of appearances as vice-skip", "25+ appearances as vice-skip", "50+ appearances as vice-skip", "100+ appearances as vice-skip"],
+  "Četvrti": ["Number of appearances as fourth", "25+ appearances as fourth", "50+ appearances as fourth", "100+ appearances as fourth"],
+  "Treći": ["Number of appearances as third", "25+ appearances as third", "50+ appearances as third", "100+ appearances as third"],
+  "Drugi": ["Number of appearances as second", "25+ appearances as second", "50+ appearances as second", "100+ appearances as second"],
+  "Prvi": ["Number of appearances as lead", "25+ appearances as lead", "50+ appearances as lead", "100+ appearances as lead"],
+  "Rezerva": ["Number of appearances as alternate", "10+ appearances as alternate", "25+ appearances as alternate", "50+ appearances as alternate"]
+};
+
+const BADGE_TIER_LABELS_EN = {zlatni: 'Gold Badge', srebrni: 'Silver Badge', broncani: 'Bronze Badge'};
+
 const BADGE_ICONS = {
   "Osnivač": {
     neutral: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#EFEDE6" stroke="#B9B6AC" stroke-width="3"/><g transform="translate(15,15) scale(2.92)" fill="none" stroke="#8A8678" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9"/><path d="M5 21v-7"/></g></svg>`,
