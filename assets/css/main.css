@@ -994,8 +994,8 @@ img { max-width: 100%; height: auto; display: block; }
   .kol-logo::before { display: none; }
 
   .kol-logo img {
-    width: 52px;
-    height: 52px;
+    width: 104px;
+    height: 104px;
   }
 
   .kol-naziv {
