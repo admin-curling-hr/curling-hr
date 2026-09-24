@@ -1847,11 +1847,8 @@ function closeModal(){
     const exit = document.exitFullscreen || document.webkitExitFullscreen;
     if(exit) exit.call(document);
   }
-<<<<<<< Updated upstream
-=======
   const lbStage = document.getElementById('lightboxStage');
   if(lbStage) lbStage.classList.remove('pseudo-fullscreen');
->>>>>>> Stashed changes
   document.getElementById('modalBody').classList.remove('modal-photo');
   document.getElementById('modalOverlay').classList.remove('overlay-photo');
   if(_modalStack.length > 0){
