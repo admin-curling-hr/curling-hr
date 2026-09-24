@@ -25,6 +25,12 @@
       <button class="lang-toggle" id="langToggle" aria-label="Change language">
         <span id="langLabel">EN</span>
       </button>
+      <a class="m365-link" id="m365Link" href="https://teams.microsoft.com/" target="_blank" rel="noopener noreferrer"
+         data-title-hr="Prijava na interne stranice saveza"
+         data-title-en="Sign in to the federation's staff pages"
+         title="Prijava na interne stranice saveza">
+        <span data-hr="Prijava" data-en="Login">Prijava</span>
+      </a>
       <button class="nav-toggle" id="navToggle" aria-label="Izbornik">
         <span></span><span></span><span></span>
       </button>
@@ -153,6 +159,11 @@
     function applyLang(lang) {
       document.querySelectorAll('[data-hr][data-en]').forEach(el => {
         el.textContent = lang === 'en' ? el.dataset.en : el.dataset.hr;
+      });
+      // Prijevod title/tooltip atributa (npr. m365-link) - odvojeno od teksta jer
+      // se ne smije mijenjati textContent elementa, samo naslov koji se vidi na hover.
+      document.querySelectorAll('[data-title-hr][data-title-en]').forEach(el => {
+        el.title = lang === 'en' ? el.dataset.titleEn : el.dataset.titleHr;
       });
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
       if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';

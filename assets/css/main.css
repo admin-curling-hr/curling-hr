@@ -79,7 +79,7 @@ img { max-width: 100%; height: auto; display: block; }
   gap: 0.85rem;
   text-decoration: none;
   color: #fff;
-  flex-shrink: 0;
+  min-width: 0;
 }
 
 .header-brand:hover,
@@ -89,17 +89,16 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .header-logo {
-  width: 58px;
-  height: 58px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
-  background: #fff;
-  padding: 3px;
   flex-shrink: 0;
 }
 
 .header-titles {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .header-title {
@@ -107,22 +106,30 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 700;
   letter-spacing: 0.01em;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-subtitle {
   font-size: 0.78rem;
   opacity: 0.85;
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-controls {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .theme-toggle,
-.lang-toggle {
+.lang-toggle,
+.m365-link {
   background: rgba(255,255,255,0.15);
   border: 1px solid rgba(255,255,255,0.3);
   color: #fff;
@@ -131,12 +138,31 @@ img { max-width: 100%; height: auto; display: block; }
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
+  line-height: 1;
   transition: background 0.15s;
+  box-sizing: border-box;
 }
 
 .theme-toggle:hover,
-.lang-toggle:hover {
+.lang-toggle:hover,
+.m365-link:hover {
   background: rgba(255,255,255,0.25);
+}
+
+/* Poveznica na M365/Teams (interne stranice saveza) - isti stil gumba kao theme/lang
+   toggle (dijele zajedničko pravilo iznad), samo je ovo <a> pa treba
+   display/text-decoration/line-height da visina bude identična ostalim gumbima. */
+.m365-link {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.m365-link:hover,
+.m365-link:focus {
+  color: #fff;
+  text-decoration: none;
 }
 
 .nav-toggle {
@@ -444,29 +470,38 @@ img { max-width: 100%; height: auto; display: block; }
   max-width: 900px;
   width: 100%;
 }
-/* X za zatvaranje - fiksno u kutu ekrana, neovisno o veličini/omjeru fotografije */
+/* X za zatvaranje - u gornjem desnom kutu same fotografije (unutar .vijesti-lightbox-frame,
+   isti princip stezanja na stvarnu veličinu fotke kao i gumb za cijeli ekran ispod). */
 .vijesti-lightbox-close {
-  position: fixed;
-  top: 18px;
-  right: 20px;
-  width: 36px;
-  height: 36px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  z-index: 10;
+  z-index: 3;
 }
-.vijesti-lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
+.vijesti-lightbox-close:hover { background: rgba(0, 0, 0, 0.8); }
 .vijesti-lightbox-stage {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   position: relative;
+}
+/* Omotač oko fotke i natpisa/brojača ispod nje - steže se na stvarnu širinu fotografije,
+   pa se .vijesti-lightbox-footer (100% širok unutar ovog omotača) točno poravna s
+   lijevim/desnim rubom fotke, a ne s cijelim redom koji uključuje i strelice. */
+.vijesti-lightbox-body {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
 }
 /* Okvir se steže na stvarnu veličinu prikazane fotografije, tako da gumb za
    cijeli ekran uvijek prianja uz nju (i kod uskih/portret fotografija) */
@@ -516,12 +551,23 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .vijesti-lightbox-nav:hover { background: rgba(255, 255, 255, 0.3); }
 .vijesti-lightbox-nav:disabled { opacity: 0.25; cursor: default; }
-.vijesti-lightbox-counter {
-  text-align: center;
+.vijesti-lightbox-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 10px;
+}
+.vijesti-lightbox-caption {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #fff;
+}
+.vijesti-lightbox-counter {
   font-size: 12.5px;
   font-family: 'Courier New', monospace;
   color: rgba(255, 255, 255, 0.75);
+  flex-shrink: 0;
 }
 
 .post-footer {
@@ -606,7 +652,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 700px) {
   .header-subtitle { display: none; }
   .header-title { font-size: 1rem; }
-  .header-logo { width: 44px; height: 44px; }
+  .header-logo { width: 46px; height: 46px; }
 
   .nav-toggle { display: flex; }
 

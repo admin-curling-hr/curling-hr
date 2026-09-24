@@ -294,6 +294,9 @@
   /* modal (utakmica, klub/ekipa/igrač detalji) */
   .modal-overlay{display:none; position:fixed; inset:0; background:rgba(28,43,57,0.7); z-index:1100; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto;}
   .modal-overlay.open{display:flex;}
+  /* Pregled fotografije: fotka centrirana okomito (ne uz vrh) i tamnija pozadina iza nje -
+     isti dojam kao kod pregleda fotki iz vijesti. */
+  .modal-overlay.overlay-photo{align-items:center; background:rgba(0,0,0,0.85);}
   .modal{background:var(--phc-white); border-radius:14px; max-width:640px; width:100%; padding:28px 28px 26px; position:relative;}
   .modal-close{position:absolute; top:16px; right:16px; width:30px; height:30px; border-radius:50%; border:none; background:var(--ice-2); font-size:16px; cursor:pointer; color:var(--navy); z-index:10;}
   .modal .info-block{font-size:13.5px; color:var(--text-muted); margin-bottom:20px; display:flex; flex-direction:column; gap:5px;}
@@ -367,8 +370,26 @@
   .video-thumb:hover .video-play-icon{background:rgba(0,0,0,0.3);}
   .video-modal-player{width:100%; max-height:70vh; border-radius:8px; display:block; background:#000;}
 
+  /* Modal bez bijelog okvira/paddinga - koristi se samo za prikaz fotografija
+     (fotografija treba biti veća i bez "kartice" oko sebe). Natpis/brojač su ovdje
+     na tamnoj pozadini (nema bijele kartice iza), pa im treba svijetla boja umjesto
+     inače korištene tamnoplave (--navy)/prigušene teksta. */
+  .modal.modal-photo{background:transparent; box-shadow:none; padding:0; max-width:900px; border-radius:0;}
+  .modal-photo .lightbox-caption{color:#fff;}
+  .modal-photo .lightbox-counter{color:rgba(255,255,255,0.75);}
+
   .lightbox{display:flex; align-items:center; justify-content:center; gap:12px; position:relative;}
-  .lightbox-image{max-width:100%; max-height:70vh; border-radius:8px; display:block;}
+  /* Omotač oko fotke i natpisa/brojača ispod nje - steže se na stvarnu širinu fotografije
+     (max-content), pa se .lightbox-footer (koji je 100% širok unutar ovog omotača) točno
+     poravna s lijevim/desnim rubom fotke, a ne s cijelim redom koji uključuje i strelice. */
+  .lightbox-body{display:flex; flex-direction:column; max-width:100%;}
+  /* Okvir se steže na stvarnu veličinu prikazane fotografije, tako da X i gumb za cijeli
+     ekran uvijek prianjaju uz nju (i kod uskih/portret fotografija) - isti princip kao
+     kod pregleda fotki iz vijesti (.vijesti-lightbox-frame u main.css). */
+  .lightbox-frame{position:relative; display:inline-flex; max-width:100%;}
+  .lightbox-image{max-width:100%; max-height:76vh; border-radius:8px; display:block;}
+  .lightbox-close{position:absolute; top:8px; right:8px; width:34px; height:34px; border-radius:50%; border:none; background:rgba(28,43,57,0.65); color:#fff; font-size:18px; line-height:1; cursor:pointer; z-index:3;}
+  .lightbox-close:hover{background:rgba(28,43,57,0.85);}
   .lightbox-fullscreen-btn{position:absolute; bottom:8px; right:8px; background:rgba(28,43,57,0.65); border:none; border-radius:6px; width:34px; height:34px; font-size:16px; color:#fff; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center;}
   .lightbox-fullscreen-btn:hover{background:rgba(28,43,57,0.85);}
   .lightbox:fullscreen{background:#000; width:100vw; height:100vh; border-radius:0;}
@@ -378,6 +399,10 @@
   .lightbox-nav{background:var(--ice-2); border:none; border-radius:50%; width:38px; height:38px; font-size:20px; color:var(--navy); cursor:pointer; flex-shrink:0;}
   .lightbox-nav:hover{background:var(--sheet-line);}
   .lightbox-nav:disabled{opacity:0.3; cursor:default;}
+  /* Pregled fotografije: prozirna bijela pozadina strelica na tamnoj pozadini iza fotke -
+     isto kao kod pregleda fotki iz vijesti (.vijesti-lightbox-nav u main.css). */
+  .modal-photo .lightbox-nav{background:rgba(255,255,255,0.15); color:#fff;}
+  .modal-photo .lightbox-nav:hover{background:rgba(255,255,255,0.3);}
   .lightbox-footer{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-top:10px;}
   .lightbox-counter{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-muted); flex-shrink:0;}
   .lightbox-caption{font-family:'Space Grotesk', sans-serif; font-size:14.5px; font-weight:600; color:var(--navy);}

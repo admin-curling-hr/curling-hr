@@ -759,6 +759,8 @@ function openNhcBreakdownModal(name, groupByClub, kat, dis, isPlayer, anchorSeas
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.add('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const rows = getNhcBreakdown(name, groupByClub, kat, dis, isPlayer, anchorSeason);
   const total = rows.reduce((s, r) => s + r.weighted, 0);
@@ -1658,6 +1660,8 @@ async function openMatchModal(id){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const utakmicaLine = (m.group && tournamentHasExplicitGroups(m)) ? `Skupina ${m.group}, ${m.phase.label}` : m.phase.label;
   const timeShort = m.time ? m.time.slice(0,5) : '';
@@ -1835,6 +1839,16 @@ async function openMatchModal(id){
 let _modalStack = [];
 
 function closeModal(){
+  // Ako je fullscreen aktivan (npr. zatvaranje X-om izravno iz fullscreen prikaza fotke),
+  // prvo izađi iz fullscreena - inače stranica ostane "zaglavljena" u fullscreenu bez
+  // vidljivog sučelja za izlazak (jedino ESC na tipkovnici bi to riješio).
+  const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+  if(isFs){
+    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if(exit) exit.call(document);
+  }
+  document.getElementById('modalBody').classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
   if(_modalStack.length > 0){
     const restorePrevious = _modalStack.pop();
     restorePrevious();
@@ -2004,6 +2018,8 @@ function openEntityModal(name, groupByClub, kat, dis, seasonFrom, seasonTo){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const history = getEntityTournamentHistory(name, groupByClub, kat, dis, seasonFrom, seasonTo);
   const prvenstava = new Set(history.map(r => `${r.season}-${r.dis}-${r.kat}-${r.p}`)).size;
@@ -2102,6 +2118,8 @@ function openPlayerModal(name, kat, dis, seasonFrom, seasonTo){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const history = getPlayerTournamentHistory(name, kat, dis, seasonFrom, seasonTo);
   const prvenstava = history.length;
@@ -2203,6 +2221,8 @@ function openH2hMatchListModal(entityA, entityB, groupByClub, dis, kat){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const disList = dis === 'sve' ? DIS_ORDER : [dis];
   const clubMapAll = {};
@@ -2788,6 +2808,8 @@ function openTeamRosterModal(team, tourn, season, dis, kat){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
   const players = tourn.rosterPool[team] || [];
 
   const rosterHtml = players.length
@@ -2854,17 +2876,23 @@ function renderLightbox(){
   }
 
   body.classList.remove('modal-wide');
+  body.classList.add('modal-photo');
+  document.getElementById('modalOverlay').classList.add('overlay-photo');
   body.innerHTML = `
-    <button class="modal-close" onclick="closeModal()">×</button>
     <div class="lightbox" id="lightboxStage">
-      <button class="lightbox-fullscreen-btn" onclick="toggleLightboxFullscreen()" title="Prikaži preko cijelog ekrana">⛶</button>
       <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" ${n<=1?'disabled':''}>‹</button>
-      <img class="lightbox-image" src="${src}" alt="Fotografija ${_lightboxIndex+1}">
+      <div class="lightbox-body">
+        <div class="lightbox-frame">
+          <img class="lightbox-image" src="${src}" alt="Fotografija ${_lightboxIndex+1}">
+          <button class="lightbox-close" onclick="closeModal()" title="Zatvori" aria-label="Zatvori">×</button>
+          <button class="lightbox-fullscreen-btn" onclick="toggleLightboxFullscreen()" title="Prikaži preko cijelog ekrana">⛶</button>
+        </div>
+        <div class="lightbox-footer">
+          <div class="lightbox-caption">${caption ? escapeHtml(caption) : ''}</div>
+          <div class="lightbox-counter">${_lightboxIndex+1}/${n}</div>
+        </div>
+      </div>
       <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" ${n<=1?'disabled':''}>›</button>
-    </div>
-    <div class="lightbox-footer">
-      <div class="lightbox-caption">${caption ? escapeHtml(caption) : ''}</div>
-      <div class="lightbox-counter">${_lightboxIndex+1}/${n}</div>
     </div>
   `;
 }
@@ -2904,6 +2932,8 @@ function openVideoModal(videos, index, captions){
 function renderVideoModal(){
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
   const n = _lightboxVideos.length;
   const src = _lightboxVideos[_lightboxVideoIndex];
   const caption = _lightboxVideoCaptions[_lightboxVideoIndex + 1];
@@ -3206,6 +3236,8 @@ function openRepPlayerModal(name){
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
+  body.classList.remove('modal-photo');
+  document.getElementById('modalOverlay').classList.remove('overlay-photo');
 
   const history = WC_DATA.entries
     .filter(e => e.players.some(p => p.name === name))

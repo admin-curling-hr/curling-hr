@@ -18,10 +18,13 @@
     // Skupi sve fotografije sa stranice (iz svih zona/galerija) u jedan niz,
     // redom kojim se pojavljuju u tekstu.
     const photos = [];
+    const captions = [];
     const clickTargets = [];
     photoEls.forEach(img => {
       const index = photos.length;
       photos.push(img.getAttribute('src'));
+      // Opis fotografije, ako postoji (alt/title na <img> elementu galerije).
+      captions.push(img.getAttribute('alt') || img.getAttribute('title') || '');
       clickTargets.push({ el: img.closest('a') || img, index });
     });
 
@@ -30,21 +33,27 @@
     overlay.className = 'vijesti-lightbox-overlay';
     overlay.innerHTML = `
       <div class="vijesti-lightbox-modal">
-        <button type="button" class="vijesti-lightbox-close" title="Zatvori" aria-label="Zatvori">&times;</button>
         <div class="vijesti-lightbox-stage">
           <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-prev" title="Prethodna" aria-label="Prethodna fotografija">&lsaquo;</button>
-          <div class="vijesti-lightbox-frame">
-            <img class="vijesti-lightbox-image" alt="">
-            <button type="button" class="vijesti-lightbox-fullscreen-btn" title="Prikaži preko cijelog ekrana" aria-label="Cijeli ekran">&#9974;</button>
+          <div class="vijesti-lightbox-body">
+            <div class="vijesti-lightbox-frame">
+              <img class="vijesti-lightbox-image" alt="">
+              <button type="button" class="vijesti-lightbox-close" title="Zatvori" aria-label="Zatvori">&times;</button>
+              <button type="button" class="vijesti-lightbox-fullscreen-btn" title="Prikaži preko cijelog ekrana" aria-label="Cijeli ekran">&#9974;</button>
+            </div>
+            <div class="vijesti-lightbox-footer">
+              <div class="vijesti-lightbox-caption"></div>
+              <div class="vijesti-lightbox-counter"></div>
+            </div>
           </div>
           <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-next" title="Sljedeća" aria-label="Sljedeća fotografija">&rsaquo;</button>
         </div>
-        <div class="vijesti-lightbox-counter"></div>
       </div>`;
     document.body.appendChild(overlay);
 
     const stage = overlay.querySelector('.vijesti-lightbox-stage');
     const imgEl = overlay.querySelector('.vijesti-lightbox-image');
+    const captionEl = overlay.querySelector('.vijesti-lightbox-caption');
     const counterEl = overlay.querySelector('.vijesti-lightbox-counter');
     const prevBtn = overlay.querySelector('.vijesti-lightbox-prev');
     const nextBtn = overlay.querySelector('.vijesti-lightbox-next');
@@ -56,6 +65,7 @@
     function render() {
       imgEl.src = photos[current];
       imgEl.alt = `Fotografija ${current + 1}`;
+      captionEl.textContent = captions[current] || '';
       counterEl.textContent = `${current + 1}/${photos.length}`;
       prevBtn.disabled = photos.length <= 1;
       nextBtn.disabled = photos.length <= 1;
