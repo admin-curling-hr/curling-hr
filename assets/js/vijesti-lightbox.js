@@ -84,6 +84,7 @@
         const exit = document.exitFullscreen || document.webkitExitFullscreen;
         if (exit) exit.call(document);
       }
+      stage.classList.remove('pseudo-fullscreen');
       overlay.classList.remove('open');
       document.body.style.overflow = '';
     }
@@ -94,6 +95,17 @@
     }
 
     function toggleFullscreen() {
+      // Safari na iPhoneu (i iOS općenito) ne podržava Fullscreen API za obične
+      // elemente (samo za <video>), pa requestFullscreen/webkitRequestFullscreen
+      // tamo ne postoje - u tom slučaju ručno prebacujemo CSS klasu koja postiže
+      // isti vizualni rezultat (crna pozadina, fotka preko cijelog zaslona) bez
+      // oslanjanja na tu metodu. Na desktopu/Androidu ništa se ne mijenja - i dalje
+      // se koristi prava Fullscreen API metoda kao i do sada.
+      const supportsFullscreenApi = !!(stage.requestFullscreen || stage.webkitRequestFullscreen);
+      if (!supportsFullscreenApi) {
+        stage.classList.toggle('pseudo-fullscreen');
+        return;
+      }
       const isFs = document.fullscreenElement || document.webkitFullscreenElement;
       if (!isFs) {
         const req = stage.requestFullscreen || stage.webkitRequestFullscreen;

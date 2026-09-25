@@ -538,6 +538,17 @@ img { max-width: 100%; height: auto; display: block; }
 .vijesti-lightbox-stage:fullscreen .vijesti-lightbox-image { max-width: 96vw; max-height: 96vh; border-radius: 0; }
 .vijesti-lightbox-stage:-webkit-full-screen { background: #000; width: 100vw; height: 100vh; }
 .vijesti-lightbox-stage:-webkit-full-screen .vijesti-lightbox-image { max-width: 96vw; max-height: 96vh; border-radius: 0; }
+/* Fallback za preglednike bez Fullscreen API-ja na običnim elementima (npr. iOS Safari,
+   koji podržava fullscreen samo za <video>) - vijesti-lightbox.js tada umjesto
+   requestFullscreen() ručno prebacuje ovu klasu, isti vizualni rezultat kao :fullscreen
+   pravila iznad, samo bez sakrivanja adresne trake preglednika. */
+.vijesti-lightbox-stage.pseudo-fullscreen { position: fixed; inset: 0; z-index: 2001; margin: 0; background: #000; width: 100vw; height: 100vh; border-radius: 0; }
+/* max-width ovdje NIJE 96vw kao kod :fullscreen iznad (namjerno) - na uskim (mobilnim)
+   zaslonima 96vw fotografije uz strelice lijevo/desno (40px + razmak) ne bi stalo u
+   100vw pa bi strelice ispale izvan vidljivog dijela ekrana. Rezervira se prostor za
+   obje strelice (2 × ~55px). Desktop ovo ne pogađa jer .pseudo-fullscreen uopće ne
+   postoji tamo (aktivira se samo kad preglednik nema Fullscreen API, npr. iOS Safari). */
+.vijesti-lightbox-stage.pseudo-fullscreen .vijesti-lightbox-image { max-width: calc(100vw - 110px); max-height: 96vh; border-radius: 0; }
 .vijesti-lightbox-nav {
   background: rgba(255, 255, 255, 0.15);
   border: none;

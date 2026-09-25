@@ -1847,6 +1847,8 @@ function closeModal(){
     const exit = document.exitFullscreen || document.webkitExitFullscreen;
     if(exit) exit.call(document);
   }
+  const lbStage = document.getElementById('lightboxStage');
+  if(lbStage) lbStage.classList.remove('pseudo-fullscreen');
   document.getElementById('modalBody').classList.remove('modal-photo');
   document.getElementById('modalOverlay').classList.remove('overlay-photo');
   if(_modalStack.length > 0){
@@ -2875,9 +2877,11 @@ function renderLightbox(){
   // Ako je fullscreen aktivan, ne re-renderiramo cijeli #lightboxStage element (to bi ga
   // uklonilo iz DOM-a i preglednik bi automatski izašao iz fullscreena) - samo zamijenimo
   // sliku i natpis/brojač na mjestu, fullscreen ostaje aktivan dok se "vrti" kroz fotografije.
+  // Isto vrijedi i za pseudo-fullscreen (CSS fallback za iOS Safari, vidi toggleLightboxFullscreen).
   const isFs = document.fullscreenElement || document.webkitFullscreenElement;
   const existingStage = document.getElementById('lightboxStage');
-  if(existingStage && isFs){
+  const isPseudoFs = existingStage && existingStage.classList.contains('pseudo-fullscreen');
+  if(existingStage && (isFs || isPseudoFs)){
     const img = existingStage.querySelector('.lightbox-image');
     if(img){ img.src = src; img.alt = `Fotografija ${_lightboxIndex+1}`; }
     const counterEl = document.querySelector('.lightbox-counter');
@@ -2912,6 +2916,16 @@ function renderLightbox(){
 function toggleLightboxFullscreen(){
   const el = document.getElementById('lightboxStage');
   if(!el) return;
+  // Safari na iPhoneu (i iOS općenito) ne podržava Fullscreen API za obične elemente
+  // (samo za <video>), pa requestFullscreen/webkitRequestFullscreen tamo ne postoje -
+  // u tom slučaju ručno prebacujemo CSS klasu koja postiže isti vizualni rezultat
+  // (crna pozadina, fotka preko cijelog zaslona) bez oslanjanja na tu metodu.
+  // Na desktopu/Androidu ništa se ne mijenja - i dalje ide prava Fullscreen API metoda.
+  const supportsFullscreenApi = !!(el.requestFullscreen || el.webkitRequestFullscreen);
+  if(!supportsFullscreenApi){
+    el.classList.toggle('pseudo-fullscreen');
+    return;
+  }
   const isFs = document.fullscreenElement || document.webkitFullscreenElement;
   if(!isFs){
     const req = el.requestFullscreen || el.webkitRequestFullscreen;
