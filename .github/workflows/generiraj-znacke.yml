@@ -21,7 +21,7 @@ jobs:
           python-version: '3.x'
 
       - name: Generiraj znacke-data.js
-        run: python skripte/generiraj-znacke.py
+        run: python skripte/generiraj-znacke-data.py
 
       - name: Commitaj znacke-data.js ako se promijenio
         run: |
