@@ -24,7 +24,6 @@ kao gotov fajl za download, koji se onda ručno prebaci u GitHub Desktop i commi
   - [Digitalizacija skeniranih zapisnika](#5-digitalizacija-skeniranih-zapisnika)
 - [Skripte — pregled](#skripte--pregled)
 - [GitHub Actions (automatska generacija)](#github-actions-automatska-generacija)
-- [Poznati problemi / na što paziti](#poznati-problemi--na-što-paziti)
 - [Domena i hosting](#domena-i-hosting)
 
 ## Struktura repozitorija
@@ -204,34 +203,6 @@ Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću ma
 - `.github/workflows/generiraj-znacke.yml` — okida se na svaki push koji mijenja
   `assets/json/prvenstva-data.json`, pokreće generator značaka i sam commita
   rezultat.
-
-## Poznati problemi / na što paziti
-
-- **`generiraj-znacke.yml` je do 25.9.2026. bio pokvaren (ispravljeno).** Workflow
-  je pozivao `python skripte/generiraj-znacke.py`, ali skripta se u repou zove
-  `skripte/generiraj-znacke-data.py` (vidljivo je bilo i po zastarjelom nazivu u
-  samom docstringu te skripte — očito je preimenovana u nekom trenutku, a workflow
-  nije ažuriran), pa je svaki pokušaj automatske regeneracije tiho padao s greškom
-  "file not found" i ništa se nije commitalo. Ispravljeno je na točno ime skripte —
-  workflow sada radi. Ako se u budućnosti skripta opet preimenuje, ažuriraj i ovaj
-  workflow.
-- **GitHub Desktop i merge-konflikti.** Ako GitHub Desktop pri primanju izmjena
-  (pull) naiđe na konflikt s lokalnim (nespremljenim) promjenama, može ostaviti
-  doslovne `<<<<<<<`/`=======`/`>>>>>>>` oznake usred fajla ako se commita bez da se
-  konflikt prvo ručno razriješi. Takav fajl (npr. `.js`) će tad prestati raditi u
-  cijelosti (greška pri parsiranju sprječava izvršavanje CIJELE datoteke, ne samo
-  mjesta konflikta) — cijela stranica može ostati prazna. Prije commita nakon bilo
-  kakvog upozorenja o konfliktu, provjeri da fajl ne sadrži te oznake.
-- **iOS Safari i "cijeli ekran" na fotkama.** iPhone/Safari ne podržava Fullscreen
-  API za obične elemente (samo za `<video>`), pa `vijesti-lightbox.js` i
-  `prvenstva.js` imaju CSS/JS fallback (`.pseudo-fullscreen` klasa) koji ručno
-  postiže isti izgled bez tog API-ja — vidi komentare uz `toggleFullscreen`/
-  `toggleLightboxFullscreen` prije nego što se ta logika mijenja.
-- **Cache na mobitelu.** Nakon veće promjene u `header.js`/`main.css`, korisnici
-  ponekad moraju tvrdo osvježiti stranicu (na iPhoneu: Postavke → Safari → Napredno
-  → Podaci web-mjesta → ukloni za `admin-curling-hr.github.io` / `curling.hr`) da bi
-  vidjeli novu verziju — GitHub Pages CDN i preglednikov cache znaju kratko
-  kasniti/zaglaviti na staroj verziji.
 
 ## Domena i hosting
 
