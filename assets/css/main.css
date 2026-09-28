@@ -120,6 +120,12 @@ img { max-width: 100%; height: auto; display: block; }
   text-overflow: ellipsis;
 }
 
+/* Puni naziv saveza je zadano vidljiv; skraćenica (HCS/CCA) se prikazuje
+   samo na malim ekranima, vidi @media (max-width: 700px) niže. */
+.header-title-short {
+  display: none;
+}
+
 .header-controls {
   display: flex;
   align-items: center;
@@ -663,6 +669,8 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 700px) {
   .header-subtitle { display: none; }
   .header-title { font-size: 1rem; }
+  .header-title-full { display: none; }
+  .header-title-short { display: inline; }
   .header-logo { width: 46px; height: 46px; }
 
   .nav-toggle { display: flex; }
@@ -717,7 +725,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* --- Kalendar --- */
 .kalendar-wrap {
-  max-width: 860px;
+  max-width: 1100px;
 }
 
 .kalendar-naslov {
@@ -763,10 +771,33 @@ img { max-width: 100%; height: auto; display: block; }
 [data-theme="dark"] .sekcija-naslov.domaca     { background: #3e2000; color: #ffb74d; }
 [data-theme="dark"] .sekcija-naslov.medjunarodna { background: #0d2a4a; color: #64b5f6; }
 
+.kalendar-podsekcija {
+  margin-bottom: 1.5rem;
+}
+
+.kalendar-podsekcija:last-child {
+  margin-bottom: 0;
+}
+
+.podsekcija-naslov {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0 0 0.6rem 0.15rem;
+}
+
+/* Održana natjecanja ostaju vidljiva, ali vizualno prigušena da se jasno
+   razlikuju od predstojećih. */
+.kalendar-podsekcija-odrzana .kalendar-kartica {
+  opacity: 0.6;
+}
+
 .kalendar-kartica {
   display: grid;
-  grid-template-columns: 160px 1fr auto;
-  gap: 0.5rem 1.25rem;
+  grid-template-columns: 148px 46px 1fr auto;
+  gap: 0.5rem 0.9rem;
   align-items: center;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
@@ -783,11 +814,48 @@ img { max-width: 100%; height: auto; display: block; }
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--hcs-red);
-  white-space: nowrap;
+  /* Namjerno BEZ white-space:nowrap - par datuma koji prelaze iz mjeseca u
+     mjesec (npr. "27. 10. – 01. 11. 2026.") ne stanu u uži stupac u jednom
+     retku, pa se prelome u dva retka umjesto da se preklope preko susjednog
+     stupca s HR oznakom. */
 }
 
-.kartica-sadrzaj {
+/* Stupac s oznakom "HR"/"(HR)" (vidi .repr-znak niže) - zaseban stupac umjesto
+   da oznaka stoji uz prvi od više natjecanja nabrojanih na istoj kartici (npr.
+   "World Junior-B Curling Championships (Men)/(Women)"), gdje bi inače
+   izgledalo kao da se oznaka odnosi samo na to prvo natjecanje. Prisutan je na
+   SVAKOJ kartici (prazan kad nema oznake) da poravnanje stupaca ostane
+   jednako na cijeloj stranici - :empty ga skriva bez ostavljanja praznog
+   razmaka kad ništa ne sadrži. */
+.kartica-oznaka {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stupac s natjecanjima kartice - jedan "redak" po natjecanju (.kartica-red),
+   svaki sa svojim bedžom kategorije (.kat-znak, vidi niže) i nazivom
+   (.kartica-naziv), jer domaća natjecanja znaju na istoj kartici nabrajati
+   natjecanja iz različitih kategorija (npr. juniori i seniori istog vikenda).
+   Bedž i naziv su u ISTOM retku (grid s fiksnim prvim stupcem za bedž), tako
+   da se poravnaju po visini pouzdano (flex/grid centriranje), umjesto da se
+   oslanjamo na podudaranje line-height vrijednosti dvaju odvojenih stupaca. */
+.kartica-redovi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   min-width: 0;
+}
+
+.kartica-red {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.kartica-red > .kat-znak {
+  justify-self: start;
 }
 
 .kartica-sezona {
@@ -827,19 +895,73 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.8rem;
   }
 
+  .kartica-red {
+    grid-template-columns: 62px 1fr;
+  }
+
   .kartica-mjesto {
     text-align: left;
     font-size: 0.8rem;
   }
 }
 
-/* --- Kalendar reprezentacija znak --- */
+/* --- Kalendar reprezentacija znak ---
+   Oznaka u zasebnom stupcu kartice (.kartica-oznaka, vidi gore) za
+   međunarodno natjecanje na koje hrvatska reprezentacija sigurno nastupa
+   ("HR", puna pozadina) ili se tek može kvalificirati ("HR", samo obrub,
+   na engleskom "CRO") - vidi podaci/hcs-web-data.xlsx list "Kalendar",
+   stupac B ("HR" / "(HR)"). Namjerno je u svom stupcu, a ne uz naziv
+   natjecanja, jer kartica zna nabrojati više natjecanja odjednom (npr. Men/
+   Women) na koja se ista oznaka odnosi - uz naziv bi izgledalo kao da vrijedi
+   samo za prvo od njih. Bez tooltipa (namjerno - vidi git povijest ako ga
+   treba vratiti). */
 .repr-znak {
-  color: var(--hcs-red);
-  font-size: 0.75rem;
-  margin-right: 0.3rem;
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 20px;
   vertical-align: middle;
+  cursor: default;
 }
+
+.repr-znak-siguran {
+  background: var(--hcs-red);
+  color: #fff;
+}
+
+.repr-znak-moguc {
+  background: none;
+  color: var(--hcs-red);
+  border: 1px solid var(--hcs-red);
+}
+
+/* --- Kalendar bedž kategorije ---
+   Bedž na početku svakog retka natjecanja (.kartica-red, vidi gore) koji
+   prikazuje kategoriju natjecanja (juniori/seniori/veterani) - vidi
+   podaci/hcs-web-data.xlsx list "Kalendar", stupci C/E (hrvatski/engleski
+   naziv kategorije). Isti oblik kao .repr-znak, ali s punom pastelnom
+   pozadinom po kategoriji umjesto crvene. */
+.kat-znak {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 20px;
+  vertical-align: middle;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.kat-znak-juniori { background: #e8f5e9; color: #2e7d32; }
+.kat-znak-seniori { background: #fff9c4; color: #7c5800; }
+.kat-znak-veterani { background: #fdeaea; color: #b71c1c; }
+
+[data-theme="dark"] .kat-znak-juniori  { background: #1b3a1c; color: #81c784; }
+[data-theme="dark"] .kat-znak-seniori  { background: #4a3800; color: #ffd54f; }
+[data-theme="dark"] .kat-znak-veterani { background: #451515; color: #ef9a9a; }
 
 .kalendar-legenda {
   font-size: 0.8rem;

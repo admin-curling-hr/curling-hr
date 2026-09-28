@@ -716,6 +716,15 @@
   color: var(--text-muted);
   line-height: 1.2;
 }
+/* Na malim ekranima (mobitel): 4 znacke po redu umjesto 3. Sirina stavke je
+   racunata kao "25% minus udio razmaka" (gap * (n-1)/n) umjesto fiksnih
+   piksela, tako da uvijek stane tocno 4 u red bez obzira na tocnu sirinu
+   zaslona (ova @media pravila dolaze NAKON ".badge-item{width:90px;...}"
+   iznad pa ga na ovoj sirini ispravno prevladavaju). */
+@media (max-width: 600px) {
+  .badge-grid { gap: 14px 8px; }
+  .badge-item { width: calc(25% - 6px); padding: 6px 4px; }
+}
 .badge-detail-cols {
   columns: 3;
   column-gap: 2rem;
