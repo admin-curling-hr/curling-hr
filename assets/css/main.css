@@ -120,6 +120,12 @@ img { max-width: 100%; height: auto; display: block; }
   text-overflow: ellipsis;
 }
 
+/* Puni naziv saveza je zadano vidljiv; skraćenica (HCS/CCA) se prikazuje
+   samo na malim ekranima, vidi @media (max-width: 700px) niže. */
+.header-title-short {
+  display: none;
+}
+
 .header-controls {
   display: flex;
   align-items: center;
@@ -663,6 +669,8 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 700px) {
   .header-subtitle { display: none; }
   .header-title { font-size: 1rem; }
+  .header-title-full { display: none; }
+  .header-title-short { display: inline; }
   .header-logo { width: 46px; height: 46px; }
 
   .nav-toggle { display: flex; }
