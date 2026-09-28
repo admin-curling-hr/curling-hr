@@ -395,7 +395,15 @@ img { max-width: 100%; height: auto; display: block; }
   font-size: 1.05rem;
 }
 
-.page-content h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; }
+/* Naslovi odlomaka unutar .page-content (npr. stranice "O nama" i "O curlingu")
+   - crvena okomita crta s lijeve strane, isti obrazac kao .kalendar-naslov,
+   .klubovi-naslov i .home-news h2 drugdje na stranici. */
+.page-content h2 {
+  font-size: 1.4rem;
+  margin: 2rem 0 0.75rem;
+  border-left: 4px solid var(--hcs-red);
+  padding-left: 0.75rem;
+}
 .page-content h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
 .page-content p  { margin-bottom: 1rem; }
 .page-content ul, .page-content ol { margin: 0.5rem 0 1rem 1.5rem; }
