@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2020-02-18">
+  <meta name="naslov"  content="Održano 15. PH za žene i za muškarce">
+  <meta name="excerpt" content="Od 1. do 16. veljače 2020. godine u Bratislavi u Slovačkoj održano je 15. prvenstvo Hrvatske u curlingu za žene i za muškarce. U ženskoj konkurenciji nastupile su 4 ekipe, a u muškoj 9 ekipa.">
+  <meta name="slika"   content="1.jpg">
+  <title>Održano 15. PH za žene i za muškarce – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2020-02-18">18. 02. 2020.</time>
+      </div>
+      <h1 class="post-title">Održano 15. PH za žene i za muškarce</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Od 1. do 16. veljače 2020. godine u Bratislavi u Slovačkoj održano je 15. prvenstvo Hrvatske u curlingu za žene i za muškarce. U ženskoj konkurenciji nastupile su 4 ekipe, a u muškoj 9 ekipa. U muškoj konkurenciji prvenstvo je osvojila ekipa Curling kluba Legija Zagreb pobijedivši u finalu ekipu Curling kluba VIS iz Zagreba sa rezultatom 9 – 3. Uspjeh Curling kluba Legija je tim veći što je prvenstvo osvojeno bez ijednog poraza. Ekipa Curling kluba Legija nastupila je u sastavu: Bruno Samardžić, Miroslav Jurković, Ante Baus, Hrvoje Tolić, Vedran Horvat i trener Nandor Miklos.</p><p>U ženskoj konkurenciji prvo mjesto je osvojila ekipa Curling kluba Silent iz Zagreba također bez ijednog poraza. Ekipa Curling kluba Silent nastupila je u sastavu: Emina Crnaić, Maja Sertić, Marijana Božić i Vanja Beganović.</p><p>Na EP-C skupine koje se krajem travnja i početkom svibnja održava u Ljubljani, Slovenija boje Hrvatske će u muškoj konkurenciji braniti ekipa Curling kluba Legija Zagreb, a u ženskoj, nakon odustajanja ekipe Curling kluba Silent, to će biti juniorska ekipa Curling kluba Zagreb koja je osvojila drugo mjesto na PH.</p><p>Konačni poredak (muškarci):</p><ol><li>Legija Zagreb – zlatna medalja – nastup na prvenstvu Europe 2020.</li><li>Vis – srebrna medalja</li><li>Zagreb – brončana medalja</li><li>Sisak 2</li><li>Sisak</li><li>Čudnovati Čunjaš</li><li>Čudnovati Čunjaš 2</li><li>Legija</li><li>Vis 2</li></ol><p>Konačni poredak (žene):</p><ol><li>Silent – zlatna medalja</li><li>Zagreb – srebrna medalja – nastup na prvenstvu Europe 2020.</li><li>Vis – brončana medalja</li><li>Čudnovati Čunjaš</li></ol><div class="foto-grid-vijest">
+        <a href="1-2.jpg" target="_blank"><img src="1-2.jpg" alt=""></a>
+        <a href="2.jpeg" target="_blank"><img src="2.jpeg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpeg" target="_blank"><img src="7.jpeg" alt=""></a>
+        <a href="8.jpg" target="_blank"><img src="8.jpg" alt=""></a>
+        <a href="9.jpg" target="_blank"><img src="9.jpg" alt=""></a>
+        <a href="10.jpg" target="_blank"><img src="10.jpg" alt=""></a>
+        <a href="11.jpg" target="_blank"><img src="11.jpg" alt=""></a>
+        <a href="12.jpg" target="_blank"><img src="12.jpg" alt=""></a>
+        <a href="13.jpg" target="_blank"><img src="13.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>
