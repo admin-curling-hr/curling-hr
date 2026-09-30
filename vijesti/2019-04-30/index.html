@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2019-04-30">
+  <meta name="naslov"  content="Prvo PH za juniore">
+  <meta name="excerpt" content="27. i 28.04. u Bratislavi, Slovačka je održano 1. prvenstvo Hrvatske za juniore na kojem su sudjelovale tri ekipe">
+  <meta name="slika"   content="1-2.jpg">
+  <title>Prvo PH za juniore – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2019-04-30">30. 04. 2019.</time>
+      </div>
+      <h1 class="post-title">Prvo PH za juniore</h1>
+    </header>
+
+    <div class="post-content">
+      <p>27. i 28.04.2019. u Bratislavi, Slovačka je održano 1. prvenstvo Hrvatske za juniore na kojem su sudjelovale tri ekipe:</p><ul><li>Curling klub Čudnovati Čunjaš u sastavu Marin Kaspret, Jakov Voloder, Sven Prinčić i voditelj Neven Pufnik;</li><li>Curling klub Croling u sastavu Morana Ćuzela, Anton Malović, Majda Vidaković, Leana Mihaljević i voditelj Zvonko Vidaković; i</li><li>Curling club Zagreb u sastavu Klara Glavić, Ema Posavec, Lucija Matanić, Luči Ana Pavela i voditeljice Lucija Fabijanić i Iva Roso.</li></ul><p>Prije samog početka natjecanja održana je i mala škola curlinga.</p><p>Rezultati:</p><p>Croling – Čudnovat Čunjaš: 5-9<br></p><p>Čudnovati Čunjaš – Zagreb: 8-0<br></p><p>Zagreb – Croling: 3-4<br></p><p>Čudnovati Čunjaš-Croling: 9-1<br></p><p>Zagreb – Čudnovati Čunjaš: 7-4<br></p><p>Croling – Zagreb: 7-5</p><p>Konačni poredak:</p><ol><li><strong>Curling klub Čudnovati Čunjaš</strong></li><li>Curling klub Croling</li><li>Curling club Zagreb</li></ol><div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+        <a href="8.jpg" target="_blank"><img src="8.jpg" alt=""></a>
+        <a href="9.jpg" target="_blank"><img src="9.jpg" alt=""></a>
+        <a href="10.jpg" target="_blank"><img src="10.jpg" alt=""></a>
+        <a href="11.jpg" target="_blank"><img src="11.jpg" alt=""></a>
+        <a href="12.jpg" target="_blank"><img src="12.jpg" alt=""></a>
+        <a href="13.jpg" target="_blank"><img src="13.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>
