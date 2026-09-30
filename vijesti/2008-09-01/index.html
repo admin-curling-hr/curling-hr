@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2008-09-01">
+  <meta name="naslov"  content="Hrvatske curling reprezentativce trenirat će Jamie Boutin">
+  <meta name="excerpt" content="Kanađanin Jamie Boutin postao je novi trener hrvatske curling reprezentacije uoči priprema za sljedeće Europsko prvenstvo.">
+  <meta name="slika"   content="1.jpg">
+  <title>Hrvatske curling reprezentativce trenirat će Jamie Boutin – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2008-09-01">01. 09. 2008.</time>
+      </div>
+      <h1 class="post-title">Hrvatske curling reprezentativce trenirat će Jamie Boutin</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Jamie Boutin novi je trener Hrvatske curling reprezentacije, ali i igračica i igrača curlinga u Hrvatskoj uopće. Do sada je taj Kanađanin savjetima pomagao našim igračima na turnirima po Europi, ali sada je prvi puta došao i do Zagreba. Hrvatski curling savez tako je u njemu dobio stručnu osobu koja će nam biti na raspolaganju cijelo vrijeme priprema do slijedećeg Europskog prvenstva.</p>
+      <p>S druge strane, brojni inozemni treneri prvenstveno Kanađani, pronalaze zemlje u kojima je ovaj olimpijski sport u začecima, te na taj način prenose svoje znanje. Isto tako, stvar je prestiža biti trener neke nacije.</p>
+      <p>Inače, opći je dojam da su treneri s jedne i igrači s druge strane poput odraza u zrcalu. Karakterne osobine pojedinih timova koje smo sretali na europskim turnirima i natjecanjima, održavale su se identično s njihovim trenerima. Primjerice, Slovaci su bili namrgođeni, poput njihovog trenera dok su recimo Grci, pronašli trenera koji zahtjeva disciplinu na ledu, ali i zabavu poslije utakmice (bez obzira na rezultat). Jamie je roker, zafrkant i osoba otvorena karaktera. Veoma dobar strateg i igrač curlinga. Zaključak se nameće sam po sebi.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

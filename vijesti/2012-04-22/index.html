@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2012-04-22">
+  <meta name="naslov"  content="Vis i Čudnovata Legija pobjednici 1. otvorenog prvenstva Zagreba u curlingu">
+  <meta name="excerpt" content="Na prvom Otvorenom prvenstvu Zagreba u curlingu zlato je osvojila ekipa CK Vis, dok je na nedjeljnom Mix prvenstvu pobijedila Čudnovata Legija. Natjecanje je okupilo devet ekipa iz sedam klubova.">
+  <meta name="slika"   content="1.jpg">
+  <title>Vis i Čudnovata Legija pobjednici 1. otvorenog prvenstva Zagreba u curlingu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2012-04-22">22. 04. 2012.</time>
+      </div>
+      <h1 class="post-title">Vis i Čudnovata Legija pobjednici 1. otvorenog prvenstva Zagreba u curlingu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Na prvom Otvorenom prvenstvu grada Zagreba u curlingu održanom 21. travnja 2012. godine zlatna je medalja pripala ekipi curling kluba Vis. Ekipa Alberta Skendrovića u finalu je pobjedila Čudnovati Čunjaš i tako postala prva ekipa koja je u glavnom gradu Hrvatske, na svom ledu &ndash; postala prvakom grada.</p>
+      <p>Bio je ovo i prvi povijest ski turnir ikada održan u Zagrebu, jer unatoč devet godina postojanja Zagrebački curling savez nije bio u prilici organizirati službeno natjecanje u ovom sportu. Da je potreba za ledom velika, dokazalo je i sudjelovanje devet ekipa iz sedam različitih klubova koji su sudjelovali na Otvorenom prvenstvu.</p>
+      <p>U nedjelju, 22. travnja je održano i Mix prvenstvo grada, na kojem je sudjelovalo šest ekipa. U mixu igraju dva ženska i dva muška igrača, a ovo se natjecanje bodovalo i kao službeno prvenstvo Hrvatske. Prvo mjesto pripalo je ekipi Čudnovata Legija i skipu Nevenu Pufniku koji su u finalu pobjedili ekipu curling kluba Zagreb.</p>
+      <p>U dva dana natjecanja, klizalište zagrebačkog velesajma posjetio je veliki broj posjetitelja, a oko tristo njih i sami su se okušali u &bdquo;guranju kamenja i metenju&ldquo;. Upravo za građanstvo Zagrebački curling savez organizirao je tijekom cijeloga dana i jednu stazu uz prezentaciju ovoga sporta.</p>
+      <p><strong>Konačni poredak:</strong></p>
+      <p><strong>Otvoreno prvenstvo grada Zagreba</strong></p>
+      <ol>
+        <li>Vis</li>
+        <li>Čudnovati Čunjaš</li>
+        <li>Zagreb</li>
+      </ol>
+      <p><strong>Mix prvenstvo grada Zagreba</strong></p>
+      <ol>
+        <li>Čudnovata Legija</li>
+        <li>Zagreb</li>
+        <li>Croling</li>
+      </ol>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+        <a href="8.jpg" target="_blank"><img src="8.jpg" alt=""></a>
+        <a href="9.jpg" target="_blank"><img src="9.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

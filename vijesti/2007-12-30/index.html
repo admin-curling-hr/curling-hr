@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2007-12-30">
+  <meta name="naslov"  content="Curling u Slavonskom Brodu">
+  <meta name="excerpt" content="Curling klub Legija iz Slavonskog Broda počeo je trenirati na novootvorenom gradskom klizalištu, uz opremu posuđenu od Hrvatskog curling saveza.">
+  <meta name="slika"   content="1.jpg">
+  <title>Curling u Slavonskom Brodu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2007-12-30">30. 12. 2007.</time>
+      </div>
+      <h1 class="post-title">Curling u Slavonskom Brodu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Konačno je i u jednom drugom gradu u Hrvatskoj zaigran curling. Nakon otvorenja prvog gradskog klizališta u Slavonskom Brodu, jednom od najstarijih hrvatskih klubova, curling klubu Legija ostvarila se mogućnost igrati na „svom terenu". Jest da uvjeti nisu idealni, staza je kratka, teren je na otvorenom, a treninzi počinju u 22 sata, ipak se igra. I to uz veliki entuzijazam, prvenstveno predsjednika kluba Daria Sojčića koji je u Brod, uz Marina Kovačevića i Ognjena Golubića, i doveo curling. Opremu za igru posudio je Hrvatski curling savez, a već nakon nekoliko održanih treninga broj zainteresiranih raste. Interes za ovim najmlađim zimskim olimpijskim sportom pokazali su i lokalni pisani, ali i elektronički mediji, pa donosimo i nekoliko isječaka.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

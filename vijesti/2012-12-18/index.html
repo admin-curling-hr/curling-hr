@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2012-12-18">
+  <meta name="naslov"  content="Hrvatska osvojila 6. mjesto u grupi B">
+  <meta name="excerpt" content="Hrvatska muška reprezentacija završila je na 6. mjestu u B skupini Europskog prvenstva, dok su zlato u A skupini osvojili Švedska kod muškaraca i Rusija kod žena.">
+  <meta name="slika"   content="1.jpg">
+  <title>Hrvatska osvojila 6. mjesto u grupi B – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2012-12-18">18. 12. 2012.</time>
+      </div>
+      <h1 class="post-title">Hrvatska osvojila 6. mjesto u grupi B</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Hrvatska muška ekipa je u konačnom zbiru plave i crvene B grupe završila na šestom mjestu. Od ukupno šesnaest reprezentacija koje su sudjelovale u B grupi, to je izvrstan rezultat ekipe Alena Čadež. Podsjetimo, uz jednu pobjedu više Hrvatska je imala šansu ući u dodatno razigravanje i borbu za odličja te ulazak u A grupu. No, na to će hrvatski curlingaši morati pričekati do iduće godine i norveškog Stavangera gdje se održava iduće prvenstvo Europe.</p>
+      <p><strong>Poredak u B skupini (muškarci):</strong></p>
+      <ol>
+        <li>Finska</li>
+        <li>Latvija</li>
+        <li>Nizozemska</li>
+        <li>Engleska</li>
+        <li>Italija</li>
+        <li>Hrvatska</li>
+      </ol>
+      <p><strong>Poredak u B skupini (žene):</strong></p>
+      <ol>
+        <li>Latvija</li>
+        <li>Norveška</li>
+        <li>Austrija</li>
+        <li>Estonija</li>
+      </ol>
+      <p><strong>Zlato za Švedsku (muškarci) i Rusiju (žene) u grupi A</strong></p>
+      <p>Domaćini su došli do zlata u utakmici koju su igrali s dugogodišnjim rivalima iz Norveške. Ekipa Niklasa Edina od početka je zaigrala agresivno i držala meč u svojim rukama, tako da Thomas Ulsrud i njegov tim nisu imali puno šansi. Koncentrirano, precizno i nemilosrdno Šveđani su iskoristili sve poklone protivnika i zasluženo došli do novoga zlata. Konačni rezultat: Švedska – Norveška 8:5. Treće mjesto za muškarce pripalo je ekipi Češke.</p>
+      <p>U igri za zlato i prvo mjesto za žene, Rusija je bila bolja od Škotske rezultatom 7:6. U zanimljivom finalu u kojem se pobjednik tražio u dodatnom, jedanaestom endu bolja je bila ekipa Anne Sidorove. Tijekom cijelog susreta igra je bila izjednačena, a u posljednjim trenucima regularnog dijela susreta, ekipa Eve Muirhead posljednjim je udarcem jedva ostala u igri i izborila produžetke. Ruskinjama se isplatila kalkulacija tijekom posljednja dva enda, u kojima su cijelo vrijeme forsirale škotsku ekipu da prate njihov ritam igre. U dodatnom endu, Muirhead nije uspjela čuvati rezultat i zakomplicirati igru pa su na posljednji kamen protivnica Ruskinje imale čisti udarac – i pobjedu. Treće mjesto za žene pripalo je ekipi Danske.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+        <a href="8.jpg" target="_blank"><img src="8.jpg" alt=""></a>
+        <a href="9.jpg" target="_blank"><img src="9.jpg" alt=""></a>
+        <a href="10.jpg" target="_blank"><img src="10.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2019-04-12">
+  <meta name="naslov"  content="Europsko prvenstvo C skupine">
+  <meta name="excerpt" content="Hrvatska ženska i muška reprezentacija nastupile su na Europskom prvenstvu C skupine u curlingu, održanom od 12. do 17. travnja 2019. u rumunjskom Braşovu.">
+  <meta name="slika"   content="1.jpg">
+  <title>Europsko prvenstvo C skupine – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2019-04-12">12. 04. 2019.</time>
+      </div>
+      <h1 class="post-title">Europsko prvenstvo C skupine</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Od 12. do 17. travnja 2019. godine u Brasov-u, Rumunjska održati će se Europsko prvenstvo C skupine u curlingu na kojem nastupaju naša ženska i muška reprezentacija.</p>
+      <p>Ženska reprezentacija, koju čine članice Curling cluba Zagreb, nastupa u sastavu: Iva Roso, Lucija Fabijanić, Iva Penava, Antonia Maričević, Anita Čobanov i trenerica Camilla Jensen.</p>
+      <p>Muška reprezentacija, koju čine članovi Curling cluba Legija iz Slavonskog Broda, nastupa u sastavu: Bruno Samardžić, Vedran Horvat, Miroslav Jurković, Hrvoje Tolić, Ante Baus, trener Nandor Miklos i Neven Pufnik član vodstva.</p>
+      <p><strong>Raspored utakmica:</strong></p>
+      <p><strong>Petak, 12.4.2019.</strong><br>
+      Muškarci:<br>
+      18.00 sati – FRANCUSKA – HRVATSKA</p>
+      <p><strong>Subota, 13.4.2019.</strong><br>
+      Žene:<br>
+      08.00 sati – RUMUNJSKA – HRVATSKA<br>
+      16.00 sati – HRVATSKA – AUSTRIJA<br>
+      Muškarci:<br>
+      12.00 sati – HRVATSKA – BUGARSKA<br>
+      20.00 sati – HRVATSKA – BELGIJA</p>
+      <p><strong>Nedjelja, 14.4.2019.</strong><br>
+      Žene:<br>
+      08.00 sati – IRSKA – HRVATSKA<br>
+      16.00 sati – HRVATSKA – BJELORUSIJA<br>
+      Muškarci:<br>
+      12.00 sati – HRVATSKA – RUMUNJSKA<br>
+      20.00 sati – GRČKA – HRVATSKA</p>
+      <p><strong>Ponedjeljak, 15.4.2019.</strong><br>
+      Žene:<br>
+      14.30 sati – HRVATSKA – FRANCUSKA<br>
+      Muškarci:<br>
+      10.00 sati – HRVATSKA – IRSKA<br>
+      19.00 sati – LIHTENŠTAJN – HRVATSKA</p>
+      <p><strong>Utorak, 16.4.2019.</strong><br>
+      Žene:<br>
+      08.00 sati – SLOVAČKA – HRVATSKA<br>
+      16.00 sati – SLOVENIJA – HRVATSKA<br>
+      Muškarci:<br>
+      12.00 sati – LUKSEMBURG – HRVATSKA<br>
+      20.00 sati – SLOVENIJA – HRVATSKA</p>
+      <p><strong>Srijeda, 17.4.2019.</strong><br>
+      09.00 Finale</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

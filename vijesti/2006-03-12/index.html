@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2006-03-12">
+  <meta name="naslov"  content="Prvo prvenstvo Hrvatske u curlingu – prvi krug">
+  <meta name="excerpt" content="Na prvom Prvenstvu Hrvatske u curlingu, odigranom u Budimpešti, u muškoj konkurenciji nakon prvog kruga vodi Curling klub Zagreb.">
+  <meta name="slika"   content="1.jpg">
+  <title>Prvo prvenstvo Hrvatske u curlingu – prvi krug – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2006-03-12">12. 03. 2006.</time>
+      </div>
+      <h1 class="post-title">Prvo prvenstvo Hrvatske u curlingu – prvi krug</h1>
+    </header>
+
+    <div class="post-content">
+      <p>U nedjelju, 12. ožujka, održano je prvo Prvenstvo Hrvatske u curlingu. Na natjecanju održanom u mađarskoj Budimpešti sudjelovala su četiri curling kluba: CC Zagreb, CK Vis, CK Čudnovati čunjaš i CK Zapruđe. Četiri hrvatska kluba igrala su po &bdquo;round robin&ldquo; sistemu odnosno svatko sa svakim. Pobjeda je nosila dva boda, a prvak će biti poznat nakon ukupno dvanaest utakmica.</p>
+      <p>U muškoj konkurenciji najuspješniji su bili igrači Curling cluba Zagreb pobijedivši u svim odigranim utakmicama. Stopostotni učinak donio im je i vodeće mjesto na ljestvici odnosno maksimalnih šest bodova. Slijede ih Čunjaši s 4 boda, a na posljednjem su mjestu igrači Curling kluba Vis koji su nakon prvog kruga ostali bez pobjede. Kako trenutačno nema ženske konkurencije, igračice Curling kluba Zapruđe igre su probne utakmice s muškim klubovima. Kao hrvatske reprezentativke koje su već izborile dvije pobjede na netom završenom Europskom curling prvenstvu u Garmisch-Partenkirchenu, izvrsnih igara potvrdile su s dvije pobjede u tri utakmice. Ujedno je to i dobra priprema za Europsko prvenstvo u mješovitom curlingu u kojem nastupaju mješoviti žensko-muški parovi.</p>
+      <p>Natjecanje je održano u Budimpešti zbog toga što nigdje u Hrvatskoj još nema odgovarajuće dvorane koje zadovoljavaju kriterije Svjetske curling federacije prema kojima se igra i Prvenstvo Hrvatske. Drugi i završni natjecateljski krug Prvenstva Hrvatske u curlingu održat će se ponovo u mađarskoj prijestolnici 6. svibnja 2006. Pobjednici Prvenstva Hrvatske igrat će na predstojećem Europskom prvenstvu 2006. u švicarskom Baselu.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

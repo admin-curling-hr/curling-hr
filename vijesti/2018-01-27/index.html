@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2018-01-27">
+  <meta name="naslov"  content="Započelo je 13. prvenstvo Hrvatske u muškom i ženskom curlingu">
+  <meta name="excerpt" content="U Bratislavi je počelo 13. prvenstvo Hrvatske u curlingu s osam momčadi iz pet klubova; konačni poredak bit će poznat nakon finalnog vikenda 3. i 4. ožujka.">
+  <meta name="slika"   content="1.jpg">
+  <title>Započelo je 13. prvenstvo Hrvatske u muškom i ženskom curlingu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2018-01-27">27. 01. 2018.</time>
+      </div>
+      <h1 class="post-title">Započelo je 13. prvenstvo Hrvatske u muškom i ženskom curlingu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>U Bratislavi je 27. siječnja započelo trinaesto po redu prvenstvo Hrvatske u curlingu. Ove godine okupilo se osam momčadi iz pet klubova (Čudnovati čunjaš, Legija, Vis, Zagreb, Croling).</p>
+      <p>Momčad Zagreba koja suvereno vlada curlingom u Hrvatskoj ove je godine došla u nešto izmijenjenom sastavu. Nakon prvog dana natjecanja imaju pobjedu (ČČ1) i poraz (Croling). Legija 1 ove godine izgleda izvrsno i nakon prvotnog poraza od Visa uslijedili su dvije pobjede protiv ČČ3 i Croling.</p>
+      <p>Croling je krenuo dobro, pobijedili su aktualne prvake Zagreb, ali potom su uslijedila dva poraza od Legije 2 i ČČ1.</p>
+      <p>Čudnovati čunjaši 1 i 2 imaju dobru poziciju nakon prvog dana. Druga momčad ima dvije pobjede nakon dvije utakmice, a prva je na omjeru 2-1. Treća momčad upisala je tri poraza u tri utakmice.</p>
+      <p>Vis je pobijedio Legiju 2 i Čudnovate čunjaše 3 i ima odličnu poziciju nakon prvog dana. Natjecanje se nastavlja u nedjelju 28.1. Konačni rasplet i ukupni poredak bit će poznati nakon finalnog vikenda koji će se odigrati 3. i 4.3.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

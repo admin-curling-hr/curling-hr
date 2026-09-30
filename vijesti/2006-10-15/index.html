@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2006-10-15">
+  <meta name="naslov"  content="2. Yoppi turnir – Budimpešta – CK &quot;Vis&quot; i prva međunarodna pobjeda!">
+  <meta name="excerpt" content="Na drugom Yoppi turniru u Budimpešti Curling klub Vis ostvario je svoju prvu povijesnu međunarodnu pobjedu.">
+  <meta name="slika"   content="1.jpg">
+  <title>2. Yoppi turnir – Budimpešta – CK "Vis" i prva međunarodna pobjeda! – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2006-10-15">15. 10. 2006.</time>
+      </div>
+      <h1 class="post-title">2. Yoppi turnir – Budimpešta – CK "Vis" i prva međunarodna pobjeda!</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Budimpešta – Na drugom Yoppi turniru nastupilo je 16 ekipa. Turnir se igrao po grupama pa su tako ekipe bile podijeljene u 4 grupe. Prvi krug igrao se s jednom ekipom iz iste grupe, a nakon toga ovisno o pobjedi/porazu s drugom ekipom iz iste grupe. Nakon ta dva kruga formirala se tablica od prvog do šesnaestog mjesta i onda se igralo prvi s drugim, treći s četvrtim i tako dalje do petnaesti sa šesnaestim. Tako se igralo dva kruga. Na kraju su se igrale zadnje utakmice – treći i četvrti za treće mjesto i prvi i drugi za pobjednika turnira.</p>
+      <p>Curling club Vis, kao jedini hrvatski predstavnik, prvu je utakmicu igrao protiv mađaraskog kluba "Pingvin". Izgubili su sa 4 prema 11 (-3,2,1,-4,1,-2,-2). Upravo ta ekipa na kraju turnira bila je među najboljima i zauzela je četvrto mjesto. Drugo kolo CC Vis igrao je protiv Mađara "Edes Mindegy". Tu je došla njihova prva povijesna međunarodna pobjeda i to s uvjerljivih 13:0 (1,3,3,1,3,1,1). Nakon toga dolaze dvije utakmice s pobjednicima iz prethodna dva kola. Treća utakmica igrala se tako protiv Mađara "Cool CC". Bila je izvrsna tekma i ravnopravna borba. Mađari pobjeđuju sa 4:7 (-3,1,-3,-1,1,1,1). Zadnju utakmicu CC Vis igra protiv Austrijanaca "Traun CC". Tekma je bila nezaboravna, do zadnjeg stona neizvjesno i napeto. Višani gube 5:6 (3,-3,-1,1,-1,-1,1).</p>
+      <p>Na kraju turnira, od 16 ekipa, CC Vis turnir završava na 12. mjestu. 1 pobjeda i 3 poraza. Gledajući statistiku i najviše osvojenih endova na turniru! Također i najuvjerljiviju pobjedu. Turnir solidan, organizacija dosta fleksibilna. Nije se inzistiralo na minutaži niti na pozicijama u ekipi. Atmosfera friendly.</p>
+      <p>Alberto Skendrović</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

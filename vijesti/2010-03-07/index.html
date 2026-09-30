@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2010-03-07">
+  <meta name="naslov"  content="Curling turnir „Golden broom" u Bavarskoj – curling klubu Zagreb bronca">
+  <meta name="excerpt" content="Na međunarodnom turniru „Golden broom" u Garmisch-Partenkirchenu Curling klub Zagreb osvojio je treće mjesto, svoju drugu brončanu medalju u klupskoj povijesti.">
+  <meta name="slika"   content="1.jpg">
+  <title>Curling turnir „Golden broom" u Bavarskoj – curling klubu Zagreb bronca – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2010-03-07">07. 03. 2010.</time>
+      </div>
+      <h1 class="post-title">Curling turnir „Golden broom" u Bavarskoj – curling klubu Zagreb bronca</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Garmisch-Partenkirchen – Na jakom međunarodnom turniru „Golden broom" Curling klub Zagreb osvojio je treće mjesto. Na turniru koji je održan drugi put nastupile su osim domaćina, ekipe iz Rusije, Češke i Hrvatske. Curling klub Zagreb na turniru je ostvario četiri pobjede i jedan poraz. Izgubivši u polufinalu od njemačkih prvakinja i trećih s posljednjeg Europskog prvenstva u borbi za treće mjesto deklasirali su momčad domaćina Sport Curling club Reisersee s devet prema četiri. Ekipi Alena Čadeža to je inače druga brončana medalja. Prvu su osvojili prošle godine na Otvorenom prvenstvu Austrije u Kitzbuhelu. Pobitelj turnira u Garmisch-Partenkirchenu bila je ekipa od koje je CC Zagreb izgubio u polufinalu, CC Schopp.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

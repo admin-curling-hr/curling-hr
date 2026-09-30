@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2012-01-21">
+  <meta name="naslov"  content="4. Otvoreno prvenstvo Slavonskog Broda – Legionarke potukle sve protivnike">
+  <meta name="excerpt" content="Curling klub Legija po četvrti je put ugostio Otvoreno prvenstvo Slavonskog Broda, na kojem je žensku konkurenciju pobjedom u finalu osvojila upravo ekipa Legije.">
+  <meta name="slika"   content="1.jpg">
+  <title>4. Otvoreno prvenstvo Slavonskog Broda – Legionarke potukle sve protivnike – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2012-01-21">21. 01. 2012.</time>
+      </div>
+      <h1 class="post-title">4. Otvoreno prvenstvo Slavonskog Broda – Legionarke potukle sve protivnike</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Četvrtu godinu za redom članovi Curling cluba Legija bili su domaćini Otvorenog prvenstva Slavonskog Broda u tom zimskom olimpijskom sportu. Na ledu Gradskog klizališta na Klasijama, zahvaljujući potpori Ustanove za gospodarenje sportskim objektima, Brođani su ugostili najbolje hrvatske curlingaše koje su, baš kao i publiku, počastili slavonskim specijalitetima. Uostalom, i prva nagrada turnira tradicionalno je u takvom, domaćem stilu – kutija čvaraka s krvavicom u obliku olimpijskih krugova!</p>
+      <p>Igralo se cijeloga dana, a natjecatelje nije omela ni kratka stanka zbog topljenja leda. Čim se temperatura malo spustila kamenje teško 20 kilograma ponovno se guralo po Klasijama, a najuspješnije bile su članice ženske ekipe Legije (<strong>Ivana Međurečan Tunuković, Martina Lovrić, Ines Mišanec i Antonija Leko</strong>). One su u finalnoj utakmici pobijedile dvostruke osvajače kutije čvaraka, zagrebački Curling klub Čudnovati čunjaš (<strong>Domagoj Jakopović, Ivan Kolar, Neven Pufnik</strong>) sa 7 prema 4, u uzbudljivom susretu tek nakon dodatne igre. U utakmici za treće mjesto ženska ekipa Curling cluba Zagreb (<strong>Antonia Maričević, Lucija Fabijanić, Iva Roso, Iva Penava</strong>) bila je sa 6 prema 2 bolja od muške ekipe Legije (<strong>Stjepan Lovrić, Miro Kuprešak, Mislav Martinić, Dominik Grubišić</strong>).</p>
+      <p>Ipak, kutija čvaraka završila je u Zagrebu, kao poklon "legionarki" svojim suparnicima iz finala.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

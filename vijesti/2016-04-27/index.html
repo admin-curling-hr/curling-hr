@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2016-04-27">
+  <meta name="naslov"  content="Hrvatski reprezentativci otputovali na EP">
+  <meta name="excerpt" content="Hrvatska muška i ženska reprezentacija otputovale su na Europsko prvenstvo C skupine u Ljubljani.">
+  <meta name="slika"   content="1.jpg">
+  <title>Hrvatski reprezentativci otputovali na EP – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2016-04-27">27. 04. 2016.</time>
+      </div>
+      <h1 class="post-title">Hrvatski reprezentativci otputovali na EP</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Hrvatska muška i ženska reprezentacija nastupiti će na EP C skupine koje će se od 25. travnja do 1. svibnja održati u Ljubljani, Slovenija.</p>
+      <p>Muška reprezentacija nastupa u sastavu: Dario Vuković (Curling klub Čudnovati čunjaš), Jurica Bićan (Curling klub Čudnovati čunjaš), Neven Pufnik (Curling klub Čudnovati čunjaš), Ante Baus (Curling klub Legija) i Robert Mikulandrić (Curling klub Zagreb).</p>
+      <p>Ženska reprezentacija nastupa u sastavu: Maja Sertić, Marijana Božić, Vanja Beganović, Emina Crnaić i Melani Turković (sve članice Curling kluba Silent).</p>
+      <p>"Muška i ženska reprezentacija pokušati će osvojiti jedno od prva dva mjesta koje osigurava nastup na EP B skupine koje će se u studenom ove godine održati u Braeheadu, Škotska."</p>
+      <p>Rezultate možete pratiti na linku:</p>
+      <ul>
+        <li>Žene: <a href="http://www.softpeelr.com/en/tournaments/320" target="_blank" rel="noopener">http://www.softpeelr.com/en/tournaments/320</a></li>
+        <li>Muškarci: <a href="http://www.softpeelr.com/en/tournaments/319" target="_blank" rel="noopener">http://www.softpeelr.com/en/tournaments/319</a></li>
+      </ul>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2009-04-05">
+  <meta name="naslov"  content="IV. Prvenstvo Hrvatske u curlingu 2009. – curling klubovi Zagreb i Silent prvaci Hrvatske">
+  <meta name="excerpt" content="Na 4. prvenstvu Hrvatske u curlingu, održanom u Budimpešti, muški naslov prvaka po četvrti je put osvojio Curling klub Zagreb, dok su kod žena prvakinje postale igračice Curling kluba Silent.">
+  <meta name="slika"   content="1.jpg">
+  <title>IV. Prvenstvo Hrvatske u curlingu 2009. – curling klubovi Zagreb i Silent prvaci Hrvatske – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2009-04-05">05. 04. 2009.</time>
+      </div>
+      <h1 class="post-title">IV. Prvenstvo Hrvatske u curlingu 2009. – curling klubovi Zagreb i Silent prvaci Hrvatske</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Budimpešta – Posljednjim bacanjem u zadnjoj utakmici prvenstva ekipa Zapruđa još jednom je trebala potvrditi dominaciju u ženskom dijelu prvenstva Hrvatske u curlingu. Skiperica trostrukih prvakinja Nikolina Petrić trebala je u već riješenoj utakmici protiv Curling kluba Croling uzeti još samo jedan bod. No sreća nije bila na njenoj strani i za nekoliko centimetara su ostale bez zlata. Iako su osvojile i posljednji end i pobijedile Croling, na tablici su ostale iza ovogodišnjih laureata djevojki iz Curling kluba Silent i to za iznimno malu bodovnu razliku kakva se u curlingu rijetko događa. S istim brojem pobjeda i poraza te istim brojem osvojenih bodova, i Silent i Zapruđe imaju i isti broj osvojenih endova. Jedina stvar koja je ekipu Silenta dovela do konačne pobjede jest broj osvojenih stoneova. Djevojke Curling kluba Silent tako su u konačnici postale prvakinje Hrvatske sa samo jednim više.</p>
+      <p>U muškoj konkurenciji Curling klub Zagreb četvrti je put postao prvakom Hrvatske. Iako su nakon zimskog dijela prvenstva uz dva poraza prvi puta ugrozili svoju poziciju, u nastavku prvenstva i s dvije nove pobjede ekipa Alena Čadeža nije dovela u pitanje prvo mjesto na Prvenstvu. Srebro je pripalo CK Visu, a bronca momčadi Domagoja Jakopovića – Ribafisha iz CK Čudnovati Čunjaš – HPB. Na začelju, uz samo jednu pobjedu našla se jedina curling ekipa koja nije iz Zagreba, momčad Daria Sojčića, Curling klub Legija iz Slavonskoga Broda.</p>
+      <p>Pobjedama ekipe Curling klubova Zagreb i Silent potvrdile su nastup na ovogodišnjem Europskom prvenstvu koje se održava u škotskom Aberdeenu. Najmasovnije prvenstvo Hrvatske u curlingu na kojem su sudjelovala četiri muška i tri ženska kluba potvrdila su činjenicu kako ovaj olimpijski sport svake godine dobiva sve više poklonika. Kao najava za slijedeće prvenstvo već sada se očekuje da će na njemu iduće godine nastupiti osam klubova uz čak jedanaest ekipa.</p>
+      <p><strong>Konačni poredak (muški):</strong></p>
+      <ol>
+        <li><strong>Zagreb</strong></li>
+        <li><strong>Vis</strong></li>
+        <li><strong>Čudnovati Čunjaš – HPB</strong></li>
+        <li>Legija</li>
+      </ol>
+      <p><strong>Konačni poredak (žene):</strong></p>
+      <ol>
+        <li><strong>Silent</strong></li>
+        <li><strong>Zapruđe</strong></li>
+        <li><strong>Croling</strong></li>
+      </ol>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

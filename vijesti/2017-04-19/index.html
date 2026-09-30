@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2017-04-19">
+  <meta name="naslov"  content="Svjetsko prvenstvo mješovitih parova u curlingu 2017">
+  <meta name="excerpt" content="Hrvatska reprezentacija u sastavu Iva Roso i Mislav Martinić nastupila je od 22. do 29. travnja 2017. na Svjetskom prvenstvu mješovitih parova u Lethbridgeu, Kanada.">
+  <meta name="slika"   content="1.jpg">
+  <title>Svjetsko prvenstvo mješovitih parova u curlingu 2017 – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2017-04-19">19. 04. 2017.</time>
+      </div>
+      <h1 class="post-title">Svjetsko prvenstvo mješovitih parova u curlingu 2017</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Hrvatska reprezentacija u sastavu Iva Roso i Mislav Martinić nastupit će od 22. do 29. travnja 2017. godine na Svjetskom prvenstvu mješovitih parova koje se održava u Lethbridgeu, Kanada. Hrvatska se nalazi u skupini A zajedno sa reprezentacijama: Bjelorusije, Brazila, Estonije, Finske, Mađarske, Japana i Latvije.</p>
+      <p>Detaljan opis sa terena i kako se natjecanje odvijalo iz dana u dan možete pročitati na Facebook stranici Hrvatskog curling saveza:</p>
+      <ul>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1304321582950094&id=482534961795431" target="_blank" rel="noopener">Prvi dan</a></li>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1305354972846755&id=482534961795431" target="_blank" rel="noopener">Drugi dan</a></li>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1305359222846330&id=482534961795431&substory_index=4" target="_blank" rel="noopener">Treći dan</a></li>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1308230495892536&id=482534961795431" target="_blank" rel="noopener">Četvrti dan</a></li>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1308980625817523&id=482534961795431" target="_blank" rel="noopener">Peti dan</a></li>
+        <li><a href="https://www.facebook.com/permalink.php?story_fbid=1312800128768906&id=482534961795431" target="_blank" rel="noopener">Završnica turnira</a></li>
+      </ul>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

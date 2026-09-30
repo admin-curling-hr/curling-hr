@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2015-03-13">
+  <meta name="naslov"  content="10. prvenstvo Hrvatske u curlingu">
+  <meta name="excerpt" content="U Areni Zagreb je 14. ožujka 2015. počelo jubilarno 10. prvenstvo Hrvatske u curlingu za muškarce i žene, s 12 ekipa iz šest klubova.">
+  <meta name="slika"   content="1.jpg">
+  <title>10. prvenstvo Hrvatske u curlingu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2015-03-13">13. 03. 2015.</time>
+      </div>
+      <h1 class="post-title">10. prvenstvo Hrvatske u curlingu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>U subotu, 14.3.2015. počinje 10. jubilarno prvenstvo Hrvatske u curlingu. Mjesto događanja je Arena Zagreb, u prostoru prve razine garaže.</p>
+      <p>Prvenstvo se sastoji od prvenstva za muškarce i prvenstva za žene. Na prvenstvu sudjeluje 12 ekipa iz 6 curling klubova – 8 muških ("Croling", "Čudnovati čunjaš I", "Čudnovati čunjaš II", "Čudnovati čunjaš III", "Vis" i "Zagreb" iz Zagreba, te "Legija I" i "Legija II" iz Slavonskog Broda) i 4 ženske ("Čudnovati čunjaš", "Silent" i "Zagreb" iz Zagreba, te "Legija" iz Slavonskog Broda.</p>
+      <p><strong>Termini održavanja prvenstva:</strong></p>
+      <p><strong>1. faza (kružno natjecanje)</strong><br>
+      Subota-nedjelja 14. i 15.3.2015. od 10:00 do 20:00 sati<br>
+      Subota-nedjelja 28. i 29.3.2015. od 10:00 do 20:00 sati<br>
+      Subota 18.4.2015. od 10:00 do 20:00 sati.</p>
+      <p><strong>2. faza (doigravanje i finale)</strong><br>
+      Nedjelja 19.4.2015. od 10:00 do 20:00 sati.</p>
+      <p>Posebno želimo naglasiti nastup ženske ekipe "Silent", koja će krajem ožujka u istom sastavu nastupiti kao Olimpijska reprezentacija Hrvatske na Olimpijskim igrama gluhih u Rusiji. Nadamo se osvajanju prve olimpijske medalje za Hrvatsku u curlingu.</p>
+      <p>U subotu, 14.3.2015. u pauzi između dviju utakmica održat će se kratka konferencija za medije, gdje će biti pruženo više informacija o samom sportu. Predviđeni početak je u 15:00 sati.</p>
+      <p>Rezultate utakmica, raspored natjecanja, poredak, sastave ekipa i ostalo možete pratiti uživo na:</p>
+      <p><a href="http://softpeelr.com/en/tournaments/152" target="_blank" rel="noopener">10. prvenstvo Hrvatske u curlingu za muškarce</a></p>
+      <p><a href="http://softpeelr.com/en/tournaments/165" target="_blank" rel="noopener">10. prvenstvo Hrvatske u curlingu za žene</a></p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

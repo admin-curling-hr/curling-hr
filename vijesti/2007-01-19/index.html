@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2007-01-19">
+  <meta name="naslov"  content="Kup četiri nacije u curlingu – Hrvatskoj bronca">
+  <meta name="excerpt" content="Na prvom kupu četiri nacije u Budimpešti Hrvatska je osvojila treće mjesto, iza domaćina Mađarske i Slovačke.">
+  <meta name="slika"   content="1.jpg">
+  <title>Kup četiri nacije u curlingu – Hrvatskoj bronca – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2007-01-19">19. 01. 2007.</time>
+      </div>
+      <h1 class="post-title">Kup četiri nacije u curlingu – Hrvatskoj bronca</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Na prvom kupu nacija koji je u mađarskoj Budimpešti okupio dvanaest curling ekipa iz četiri europske zemlje, Hrvatska je došla i do prve medalje u tom olimpijskom sportu.</p>
+      <p>Zamišljen kao mini liga po uzoru na slična natjecanja u Baltičkoj i Skandinavskoj regiji, započelo je kup natjecanje srednje Europe u curlingu. U njemu sudjeluje Austrija, Slovačka, Mađarska i Hrvatska sa po tri reprezentativne muške, ženske i mješovite ekipe. U natjecanju svaka kategorija igra svaka sa svakom (muški-muški, ženski-ženski, mješoviti-mješoviti) s time da se u konačnici zbrajaju ukupni reprezentativni omjeri pobjeda i poraza.</p>
+      <p>Hrvatska je tako na ovom natjecanju pobijedila Austriju konačnim rezultatom 2 naprama 1. S mađarskom je omjer bio 1 naprama 2 za naše sjeverne susjede dok u utakmicama sa Slovacima unatoč neizvjesnim završnicama nije zabilježena niti jedna pobjeda. S ukupnim omjerom od tri pobjede i šest poraza Hrvatska je tako u konačnici zauzela treće mjesto.</p>
+      <p>Prvo mjesto zauzeli su domaćini Mađari, drugi su Slovaci, a posljednje mjesto neočekivano je pripalo Austrijskoj reprezentaciji čija je ženska ekipa na Europskom prvenstvu u Baselu održanom u prosincu prošle godine, izborila pravo nastupa u europskoj A skupini.</p>
+      <p>Nastavak natjecanja održat će se u rujnu u Bratislavi, dok će Hrvatska domaćin Kupa srednje Europe u curlingu biti tijekom iduće godine. (OG)</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

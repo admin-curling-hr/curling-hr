@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2017-10-06">
+  <meta name="naslov"  content="Nastup hrvatske reprezentacije u mješovitom curlingu na 3. Svjetskom prvenstvu">
+  <meta name="excerpt" content="Hrvatska reprezentacija u mješovitom curlingu nastupila je na 3. Svjetskom prvenstvu u švicarskom Champéryju, boreći se za plasman u skupini A i prolazak u doigravanje.">
+  <meta name="slika"   content="1.jpg">
+  <title>Nastup hrvatske reprezentacije u mješovitom curlingu na 3. Svjetskom prvenstvu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2017-10-06">06. 10. 2017.</time>
+      </div>
+      <h1 class="post-title">Nastup hrvatske reprezentacije u mješovitom curlingu na 3. Svjetskom prvenstvu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Hrvatsku reprezentaciju u mješovitom curlingu ove godine čine:</p>
+      <ul>
+        <li>Alen Čadež (Skip)</li>
+        <li>Iva Penava (Vice-skip)</li>
+        <li>Dražen Ćutić (second)</li>
+        <li>Anita Šajfar (lead)</li>
+      </ul>
+      <p>Ekipa je otputovala u Champéry na 3. Svjetsko prvenstvo u mješovitom curlingu u pratnji trenera Nevena Pufnika gdje će se u periodu od 6. do 14. listopada 2017. boriti za plasman u skupini A te prolazak u doigravanje. U skupini A uz njih još nastupaju prošlogodišnji pobjednici, reprezentacija Rusije, a svakako će biti zanimljivo pratiti i utakmice sa susjedima Slovenijom i Mađarskom. U skupini A još sudjeluju i Estonija, Japan i Wales.</p>
+      <p>Prva utakmica na rasporedu je danas 6. listopada u 18 i 30 odmah nakon ceremonije otvaranja. Ekipa će na stazi C igrati protiv Walesa.</p>
+      <p>U duhu curlinga, svim natjecateljima želimo dobru igru no ipak želimo najviše precizno bačenih kamenja upravo našim predstavnicima.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

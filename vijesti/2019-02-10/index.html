@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2019-02-10">
+  <meta name="naslov"  content="Zimski olimpijski festival europske mladeži – Sarajevo i Istočno Sarajevo 2019.">
+  <meta name="excerpt" content="Hrvatska reprezentacija nastupa na Zimskom olimpijskom festivalu europske mladeži u Sarajevu 2019. godine, u skupini s Njemačkom, Italijom, Norveškom, Poljskom, Slovenijom i Švicarskom.">
+  <meta name="slika"   content="1.jpg">
+  <title>Zimski olimpijski festival europske mladeži – Sarajevo i Istočno Sarajevo 2019. – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2019-02-10">10. 02. 2019.</time>
+      </div>
+      <h1 class="post-title">Zimski olimpijski festival europske mladeži – Sarajevo i Istočno Sarajevo 2019.</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Od 09. do 16. veljače 2019. godine u Sarajevu, Bosna i Hercegovina održat će se European Youth Olympic Winter Festival – EYOF (Zimski olimpijski festival europske mladeži) na kojem nastupa i naša reprezentacija u sastavu Sven Prinčić, Marin Kaspret, Katarina Čar i Irena Grgić te trener Neven Pufnik.</p>
+      <p>Reprezentacija se nalazi u skupini s reprezentacijama Njemačke, Italije, Norveške, Poljske, Slovenije i Švicarske.</p>
+      <p>Raspored utakmica:</p>
+      <ul>
+        <li>Ponedjeljak, 11.02. u 12.00 sati : HRVATSKA – POLJSKA</li>
+        <li>Ponedjeljak, 11.02. u 19.00 sati : HRVATSKA – SLOVENIJA</li>
+        <li>Utorak, 12.02. u 13.30 sati : NORVEŠKA – HRVATSKA</li>
+        <li>Srijeda, 13.02. u 15.30 sati : HRVATSKA – ITALIJA</li>
+        <li>Četvrtak, 14.02. u 9.30 sati : ŠVICARSKA – HRVATSKA</li>
+        <li>Četvrtak, 14.02. u 17.00 sati : NJEMAČKA – HRVATSKA</li>
+      </ul>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

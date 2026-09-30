@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2017-12-18">
+  <meta name="naslov"  content="Odigrano je 2. prvenstvo Hrvatske u curlingu u disciplini mješoviti parovi">
+  <meta name="excerpt" content="U Bratislavi je 16. i 17. prosinca odigrano 2. prvenstvo Hrvatske u curlingu u disciplini mješoviti parovi, a naslov prvaka osvojila je zagrebačka ekipa „Ogi i Žohar".">
+  <meta name="slika"   content="1.jpg">
+  <title>Odigrano je 2. prvenstvo Hrvatske u curlingu u disciplini mješoviti parovi – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2017-12-18">18. 12. 2017.</time>
+      </div>
+      <h1 class="post-title">Odigrano je 2. prvenstvo Hrvatske u curlingu u disciplini mješoviti parovi</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Pobjednici ove sezone su ekipa Zagreba zanimljivog naziva "Ogi i Žohar". Lucija i Ognjen tako su zavrijedili put u Švedsku i nastup na Svjetskom prvenstvu u mješovitom curlingu koje će se održati u gradu Östersundu u periodu od 21. do 28. travnja 2018. Želimo im puno sreće u nastupu boreći se za što bolji plasman pod bojama Hrvatske.</p>
+      <p>Na ovogodišnjem natjecanju održanom 16. i 17. prosinca u Slovačkoj Bratislavi sudjelovalo je 8 ekipa, a konačan poredak izgleda ovako:</p>
+      <ol>
+        <li><strong>Zagreb – Ogi i Žohar (Lucija, Ognjen)</strong></li>
+        <li><strong>Legija – Zeppelin (Anita, Hrvoje)</strong></li>
+        <li><strong>Zagreb – Doris Dragović (Iva, Dario)</strong></li>
+        <li>Zagreb (Mirta, Mislav)</li>
+        <li>Čudnovati Čunjaš – Pif-Paf-Pet-Puf (Petra, Neven)</li>
+        <li>Čudnovati Čunjaš – CV Soko (Nina, Dino)</li>
+        <li>Čudnovati Čunjaš – KozaReeBok (Tajana, Luka)</li>
+        <li>Čudnovati Čunjaš – Dream Team (Tatjana, Ivan)</li>
+      </ol>
+      <p>Zanimljiv je bio finalni dvoboj ekipa "Ogi i Žohar" i "Zeppelin". U prvom krugu natjecanja ekipa "Zeppelin" bila je uspješnija s rezultatom 7:5. Međutim "Ogi i Žohar" su kroz natjecanje pokazali sve bolju igru te u finalnom dvoboju ponovno su se susrele ove dvije ekipe. Iskustvo, taktika i bolja igra u konačnici su zasluženo prevagnuli u korist ekipe "Ogi i Žohar" koja je slavila rezultatom 10:6 te zagrebačkom klubu donijela još jedno zlatno odličje i nastup na Svjetskom prvenstvu.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

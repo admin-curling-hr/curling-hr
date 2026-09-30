@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2018-10-14">
+  <meta name="naslov"  content="Svjetsko prvenstvo u mješovitom curlingu, Kanada 2018">
+  <meta name="excerpt" content="Od 13. do 20. listopada 2018. u kanadskoj Kelowni održano je Svjetsko prvenstvo u mješovitom curlingu, na kojem je nastupila i hrvatska reprezentacija.">
+  <meta name="slika"   content="1.jpg">
+  <title>Svjetsko prvenstvo u mješovitom curlingu, Kanada 2018 – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2018-10-14">14. 10. 2018.</time>
+      </div>
+      <h1 class="post-title">Svjetsko prvenstvo u mješovitom curlingu, Kanada 2018</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Od 13. do 20. listopada 2018. godine u Kelowni, Kanada, održat će se Svjetsko prvenstvo u mješovitom curlingu (mixed curling) na kojem nastupa i naša reprezentacija u sastavu Dino Šporčić, Iva Penava, Ivan Kvesić i Anita Šajfar te trener Neven Pufnik. Reprezentacija se nalazi u skupini s reprezentacijama Češke, Španjolske, Estonije, Francuske, Latvije, Poljske, Švedske i Tajvana. Sretno!</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

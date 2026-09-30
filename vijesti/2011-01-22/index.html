@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2011-01-22">
+  <meta name="naslov"  content="3. Otvoreno prvenstvo Slavonskog Broda u curlingu – vruće na ledu">
+  <meta name="excerpt" content="Treće Otvoreno prvenstvo Slavonskog Broda u curlingu okupilo je šest ekipa, a naslov pobjednika obranio je Curling klub Vis iz Zagreba.">
+  <meta name="slika"   content="1.jpg">
+  <title>3. Otvoreno prvenstvo Slavonskog Broda u curlingu – vruće na ledu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2011-01-22">22. 01. 2011.</time>
+      </div>
+      <h1 class="post-title">3. Otvoreno prvenstvo Slavonskog Broda u curlingu – vruće na ledu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Curling club Legija i Ustanova za gospodarenje športskim objektima Slavonskog Boda bili su domaćini trećeg Otvorenog prvenstva u curlingu, jedinog natjecanja u nekom od zimskih olimpijskih sportova u Brodsko-posavskoj županiji. Brođani su zadržali dobru tradiciju te su kobasama, čvarcima, krvavicama, kuhanim vinom, pivom… nahranili i napojili ne samo natjecatelje već i sve gledatelje na Gradskom klizalištu u Sportskom parku Klasije. Na klizalištu na Klasijama se zbog neodgovarajućih dimenzija i kvalitete leda igralo po prilagođenim pravilima, ali zanimljive i neizvjesne utakmice dobro su "ugrijale" led. Najbliža profesionalna curling staza je u Budimpešti gdje se odigravaju i prvenstva Hrvatske. Ovogodišnje Prvenstvo Hrvatske igrat će se tijekom ožujka i travnja upravo u Budimpešti.</p>
+      <p>Na prvenstvu se natjecalo šest ekipa, a nakon cjelodnevnog turnira naslov pobjednika i prva nagrada (tradicionalno, to je kutija čvaraka) pripali su aktualnom prvaku Hrvatske, ekipi Curling kluba Vis iz Zagreba. Za pobjednike su nastupili Bojan Gabrić, Mladen Domazetović i Alberto Skendrović. Drugi je CC Zagreb, treći CK Čudnovati čunjaš, a četvrta domaća Legija.</p>
+      <p>Turnir je otvorio slavonskobrodski gradonačelnik Mirko Duspara najavivši tom prigodom kako je sve bliže ostvarenje ideje da Slavonski Brod postane prvi grad u Hrvatskoj koji će imati profesionalnu dvoranu za curling. S obzirom na to da u sklopu Sportske dvorane Vijuš postoji prostor koji nema namjenu, a moguće ga je iskoristiti samo za taj sport (dvije staze dimenzija 45 x 5 metara), na inicijativu Curling cluba Legija reagirala je Svjetska curling federacija (WCF) te u cilju promocije i razvoja curlinga pokazala spremnost uložiti sredstva u slavonskobrodsku dvoranu. Ovoga tjedna u Slavonskome Brodu je bilo izaslanstvo WCF-a te su krenuli prvi konkretni dogovori oko realizacije cijelog posla.</p>
+      <p><strong>Konačni poredak:</strong></p>
+      <ol>
+        <li>Vis</li>
+        <li>Zagreb (muški)</li>
+        <li>Čudnovati čunjaš</li>
+        <li>Legija</li>
+        <li>Croling</li>
+        <li>Zagreb (djevojke)</li>
+      </ol>
+      <p><strong>Rezultati turnira:</strong></p>
+      <p>Grupa A: Legija (2-0), Čudnovati čunjaš (1-1), Zagreb žene (0-2)</p>
+      <p>Grupa B: Vis, Zagreb muški, i Croling (svi 1-1)</p>
+      <p>Polufinale: Legija – Zagreb (M) 0:12; Vis – Čudnovati čunjaš 6:5</p>
+      <p>Za 3. mjesto: Legija – Čudnovati čunjaš 3:5</p>
+      <p>Finale: Vis – Zagreb (M) 6:5</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

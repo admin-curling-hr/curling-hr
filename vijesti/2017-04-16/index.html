@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2017-04-16">
+  <meta name="naslov"  content="Prvo prvenstvo Hrvatske u mješovitom curlingu">
+  <meta name="excerpt" content="U Bratislavi je 15. i 16. travnja 2017. održano prvo prvenstvo Hrvatske u mješovitom curlingu, na kojem je pobijedila ekipa Zagreb I i izborila nastup na svjetskom prvenstvu u Švicarskoj.">
+  <meta name="slika"   content="1.jpg">
+  <title>Prvo prvenstvo Hrvatske u mješovitom curlingu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2017-04-16">16. 04. 2017.</time>
+      </div>
+      <h1 class="post-title">Prvo prvenstvo Hrvatske u mješovitom curlingu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Od 15. do 16. travnja 2017. u Bratislavi u Slovačkoj održano je 1. prvenstvo Hrvatske u curlingu u disciplini mješovitog curlinga. Natjecanje je održano u skladu s prihvaćenim Sustavom i rasporedom natjecanja od 17. siječnja 2017. te je proteklo u fer i sportskoj atmosferi i borbi.</p>
+      <p>Konačni poredak:</p>
+      <ol>
+        <li>Zagreb I (zlatna medalja)</li>
+        <li>Zagreb II (srebrna medalja)</li>
+        <li>Čudnovati Čunjaš (brončana medalja)</li>
+        <li>Legija</li>
+      </ol>
+      <p>Prvaci Hrvatske u mješovitom curlingu, ekipa Zagreba I, predstavljat će reprezentaciju Hrvatske na predstojećem svjetskom prvenstvu u mješovitom curlingu u Švicarskom Champeryju.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+        <a href="5.jpg" target="_blank"><img src="5.jpg" alt=""></a>
+        <a href="6.jpg" target="_blank"><img src="6.jpg" alt=""></a>
+        <a href="7.jpg" target="_blank"><img src="7.jpg" alt=""></a>
+        <a href="8.jpg" target="_blank"><img src="8.jpg" alt=""></a>
+        <a href="9.jpg" target="_blank"><img src="9.jpg" alt=""></a>
+        <a href="10.jpg" target="_blank"><img src="10.jpg" alt=""></a>
+        <a href="11.jpg" target="_blank"><img src="11.jpg" alt=""></a>
+        <a href="12.jpg" target="_blank"><img src="12.jpg" alt=""></a>
+        <a href="13.jpg" target="_blank"><img src="13.jpg" alt=""></a>
+        <a href="14.jpg" target="_blank"><img src="14.jpg" alt=""></a>
+        <a href="15.jpg" target="_blank"><img src="15.jpg" alt=""></a>
+        <a href="16.jpg" target="_blank"><img src="16.jpg" alt=""></a>
+        <a href="17.jpg" target="_blank"><img src="17.jpg" alt=""></a>
+        <a href="18.jpg" target="_blank"><img src="18.jpg" alt=""></a>
+        <a href="19.jpg" target="_blank"><img src="19.jpg" alt=""></a>
+        <a href="20.jpg" target="_blank"><img src="20.jpg" alt=""></a>
+        <a href="21.jpg" target="_blank"><img src="21.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

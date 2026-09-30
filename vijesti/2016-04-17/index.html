@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2016-04-17">
+  <meta name="naslov"  content="11. prvenstvo Hrvatske u curlingu">
+  <meta name="excerpt" content="Curling klub Zagreb i curling klub Silent osvojili su zlato na 11. prvenstvu Hrvatske u curlingu održanom u Bratislavi.">
+  <meta name="slika"   content="1.jpg">
+  <title>11. prvenstvo Hrvatske u curlingu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2016-04-17">17. 04. 2016.</time>
+      </div>
+      <h1 class="post-title">11. prvenstvo Hrvatske u curlingu</h1>
+    </header>
+
+    <div class="post-content">
+      <p><strong>Zlatna medalja curlingašicama "Silenta" te curlingašima "Zagreba"</strong></p>
+      <p>Završeno je 11. prvenstvo Hrvatske u curlingu održano u Bratislavi, Slovačka. U muškoj konkurenciji zlato je, po deset puta u jedanaest sezona, osvojila ekipa curling kluba "Zagreb", dok je u ženskoj konkurenciji zlato pripalo curling klubu "Silent".</p>
+      <p>Pobjednici prvenstva Hrvatske predstavljat će Hrvatsku na europskom prvenstvu C skupine ove godine u Ljubljani, Slovenija.</p>
+      <p><strong>Konačni poredak, muškarci:</strong></p>
+      <ol>
+        <li><strong>Zagreb</strong></li>
+        <li><strong>Čudnovati Čunjaš I</strong></li>
+        <li><strong>Vis</strong></li>
+        <li>Croling</li>
+        <li>Legija II</li>
+        <li>Legija I</li>
+        <li>Čudnovati Čunjaš II</li>
+      </ol>
+      <p><strong>Konačni poredak, žene:</strong></p>
+      <ol>
+        <li><strong>Silent</strong></li>
+        <li><strong>Zagreb</strong></li>
+      </ol>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

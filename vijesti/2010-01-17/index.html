@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2010-01-17">
+  <meta name="naslov"  content="2. Otvoreno prvenstvo Slavonskog Broda – Najveći hrvatski curling skup u povijesti">
+  <meta name="excerpt" content="Na 2. otvorenom prvenstvu Slavonskog Broda, najvećem hrvatskom curling skupu do tada, nastupilo je osam ekipa iz šest klubova, a pobjedu je odnijela prva ekipa CC Čudnovati čunjaš.">
+  <meta name="slika"   content="1.jpg">
+  <title>2. Otvoreno prvenstvo Slavonskog Broda – Najveći hrvatski curling skup u povijesti – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2010-01-17">17. 01. 2010.</time>
+      </div>
+      <h1 class="post-title">2. Otvoreno prvenstvo Slavonskog Broda – Najveći hrvatski curling skup u povijesti</h1>
+    </header>
+
+    <div class="post-content">
+      <p>Osam ekipa iz šest klubova nastupilo je na Drugom otvorenom prvenstvu Slavonskog Broda u curlingu, zimskom olimpijskom sportu koji u Hrvatskoj ima sve više pristalica. Gotovo sve hrvatske curlingašice i curlingaši okupili su se na Gradskom klizalištu u sportskom centru Klasije gdje su se utakmice odigravale tijekom cijeloga dana, a entuzijaste u tom sportu nije omeo ni jak snijeg koji je padao u poslijepodnevnim satima.</p>
+      <p>Nakon odigravanja susreta u grupama te razigravanja za poredak, prvo mjesto je osvojila prva ekipa Curling kluba &bdquo;Čudnovati čunjaš&ldquo; iz Zagreba koja je u finalu bila uspješnija od druge ekipe istoga kluba. Sastav pobjedničke ekipe, &bdquo;Čudnovati čunjaš 1&ldquo;: Ivan Kolar, Hrvoje Tenšek, Ognjen Šolaja, Neven Pufnik-Puf. Pobjednik je osvojio tradicionalnu nagradu Otvorenog prvenstva &ndash; slavonske čvarke! Treće mjesto ravnopravno su podijelili Curling klub &bdquo;Vis&ldquo; i prva ekipa Curling kluba &bdquo;Croling&ldquo;. Još su nastupili članice i članovi CC &bdquo;Silent&ldquo;, CC &bdquo;Zagreb&ldquo; te domaćini i uspješni organizatori, jedini klub izvan Zagreba, Curling klub &bdquo;Legija&ldquo; &ndash; Slavonski Brod.</p>
+      <p>Domaćini iz CC &bdquo;Legija&ldquo; pobrinuli su se da i ove godine nitko od sudionika, ali i publike ne ostane gladan i žedan čime su oduševili sve nazočne. Natjecanje na Klasijama bilo je posebno i po tome što su se u istoj konkurenciji natjecale ženske, muške i mješovite ekipe. Publika je posebno toplo pozdravila Curling klub &bdquo;Silent&ldquo;, za koji nastupaju gluhonijeme djevojke, članice Hrvatskog sportskog saveza gluhih. One su nedavno nastupile i kao hrvatska reprezentacija na Europskom prvenstvu održanom u Aberdeenu, gdje su osvojile 15. mjesto.</p>
+      <p>S obzirom na to da u Hrvatskoj ne postoji ni jedna službena curling staza, a svi klubovi treniraju u noćnim terminima (poslije 23 sata), ovo je natjecanje svim klubovima bila odlična priprema za nastup na Prvenstvu Hrvatske koje će tijekom ožujka i travnja biti održano u Budimpešti.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>

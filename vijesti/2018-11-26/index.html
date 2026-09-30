@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2018-11-26">
+  <meta name="naslov"  content="3. Prvenstvo Hrvatske u Mješovitim Parovima">
+  <meta name="excerpt" content="Ekipa Zagreb 3 u sastavu Iva Penava i Dario Vuković osvojila je 3. Prvenstvo Hrvatske u mješovitim parovima održano u Bratislavi.">
+  <meta name="slika"   content="1.jpg">
+  <title>3. Prvenstvo Hrvatske u Mješovitim Parovima – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+  <style>
+    .foto-grid-vijest {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .foto-grid-vijest a img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    .foto-grid-vijest a:hover img { opacity: 0.85; }
+    @media (max-width: 600px) {
+      .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2018-11-26">26. 11. 2018.</time>
+      </div>
+      <h1 class="post-title">3. Prvenstvo Hrvatske u Mješovitim Parovima</h1>
+    </header>
+
+    <div class="post-content">
+      <p>24. i 25. studenog 2018. godine u Bratislavi, Slovačka održano je 3. PH mješovitih parova.</p>
+      <p>Nastupilo je 5 ekipa u sastavu:</p>
+      <ul>
+        <li>Čudnovati Čunjaš – Petra Beštak i Neven Pufnik</li>
+        <li>Zagreb 2 – Anita Šajfra i Dino Šporčić</li>
+        <li>Zagreb 3 – Iva Penava i Dario Vuković</li>
+        <li>Zagreb 4 – Antonia Maričević i Dominik Grubišić</li>
+        <li>Zagreb 5 – Iva Roso i Jurica Bićan</li>
+      </ul>
+      <p><strong>Konačni poredak</strong></p>
+      <ol>
+        <li>mjesto: Zagreb 3 – Iva Penava i Dario Vuković</li>
+        <li>mjesto: Zagreb 5 – Iva Roso i Jurica Bićan</li>
+        <li>mjesto: Čudnovati Čunjaš – Petra Beštak i Neven Pufnik</li>
+        <li>mjesto: Zagreb 2 – Anita Šajfar i Dino Šporčić</li>
+        <li>mjesto: Zagreb 4 – Antonia Maričević i Dominik Grubišić</li>
+      </ol>
+      <p>Pobjednička ekipa u sastavu Iva Penava i Dario Vuković nastupiti će na Svjetskom prvenstvu mješovitih parova koje će se krajem travnja održati u Stavangeru, Norveška.</p>
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>
