@@ -1,12 +1,13 @@
 (function () {
   'use strict';
 
-  // Auto-detect base path - works both locally and on GitHub Pages
-  // Locally: http://localhost:8080/ -> BASE = ''
-  // GitHub:  https://admin-curling-hr.github.io/curling-hr/ -> BASE = '/curling-hr'
-  const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? ''
-    : '/curling-hr';
+  // Jedina definicija bazne putanje u cijelom sajtu (ostale skripte koriste window.HCS_BASE).
+  // Sajt je uvijek na korijenu domene (curling.hr, localhost) -> BASE = ''.
+  // Iznimka: privremeni GitHub Pages "project" URL (…github.io/curling-hr/) -> BASE = '/curling-hr'.
+  // Detekcija ide po putanji, ne po hostnameu, pa radi isto na svakoj domeni.
+  // Nakon prelaska na curling.hr (CNAME) ovaj dio postaje uvijek '' i može se pojednostaviti.
+  const BASE = /^\/curling-hr(\/|$)/.test(window.location.pathname) ? '/curling-hr' : '';
+  window.HCS_BASE = BASE;
 
   const HEADER_HTML = `
 <header class="site-header">
@@ -338,9 +339,7 @@
             }
           } else {
             closeMobileNav();
-            const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-              ? '' : '/curling-hr';
-            window.location.href = base + '/prvenstva/#' + pg;
+            window.location.href = BASE + '/prvenstva/#' + pg;
           }
           return;
         }
@@ -362,9 +361,7 @@
         // Na mobilnom — navigiraj na stranicu s hashom
         if (window.innerWidth <= 700) {
           closeMobileNav();
-          const base = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? '' : '/curling-hr';
-          window.location.href = base + '/prvenstva/#statistika/' + tab;
+          window.location.href = BASE + '/prvenstva/#statistika/' + tab;
           return;
         }
 

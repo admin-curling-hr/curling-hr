@@ -1,5 +1,4 @@
-const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? '' : '/curling-hr';
+const BASE = window.HCS_BASE || '';  // definira header.js (mora se učitati prije ove skripte)
 
 
 

@@ -68,8 +68,7 @@
 <script src="../assets/js/header.js"></script>
 <script>
 (function() {
-  const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? '' : '/curling-hr';
+  const BASE = window.HCS_BASE || '';  // definira header.js
 
   function formatDatum(iso) {
     const [y, m, d] = iso.split('-');
