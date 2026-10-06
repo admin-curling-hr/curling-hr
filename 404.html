@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Stranica nije pronađena – Hrvatski curling savez</title>
+  <script>
+    // GitHub Pages poslužuje ovu datoteku na BILO KOJOJ dubini URL-a (npr. /vijesti/xyz/abc),
+    // pa relativne putanje (../assets/...) ovdje ne bi radile. Zato putanje gradimo od korijena.
+    // Na curling.hr je korijen '', na privremenom github.io/curling-hr/ je '/curling-hr'
+    // (ista logika kao u assets/js/header.js).
+    window.__B = /^\/curling-hr(\/|$)/.test(location.pathname) ? '/curling-hr' : '';
+    document.write('<link rel="stylesheet" href="' + __B + '/assets/css/main.css">');
+    document.write('<link rel="icon" href="' + __B + '/assets/images/hcs-logo.png" type="image/png">');
+  </script>
+  <style>
+    .page-content { max-width: 750px; margin-left: auto; margin-right: auto; text-align: center; padding-top: 2rem; padding-bottom: 3rem; }
+    .err-code { font-size: 5rem; font-weight: 700; line-height: 1; color: var(--hcs-red); margin-bottom: 0.5rem; }
+    .err-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.5rem; }
+  </style>
+</head>
+<body data-page="404">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <div class="page-content">
+    <div class="err-code">404</div>
+    <h1 class="page-title" data-hr="Stranica nije pronađena" data-en="Page not found">Stranica nije pronađena</h1>
+    <p class="page-description"
+       data-hr="Stranica koju tražite ne postoji ili je premještena. Provjerite adresu ili nastavite na neku od stranica ispod."
+       data-en="The page you are looking for does not exist or has been moved. Check the address or continue to one of the pages below.">Stranica koju tražite ne postoji ili je premještena. Provjerite adresu ili nastavite na neku od stranica ispod.</p>
+
+    <div class="err-actions">
+      <a class="btn-more" id="lnkHome" href="/" data-hr="Početna" data-en="Home">Početna</a>
+      <a class="btn-more" id="lnkNews" href="/vijesti/" data-hr="Vijesti" data-en="News">Vijesti</a>
+      <a class="btn-more" id="lnkCal"  href="/kalendar/" data-hr="Kalendar događanja" data-en="Events">Kalendar događanja</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Linkovi iznad moraju poštovati isti korijen kao i CSS (curling.hr vs github.io/curling-hr).
+  document.getElementById('lnkHome').href = __B + '/';
+  document.getElementById('lnkNews').href = __B + '/vijesti/';
+  document.getElementById('lnkCal').href  = __B + '/kalendar/';
+
+  // TODO (korak 3 – preusmjeravanje starih WordPress URL-ova):
+  // ovdje se može dodati mapa { '/2019/04/21/stari-slug/': '/vijesti/2019-04-21/' } i
+  // location.replace(__B + mapa[location.pathname]) prije prikaza poruke.
+</script>
+<script>document.write('<script src="' + __B + '/assets/js/header.js"><\/script>');</script>
+</body>
+</html>
