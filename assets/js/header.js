@@ -1,3 +1,11 @@
+/* Pretvara emoji medalja (🥇🥈🥉) u tekstu u SVG ikone. Koristi se gdje se medalje slažu u tekstu (npr. "🥇3 🥈2 🥉1"). */
+window.hcsMedalize = function (str) {
+  return String(str)
+    .replace(/🥇/g, '<span class="hm hm-g" role="img" aria-label="zlato"></span>')
+    .replace(/🥈/g, '<span class="hm hm-s" role="img" aria-label="srebro"></span>')
+    .replace(/🥉/g, '<span class="hm hm-b" role="img" aria-label="bronca"></span>');
+};
+
 (function () {
   'use strict';
 
@@ -22,7 +30,7 @@
     </a>
     <div class="header-controls">
       <button class="theme-toggle" id="themeToggle" aria-label="Promjena teme">
-        <span class="theme-icon">☀️</span>
+        <span class="theme-icon hi hi-sun" aria-hidden="true"></span>
       </button>
       <button class="lang-toggle" id="langToggle" aria-label="Change language">
         <span id="langLabel">EN</span>
@@ -127,7 +135,7 @@
     const themeBtn = document.getElementById('themeToggle');
     const themeIcon = themeBtn ? themeBtn.querySelector('.theme-icon') : null;
     const THEMES = ['auto', 'light', 'dark'];
-    const ICONS = { auto: '🖥️', light: '☀️', dark: '🌙' };
+    const ICONS = { auto: 'hi-monitor', light: 'hi-sun', dark: 'hi-moon' };
 
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -140,7 +148,7 @@
       } else {
         document.documentElement.dataset.theme = theme;
       }
-      if (themeIcon) themeIcon.textContent = ICONS[theme] || ICONS.auto;
+      if (themeIcon) themeIcon.className = 'theme-icon hi ' + (ICONS[theme] || ICONS.auto);
       localStorage.setItem('hcs-theme', theme);
     }
 

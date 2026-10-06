@@ -384,8 +384,8 @@ function clubMetaHtml(name, dis){
   const meta = DATA.clubMeta[club];
   if(!meta) return '';
   let html = '<div class="entity-meta">';
-  if(meta.mjesto) html += `<div>📍 ${escapeHtml(meta.mjesto)}</div>`;
-  if(meta.email) html += `<div>📨 <a href="mailto:${escapeHtml(meta.email)}">${escapeHtml(meta.email)}</a></div>`;
+  if(meta.mjesto) html += `<div><span class="hi hi-pin"></span> ${escapeHtml(meta.mjesto)}</div>`;
+  if(meta.email) html += `<div><span class="hi hi-mail"></span> <a href="mailto:${escapeHtml(meta.email)}">${escapeHtml(meta.email)}</a></div>`;
   html += '</div>';
   return html;
 }
@@ -440,7 +440,7 @@ function renderPoretci(){
     return;
   }
 
-  const MEDALS = {1:'🥇', 2:'🥈', 3:'🥉'};
+  const MEDALS = {1:'<span class="hm hm-g"></span>', 2:'<span class="hm hm-s"></span>', 3:'<span class="hm hm-b"></span>'};
   const gridStyle = disList.length === 1 ? ' style="grid-template-columns:minmax(0,420px);"' : '';
 
   let html = '';
@@ -1709,7 +1709,7 @@ async function openMatchModal(id){
   const deCell2 = extraEndAllowed ? slotCell(regularCount, cells2, m.powerPlay2, 'pw-cell-2') : '';
   const deHeaderCell = extraEndAllowed ? '<th>DE</th>' : '';
 
-  const hammer = (teamNum) => m.pk === teamNum ? `<span class="pk-hammer">🔨</span>` : '';
+  const hammer = (teamNum) => m.pk === teamNum ? `<span class="pk-hammer"><span class="hi hi-hammer"></span></span>` : '';
 
   const endSlotCount = regularCount + (extraEndAllowed ? 1 : 0);
   const endColWidthPct = (58 / endSlotCount).toFixed(2);
@@ -1802,7 +1802,7 @@ async function openMatchModal(id){
   const zapisnikOk = await fileExists(zapisnikHref);
   const pdfBlockHtml = zapisnikOk ? `
     <div class="pdf-preview-block">
-      <div class="pdf-preview-label">📄 Skenirani zapisnik s utakmice</div>
+      <div class="pdf-preview-label"><span class="hi hi-file"></span> Skenirani zapisnik s utakmice</div>
       <div class="zapisnik-static-wrap" id="zapisnikWrap"><div class="zapisnik-loading">Učitavanje zapisnika…</div></div>
       <a class="doc-link pdf-fallback-link" href="${zapisnikHref}" target="_blank" rel="noopener">Otvori u novom prozoru</a>
     </div>
@@ -1915,7 +1915,7 @@ function getPlayerTournamentHistory(name, kat, dis, seasonFrom, seasonTo){
   return rows;
 }
 
-const MEDAL_ICONS = {1:'🥇',2:'🥈',3:'🥉'};
+const MEDAL_ICONS = {1:'<span class="hm hm-g"></span>',2:'<span class="hm hm-s"></span>',3:'<span class="hm hm-b"></span>'};
 
 function achvTableHtml(history, teamColLabel, clickableRoster){
   if(history.length === 0) return '<div class="empty-mini">Nema podataka o nastupima.</div>';
@@ -2009,9 +2009,9 @@ function medalSummaryText(history){
   const total = golds + silvers + bronzes;
   if(total === 0) return `${total}`;
   const parts = [];
-  if(golds) parts.push(`🥇${golds}`);
-  if(silvers) parts.push(`🥈${silvers}`);
-  if(bronzes) parts.push(`🥉${bronzes}`);
+  if(golds) parts.push(`<span class="hm hm-g"></span>${golds}`);
+  if(silvers) parts.push(`<span class="hm hm-s"></span>${silvers}`);
+  if(bronzes) parts.push(`<span class="hm hm-b"></span>${bronzes}`);
   return `${total} (${parts.join(' ')})`;
 }
 
@@ -2065,7 +2065,7 @@ function openEntityModal(name, groupByClub, kat, dis, seasonFrom, seasonTo){
 
     statsRowsHtml = `
       <div class="entity-stat-rows">
-        ${statRow('Medalja', es.medals[1]+es.medals[2]+es.medals[3], `🥇${es.medals[1]} 🥈${es.medals[2]} 🥉${es.medals[3]}`)}
+        ${statRow('Medalja', es.medals[1]+es.medals[2]+es.medals[3], `<span class="hm hm-g"></span>${es.medals[1]} <span class="hm hm-s"></span>${es.medals[2]} <span class="hm hm-b"></span>${es.medals[3]}`)}
         ${statRow('Prvenstava', prvenstava, prvenstavaDetail)}
         ${statRow('Utakmica', es.utakmica, `${es.w}-${es.d}-${es.l}${uspjeh != null ? ` (${uspjeh}%)` : ''}`)}
         ${statRow('Endova', es.endova, `${es.endsFor}-${blankEnds}-${es.endsAgainst}${endsForAvg!=null ? ` (${fmtAvg(endsForAvg)}-${fmtAvg(endsAgainstAvg)})` : ''}`)}
@@ -2185,7 +2185,7 @@ function openPlayerModal(name, kat, dis, seasonFrom, seasonTo){
 
     statsRowsHtml = `
       <div class="entity-stat-rows">
-        ${statRow('Medalja', ps.medals[1]+ps.medals[2]+ps.medals[3], `🥇${ps.medals[1]} 🥈${ps.medals[2]} 🥉${ps.medals[3]}`)}
+        ${statRow('Medalja', ps.medals[1]+ps.medals[2]+ps.medals[3], `<span class="hm hm-g"></span>${ps.medals[1]} <span class="hm hm-s"></span>${ps.medals[2]} <span class="hm hm-b"></span>${ps.medals[3]}`)}
         ${statRow('Prvenstava', prvenstava, prvenstavaDetail)}
         ${statRow('Utakmica', ps.utakmica, `${ps.w}-${ps.d}-${ps.l}${uspjeh != null ? ` (${uspjeh}%)` : ''}`)}
         ${statRow('Endova', ps.endova, `${ps.endsFor}-${blankEnds}-${ps.endsAgainst}${endsForAvg!=null ? ` (${fmtAvg(endsForAvg)}-${fmtAvg(endsAgainstAvg)})` : ''}`)}
@@ -2552,7 +2552,7 @@ async function render(){
   html += `<div class="tourn-meta">${tourn.teamsCount || '?'} ekipa &middot; ${matches.length} utakmica</div>`;
 
   // final standings — shown first
-  const MEDALS = {1:'🥇', 2:'🥈', 3:'🥉'};
+  const MEDALS = {1:'<span class="hm hm-g"></span>', 2:'<span class="hm hm-s"></span>', 3:'<span class="hm hm-b"></span>'};
   html += `<section class="block"><h2 class="section-h">Konačni poredak</h2>`;
   html += `<table class="standings"><thead><tr><th>Ekipa</th><th></th></tr></thead><tbody>`;
   tourn.standings.forEach(s => {
@@ -2628,7 +2628,7 @@ async function render(){
   if(sustavOk){
     html2 += `<section class="block"><h2 class="section-h">Dokumenti</h2>`;
     html2 += `<div class="doc-row">
-      <a class="doc-link" href="${sustavHref}" target="_blank" rel="noopener"><span class="ic">📄</span> Sustav i raspored prvenstva</a>
+      <a class="doc-link" href="${sustavHref}" target="_blank" rel="noopener"><span class="ic"><span class="hi hi-file"></span></span> Sustav i raspored prvenstva</a>
     </div>
     </section>`;
   }
@@ -2914,7 +2914,7 @@ function renderLightbox(){
         <div class="lightbox-frame">
           <img class="lightbox-image" src="${src}" alt="Fotografija ${_lightboxIndex+1}">
           <button class="lightbox-close" onclick="closeModal()" title="Zatvori" aria-label="Zatvori">×</button>
-          <button class="lightbox-fullscreen-btn" onclick="toggleLightboxFullscreen()" title="Prikaži preko cijelog ekrana">⛶</button>
+          <button class="lightbox-fullscreen-btn" onclick="toggleLightboxFullscreen()" title="Prikaži preko cijelog ekrana"><span class="hi hi-expand"></span></button>
         </div>
         <div class="lightbox-footer">
           <div class="lightbox-caption">${caption ? escapeHtml(caption) : ''}</div>
@@ -3095,7 +3095,7 @@ function renderBadgeDetail(name){
       // Hrvatski prikaz koristi decimalni zarez (5,2 cm), engleski decimalnu točku (5.2 cm).
       return lang === 'en' ? ` (${v.toFixed(1)} cm)` : ` (${v.toFixed(1).replace('.', ',')} cm)`;
     }
-    return ` (${v})`;
+    return ` (${window.hcsMedalize(v)})`;
   }
 
   function col(tier, crit, label){
