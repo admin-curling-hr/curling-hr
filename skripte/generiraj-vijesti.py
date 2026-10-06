@@ -11,6 +11,9 @@ Meta tagovi koje čita iz svakog index.html:
   <meta name="excerpt" content="Kratki opis...">
   <meta name="slika"   content="">   (opcionalno, ime fajla u istom folderu, npr. "1.jpg")
 
+Uz vijesti.json skripta generira i sitemap.xml u korijenu repozitorija
+(statične stranice + svaka vijest), da ga ne treba ručno održavati.
+
 Ime foldera mora biti u formatu: yyyy-mm-dd (datum je dovoljan jer nikad
 nema dvije vijesti istog dana). Unutar foldera mora postojati index.html.
 """
@@ -22,6 +25,22 @@ import sys
 
 VIJESTI_DIR = os.path.join(os.path.dirname(__file__), '..', 'vijesti')
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), '..', 'vijesti', 'vijesti.json')
+SITEMAP_FILE = os.path.join(os.path.dirname(__file__), '..', 'sitemap.xml')
+
+SITE_URL = 'https://curling.hr'
+
+# Statične stranice koje idu u sitemap (redoslijed = redoslijed u sitemapu).
+# /edit/ i /404.html namjerno NISU ovdje.
+STATIC_PAGES = [
+    '/',
+    '/vijesti/',
+    '/kalendar/',
+    '/klubovi/',
+    '/prvenstva/',
+    '/reprezentacija/',
+    '/o-curlingu/',
+    '/o-nama/',
+]
 
 def get_meta(html, name):
     """Čita vrijednost meta taga po imenu."""
@@ -77,6 +96,24 @@ def procesiraj_vijest(dirname):
         'slika':   slika,
     }
 
+def generiraj_sitemap(vijesti):
+    """Piše sitemap.xml: statične stranice + svaka vijest (lastmod = datum vijesti)."""
+    linije = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for putanja in STATIC_PAGES:
+        linije.append(f'  <url><loc>{SITE_URL}{putanja}</loc></url>')
+    for v in vijesti:  # vijesti su već sortirane, najnovije prve
+        linije.append(
+            f"  <url><loc>{SITE_URL}/vijesti/{v['datum']}/</loc>"
+            f"<lastmod>{v['datum']}</lastmod></url>"
+        )
+    linije.append('</urlset>')
+    with open(SITEMAP_FILE, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('\n'.join(linije) + '\n')
+    print(f"Generirano: {os.path.abspath(SITEMAP_FILE)} ({len(STATIC_PAGES) + len(vijesti)} URL-ova)")
+
 def main():
     print(f"Skeniram: {os.path.abspath(VIJESTI_DIR)}")
 
@@ -103,6 +140,8 @@ def main():
 
     print(f"\nGenerirano: {OUTPUT_FILE}")
     print(f"Ukupno vijesti: {len(vijesti)}")
+
+    generiraj_sitemap(vijesti)
 
 if __name__ == '__main__':
     main()
