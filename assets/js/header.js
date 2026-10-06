@@ -361,7 +361,8 @@
         // Na mobilnom — navigiraj na stranicu s hashom
         if (window.innerWidth <= 700) {
           closeMobileNav();
-          window.location.href = BASE + '/prvenstva/#statistika/' + tab;
+          // Interni id taba "statistika" u URL-u se uvijek zove "podaci"
+          window.location.href = BASE + '/prvenstva/#statistika/' + (tab === 'statistika' ? 'podaci' : tab);
           return;
         }
 

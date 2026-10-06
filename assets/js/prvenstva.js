@@ -2318,8 +2318,10 @@ function updateHash(){
   } else if(pageId === 'statistika'){
     // Read from nav3 header links first, then internal tab-btns
     // Map internal 'statistika' tab -> 'podaci' in URL
-    const rawTab = document.querySelector('#phcNav3 a.active')?.dataset.tab
-                || (document.querySelector('.tab-btn.active')?.dataset.tab === 'statistika' ? 'podaci' : document.querySelector('.tab-btn.active')?.dataset.tab);
+    const internalTab = document.querySelector('#phcNav3 a.active')?.dataset.tab
+                     || document.querySelector('.tab-btn.active')?.dataset.tab;
+    // Interni id taba je "statistika", ali se u URL-u uvijek zove "podaci" (neovisno o jeziku)
+    const rawTab = internalTab === 'statistika' ? 'podaci' : internalTab;
     h = rawTab ? `#statistika/${rawTab}` : '#statistika';
   } else {
     // Interni pageId za ovu stranicu je 'prvenstva' (mora se poklapati s
@@ -2329,6 +2331,19 @@ function updateHash(){
   }
   if(location.hash !== h){
     history.pushState(null, '', h);
+  }
+}
+
+// Uskladi označene stavke u headeru (2. i 3. razina izbornika) s prikazanim sadržajem.
+// Potrebno kad se ruta primjenjuje iz adrese (izravni link, natrag/naprijed), jer tada
+// nitko nije kliknuo na stavku izbornika. Ovdje se mijenja samo "active" i (na desktopu)
+// vidljivost 3. razine - mobilni izbornik upravlja svojim prikazom sam.
+function syncHeaderNav(sectionId, tabId){
+  document.querySelectorAll('#phcNav2 a[data-page]').forEach(a => a.classList.toggle('active', a.dataset.page === sectionId));
+  const nav3 = document.getElementById('phcNav3');
+  if(nav3 && window.innerWidth > 700) nav3.style.display = sectionId === 'statistika' ? '' : 'none';
+  if(sectionId === 'statistika'){
+    document.querySelectorAll('#phcNav3 a[data-tab]').forEach(a => a.classList.toggle('active', a.dataset.tab === tabId));
   }
 }
 
@@ -2343,13 +2358,12 @@ function applyHashRoute(){
   const tabId = tab === 'podaci' ? 'statistika' : tab;
   if(!document.getElementById('phc-page-' + sectionId)) return;
   switchToPage(sectionId, true); // silent - ne prepisuj hash
+  if(sectionId !== 'statistika') syncHeaderNav(sectionId, null);
 
   if(sectionId === 'statistika'){
-    if(tabId && document.getElementById('panel-' + tabId)){
-      switchToTab(tabId, true);
-    } else {
-      switchToTab('poretci', true);
-    }
+    const activeTabId = (tabId && document.getElementById('panel-' + tabId)) ? tabId : 'poretci';
+    switchToTab(activeTabId, true);
+    syncHeaderNav(sectionId, activeTabId);
     if(queryPart) applyStatFiltersFromQuery(queryPart);
   } else if(sectionId === 'prvenstva' && queryPart){
     applyPregledFiltersFromQuery(queryPart);
@@ -3038,8 +3052,13 @@ function renderPostignuca(){
       updateHash();
     });
   });
+  // Početni odabir prve značke - NE preko first.click(), jer bi klik zvao updateHash()
+  // i prepisao hash iz adrese (npr. #statistika/igraci -> #pregled) prije applyHashRoute().
   const first = content.querySelector('.badge-item');
-  if(first){ first.click(); }
+  if(first){
+    first.classList.add('active');
+    renderBadgeDetail(first.dataset.badge);
+  }
 }
 
 // Osvježi prikaz Postignuća (nazivi i detaljni prikaz) nakon promjene jezika,
