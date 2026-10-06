@@ -123,7 +123,10 @@ Najlakši način — koristi ugrađeni editor, ne piši HTML ručno:
 4. Raspakiraj ZIP u repo, commitaj i pushaj.
 5. GitHub Action (`generiraj-vijesti.yml`) automatski, u roku od par minuta,
    ponovno generira `vijesti/vijesti.json` i sam ga commita — **ne treba ga ručno
-   dirati**.
+   dirati**. Isti Action u `<head>` svake vijesti održava i blok s Open Graph oznakama
+   (omeđen komentarima `og:start`/`og:end`; pregled kartice pri dijeljenju linka na
+   Facebooku, WhatsAppu i sl.) i pritom sam commita i te izmjene. Ručno ga ne uređuj:
+   mijenjaš samo meta tagove `naslov`/`excerpt`/`slika`, a blok se osvježi sam.
 
 Alternativa (rijetko potrebna): ručno kopirati `vijesti/TEMPLATE.html` u novu mapu
 `vijesti/YYYY-MM-DD/index.html` i ispuniti meta-tagove `datum`/`naslov`/`excerpt`

@@ -1,4 +1,4 @@
-name: Generiraj vijesti.json i sitemap.xml
+name: Generiraj vijesti.json, sitemap.xml i OG oznake
 
 on:
   push:
@@ -20,13 +20,13 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Generiraj vijesti.json i sitemap.xml
+      - name: Generiraj vijesti.json, sitemap.xml i OG oznake
         run: python skripte/generiraj-vijesti.py
 
-      - name: Commitaj vijesti.json i sitemap.xml ako su se promijenili
+      - name: Commitaj vijesti.json, sitemap.xml i OG oznake ako su se promijenili
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add vijesti/vijesti.json sitemap.xml
+          git add vijesti/vijesti.json sitemap.xml 'vijesti/*/index.html'
           git diff --cached --quiet || git commit -m "Auto: ažuriraj vijesti.json"
           git push
