@@ -1612,7 +1612,7 @@ function zapisnikPath(m){
 }
 
 if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = (window.HCS_BASE || '') + '/assets/vendor/pdfjs/pdf.worker.min.js';
 }
 
 // Renderira prvu stranicu PDF zapisnika kao statičnu sliku (canvas) unutar wrapEl,
