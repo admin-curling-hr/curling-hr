@@ -440,6 +440,29 @@ img { max-width: 100%; height: auto; display: block; }
   margin-bottom: 0.6rem;
 }
 
+/* Zaglavlje vijesti: link "Sve vijesti" lijevo, datum desno */
+.post-header .post-meta { justify-content: space-between; }
+
+/* Galerija fotografija na kraju vijesti */
+.foto-grid-vijest {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.foto-grid-vijest a img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  transition: opacity 0.15s;
+}
+.foto-grid-vijest a:hover img { opacity: 0.85; }
+@media (max-width: 600px) {
+  .foto-grid-vijest { grid-template-columns: repeat(2, 1fr); }
+}
+
 .post-category {
   background: var(--hcs-red);
   color: #fff;
