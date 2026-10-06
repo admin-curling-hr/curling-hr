@@ -198,6 +198,17 @@ window.hcsMedalize = function (str) {
       document.dispatchEvent(new CustomEvent('hcs-lang-change', { detail: { lang } }));
     }
 
+    // Vijesti (popis i članci) postoje samo na hrvatskom: u engleskom načinu prikazujemo
+    // napomenu. U hrvatskom načinu je tekst prazan, pa se element sakrije (vidi CSS :empty).
+    if (document.body.dataset.page === 'vijesti') {
+      const note = document.createElement('p');
+      note.className = 'hr-only-note';
+      note.dataset.hr = '';
+      note.dataset.en = "News articles are published in Croatian only. Use your browser's translate feature if needed.";
+      const host = document.querySelector('.post-article') || document.querySelector('main.site-main');
+      if (host) host.insertBefore(note, host.firstChild);
+    }
+
     applyLang(localStorage.getItem('hcs-lang') || 'hr');
     if (langBtn) langBtn.addEventListener('click', () => {
       applyLang((localStorage.getItem('hcs-lang') || 'hr') === 'hr' ? 'en' : 'hr');

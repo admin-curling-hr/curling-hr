@@ -113,7 +113,8 @@
       const panelsEl = document.getElementById('godinaPanels');
 
       if (!vijesti || vijesti.length === 0) {
-        panelsEl.innerHTML = '<p class="no-posts">Nema objavljenih vijesti.</p>';
+        const en = (function(){ try { return localStorage.getItem('hcs-lang') === 'en'; } catch(e) { return false; } })();
+        panelsEl.innerHTML = '<p class="no-posts" data-hr="Nema objavljenih vijesti." data-en="No news published.">' + (en ? 'No news published.' : 'Nema objavljenih vijesti.') + '</p>';
         return;
       }
 
