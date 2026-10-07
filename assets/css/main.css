@@ -1520,3 +1520,62 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .video-facade:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
 .video-wrap iframe { display: block; }
+
+/* --- Korisne poveznice na naslovnici (pločice) ---
+   Pločice fiksne širine poravnate ulijevo, kao izbornik i vijesti: adresa
+   stranice gore, zatim mala ikona i naziv (do 2 retka). Na 1100 px
+   stane ih 9 u jedan red; što ne stane, prelazi u idući red. Na mobitelu 3 u
+   redu. Ikone su naše (SVG maske), bez ikakvih vanjskih zahtjeva. */
+.home-links { margin-top: 2.5rem; }
+.link-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 112px);
+  gap: 0.4rem;
+  justify-content: start;
+}
+.link-chips li { display: flex; }
+.link-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f4f5f7;
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.link-chip .hi { color: var(--hcs-red); width: 1.2rem; height: 1.2rem; flex: 0 0 auto; vertical-align: 0; }
+.link-chip-domain {
+  order: -1;
+  margin-bottom: 0.05rem;
+  font-size: 0.66rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+/* Hover: samo okvir pocrveni i pozadina se malo promijeni; tekst ostaje iste
+   boje i bez podcrtavanja (globalno a:hover bi ga inače podcrtao). */
+.link-chip:hover { border-color: var(--hcs-red); background: #e9ecf0; color: var(--text); text-decoration: none; }
+[data-theme="dark"] .link-chip { background: #272727; }
+[data-theme="dark"] .link-chip:hover { background: #333333; }
+.link-chip:focus-visible { outline: 2px solid var(--hcs-red); outline-offset: 2px; }
+@media (max-width: 650px) {
+  .link-chips { grid-template-columns: repeat(3, 1fr); }
+}
+.hi-tv{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='15' rx='2'/%3E%3Cpath d='M17 2l-5 5-5-5'/%3E%3C/svg%3E");}
+.hi-clipboard{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8' y='2' width='8' height='4' rx='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3Cpath d='M12 11h4M12 16h4M8 11h.01M8 16h.01'/%3E%3C/svg%3E");}
+.hi-flag{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/%3E%3Cpath d='M4 22v-7'/%3E%3C/svg%3E");}
+.hi-bag{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'/%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'/%3E%3C/svg%3E");}
+.hi-zap{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E");}
+.hi-cube{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.3 7L12 12l8.7-5M12 22V12'/%3E%3C/svg%3E");}
