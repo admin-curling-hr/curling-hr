@@ -161,6 +161,28 @@ window.hcsMedalize = function (str) {
     }
   }
 
+  // Ako smo na stranici Prvenstva, hamburger se otvara na razini u kojoj se nalazimo:
+  // Statistika -> 3. razina, ostalo (Pregled, Postignuća) -> 2. razina; svugdje drugdje
+  // glavni izbornik. Trenutna stavka se usput označi.
+  function currentMobileView() {
+    const siteNav = document.getElementById('siteNav');
+    if (!siteNav || document.body.dataset.page !== 'prvenstva') return 'root';
+    const route = location.hash.replace(/^#/, '').split('?')[0].split('/');
+    const section = route[0] === 'pregled' || !route[0] ? 'prvenstva' : route[0];
+    const tab = route[1] === 'podaci' ? 'statistika' : (route[1] || 'poretci');
+    const mark = (list, attr, value) => {
+      if (!list) return;
+      list.querySelectorAll('a[data-' + attr + ']').forEach(a => {
+        const on = a.dataset[attr] === value;
+        a.classList.toggle('active', on);
+        if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      });
+    };
+    mark(document.getElementById('mnavL2'), 'page', section);
+    mark(document.getElementById('mnavL3'), 'tab', section === 'statistika' ? tab : null);
+    return section === 'statistika' ? 'l3' : 'l2';
+  }
+
   function closeMobileNav() {
     const siteNav = document.getElementById('siteNav');
     if (siteNav) siteNav.classList.remove('open');
@@ -297,7 +319,7 @@ window.hcsMedalize = function (str) {
         const willOpen = !siteNav.classList.contains('open');
         siteNav.classList.toggle('open', willOpen);
         navToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-        showMobileView('root', false); // otvaranje i zatvaranje uvijek kreće od glavnog izbornika
+        showMobileView(willOpen ? currentMobileView() : 'root', false);
       });
 
       // Jedan slušač za sve prijelaze između razina (samo na mobilnom).
