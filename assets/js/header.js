@@ -39,7 +39,8 @@ window.hcsMedalize = function (str) {
          data-title-hr="Prijava na interne stranice saveza"
          data-title-en="Sign in to the federation's staff pages"
          title="Prijava na interne stranice saveza">
-        <span data-hr="Prijava" data-en="Login">Prijava</span>
+        <span class="hi hi-user" aria-hidden="true"></span>
+        <span class="sr-only" data-hr="Prijava" data-en="Login">Prijava</span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Izbornik">
         <span></span><span></span><span></span>
