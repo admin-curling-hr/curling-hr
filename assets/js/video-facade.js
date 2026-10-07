@@ -5,8 +5,10 @@
    Oznaka u HTML-u:
      <button type="button" class="video-facade" data-yt="ID_VIDEA" data-title="Naslov">
        <img src="slika.jpg" alt="" loading="lazy">
-       <span class="video-play" aria-hidden="true"></span>
-       <span class="video-caption"><strong>Naslov</strong> <span data-hr="..." data-en="...">...</span></span>
+       <span class="video-caption">
+         <span class="video-play" aria-hidden="true"></span>
+         <span class="video-text"><strong>Naslov</strong> <span data-hr="..." data-en="...">...</span></span>
+       </span>
      </button>
 */
 document.addEventListener('click', function (e) {
