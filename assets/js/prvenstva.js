@@ -2694,9 +2694,9 @@ function matchRowHtml(m){
   return `
     <div class="match-row" data-id="${m.id}">
       <div class="match-date">${formatDate(m.date)}</div>
-      <div class="match-team ${m.winner===1?'winner':'loser'}"><span class="team-name-txt"><span class="lbl-full">${escapeHtml(m.team1)}</span><span class="lbl-short">${escapeHtml(m.team1Short || m.team1)}</span></span>${clubLogoImgHtml(m.team1, m.dis)}</div>
+      <div class="match-team ${m.winner===1?'winner':'loser'}"><span class="team-name-txt"><span class="lbl-full">${escapeHtml(m.team1)}</span><span class="lbl-short">${escapeHtml(matchTeamShort(m, 1))}</span></span>${clubLogoImgHtml(m.team1, m.dis)}</div>
       ${scoreHtml}
-      <div class="match-team right ${m.winner===2?'winner':'loser'}">${clubLogoImgHtml(m.team2, m.dis)}<span class="team-name-txt"><span class="lbl-full">${escapeHtml(m.team2)}</span><span class="lbl-short">${escapeHtml(m.team2Short || m.team2)}</span></span></div>
+      <div class="match-team right ${m.winner===2?'winner':'loser'}">${clubLogoImgHtml(m.team2, m.dis)}<span class="team-name-txt"><span class="lbl-full">${escapeHtml(m.team2)}</span><span class="lbl-short">${escapeHtml(matchTeamShort(m, 2))}</span></span></div>
       <div class="chevron">›</div>
     </div>
   `;
@@ -2798,12 +2798,44 @@ function computeGroupStandings(matches, legacyMode, skipH2H){
 // u phc-data.json kao team1Short/team2Short. Koristi se samo na malim ekranima (lbl-short),
 // u popisu utakmica i tablicama po fazi - NE u "Konačnom poretku" (tamo ostaje puni naziv).
 let TEAM_SHORT_CACHE = null;
+let TEAM_SHORT_BY_NAME = null;
+
+// Najčešći skraćeni naziv za svaki puni naziv ekipe (npr. "Čudnovati Čunjaš" -> "Čunjaš").
+// Služi kao rezerva kad se u Excelu u koloni Ekipa1/Ekipa2 slučajno upiše puni naziv
+// umjesto skraćenice (tada bi skraćeni prikaz na mobitelu ostao dugačak i bio odrezan).
+function teamShortMap(){
+  if(!TEAM_SHORT_BY_NAME){
+    const counts = {};
+    DATA.matches.forEach(m => {
+      [[m.team1, m.team1Short], [m.team2, m.team2Short]].forEach(([full, sh]) => {
+        if(!full || !sh) return;
+        (counts[full] = counts[full] || {})[sh] = ((counts[full] || {})[sh] || 0) + 1;
+      });
+    });
+    TEAM_SHORT_BY_NAME = {};
+    Object.keys(counts).forEach(full => {
+      const best = Object.entries(counts[full]).sort((a, b) => b[1] - a[1])[0];
+      TEAM_SHORT_BY_NAME[full] = best[0];
+    });
+  }
+  return TEAM_SHORT_BY_NAME;
+}
+
+// Skraćeni naziv ekipe 1 ili 2 u utakmici m: vrijednost iz Excela, a ako je prazna ili
+// jednaka punom nazivu, najčešća skraćenica za tu ekipu iz ostalih utakmica.
+function matchTeamShort(m, n){
+  const full = m['team' + n];
+  const sh = m['team' + n + 'Short'];
+  if(sh && sh !== full) return sh;
+  return teamShortMap()[full] || sh || full;
+}
+
 function teamShortName(team, dis){
   if(!TEAM_SHORT_CACHE){
     TEAM_SHORT_CACHE = {};
     DATA.matches.forEach(m => {
-      if(m.team1Short) TEAM_SHORT_CACHE[m.dis + '|' + m.team1] = m.team1Short;
-      if(m.team2Short) TEAM_SHORT_CACHE[m.dis + '|' + m.team2] = m.team2Short;
+      TEAM_SHORT_CACHE[m.dis + '|' + m.team1] = matchTeamShort(m, 1);
+      TEAM_SHORT_CACHE[m.dis + '|' + m.team2] = matchTeamShort(m, 2);
     });
   }
   return TEAM_SHORT_CACHE[dis + '|' + team] || team;
