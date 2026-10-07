@@ -86,20 +86,90 @@ window.hcsMedalize = function (str) {
   const placeholder = document.getElementById('site-header');
   if (placeholder) placeholder.outerHTML = HEADER_HTML;
 
-  // closeMobileNav je na IIFE razini da je dostupna i initHeader i initPhcNav
-  function closeMobileNav() {
-    const siteNavEl = document.getElementById('siteNav');
-    if (siteNavEl) siteNavEl.classList.remove('open');
+  // ===== Mobilni izbornik (do 700 px): jedan panel, tri prikaza =====
+  // root = glavni izbornik, l2 = "Prvenstva Hrvatske", l3 = "Statistika".
+  // U svakom trenutku vidljiv je samo JEDAN prikaz (kao u iOS postavkama), pa nikad
+  // ne prelazi visinu ekrana; panel je uz to ograničen i ima vlastito listanje.
+  // Stavke 2. i 3. razine kopiraju se iz #phcNav2/#phcNav3 (jedan izvor naziva i
+  // prijevoda). Desktop izbornik ovo uopće ne koristi (kopije su tamo skrivene).
+  const mqMobile = window.matchMedia('(max-width: 700px)');
+  const isMobileNav = () => mqMobile.matches;
+
+  function buildMobileNav() {
+    const siteNav = document.getElementById('siteNav');
+    const rootUl = siteNav && siteNav.querySelector('ul');
     const nav2 = document.getElementById('phcNav2');
     const nav3 = document.getElementById('phcNav3');
-    const overlay = document.getElementById('mobileNavOverlay');
-    if (nav2) {
-      nav2.classList.remove('mobile-open', 'ready');
-      nav2.style.cssText = 'display:none;';
+    const prv = document.getElementById('navPrvenstva');
+    if (!siteNav || !rootUl || !nav2 || !nav3 || !prv) return;
+
+    rootUl.classList.add('mnav-root');
+    prv.classList.add('has-sub');
+
+    function makeList(id, parentLabelSrc, srcLinks) {
+      const ul = document.createElement('ul');
+      ul.id = id;
+      ul.className = 'mnav-sub';
+      ul.hidden = true;
+
+      const backLi = document.createElement('li');
+      const back = document.createElement('a');
+      back.href = '#';
+      back.className = 'mnav-back';
+      back.setAttribute('role', 'button');
+      const arrow = document.createElement('span');
+      arrow.className = 'mnav-back-arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.textContent = '\u2039';
+      const label = document.createElement('span');
+      label.dataset.hr = parentLabelSrc.dataset.hr;
+      label.dataset.en = parentLabelSrc.dataset.en;
+      label.textContent = parentLabelSrc.dataset.hr;
+      back.append(arrow, label);
+      backLi.appendChild(back);
+      ul.appendChild(backLi);
+
+      srcLinks.forEach(src => {
+        const li = document.createElement('li');
+        const a = src.cloneNode(true);
+        a.classList.remove('active');
+        if (a.dataset.page === 'statistika') a.classList.add('has-sub');
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      return ul;
     }
-    if (nav3) nav3.classList.remove('mobile-open');
-    if (overlay) overlay.style.display = 'none';
+
+    const l2 = makeList('mnavL2', prv, nav2.querySelectorAll('a[data-page]'));
+    const statLink = nav2.querySelector('a[data-page="statistika"]');
+    const l3 = makeList('mnavL3', statLink, nav3.querySelectorAll('a[data-tab]'));
+    rootUl.after(l2, l3);
   }
+
+  // Prebacuje prikaz panela; fokus se prebacuje na prvu stavku novog prikaza
+  // (inače bi tipkovnica/čitač ekrana ostali na stavci koja je upravo nestala).
+  function showMobileView(view, moveFocus) {
+    const siteNav = document.getElementById('siteNav');
+    if (!siteNav) return;
+    const lists = { root: siteNav.querySelector('.mnav-root'), l2: document.getElementById('mnavL2'), l3: document.getElementById('mnavL3') };
+    siteNav.dataset.view = view;
+    Object.keys(lists).forEach(k => { if (lists[k]) lists[k].hidden = (k !== view); });
+    siteNav.scrollTop = 0;
+    if (moveFocus && lists[view]) {
+      const first = lists[view].querySelector('a');
+      if (first) first.focus({ preventScroll: true });
+    }
+  }
+
+  function closeMobileNav() {
+    const siteNav = document.getElementById('siteNav');
+    if (siteNav) siteNav.classList.remove('open');
+    const toggle = document.getElementById('navToggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    showMobileView('root', false);
+  }
+
+  buildMobileNav();
 
   initHeader();
 
@@ -108,7 +178,9 @@ window.hcsMedalize = function (str) {
 
     // Active nav link
     const currentPath = window.location.pathname;
-    document.querySelectorAll('.site-nav a').forEach(link => {
+    // Samo glavni popis: kopije 2./3. razine (mobilni izbornik) imaju href="#" pa bi
+    // se inače sve označile kao aktivne.
+    document.querySelectorAll('.site-nav .mnav-root a').forEach(link => {
       const linkPath = new URL(link.href, window.location.origin).pathname;
       const isHome = linkPath === BASE + '/' || linkPath === BASE || linkPath === '/';
       if (isHome) {
@@ -219,68 +291,55 @@ window.hcsMedalize = function (str) {
     const siteNav = document.getElementById('siteNav');
 
     if (navToggle && siteNav) {
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-controls', 'siteNav');
       navToggle.addEventListener('click', () => {
-        siteNav.classList.toggle('open');
-        // Sakrij nav2/nav3 kad zatvorimo hamburger
-        if (!siteNav.classList.contains('open')) {
-          const nav2 = document.getElementById('phcNav2');
-          const nav3 = document.getElementById('phcNav3');
-          if (nav2) nav2.classList.remove('mobile-open');
-          if (nav3) nav3.classList.remove('mobile-open');
-        }
+        const willOpen = !siteNav.classList.contains('open');
+        siteNav.classList.toggle('open', willOpen);
+        navToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        showMobileView('root', false); // otvaranje i zatvaranje uvijek kreće od glavnog izbornika
       });
-    }
 
-    // Na mobilnom: klik na "Prvenstva Hrvatske" otvori nav2 inline
-    // umjesto da odmah navigira na stranicu
-    const prvenstvaLink = document.getElementById('navPrvenstva');
+      // Jedan slušač za sve prijelaze između razina (samo na mobilnom).
+      siteNav.addEventListener('click', e => {
+        if (!isMobileNav()) return;
+        const a = e.target.closest('a');
+        if (!a || !siteNav.contains(a)) return;
 
-    // Kreiraj overlay koji blokira sadržaj ispod nav2
-    const mobileOverlay = document.createElement('div');
-    mobileOverlay.id = 'mobileNavOverlay';
-    mobileOverlay.style.cssText = 'display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:998;background:transparent;';
-    document.body.appendChild(mobileOverlay);
-    mobileOverlay.addEventListener('click', closeMobileNav);
-
-    if (prvenstvaLink) {
-      prvenstvaLink.addEventListener('click', function(e) {
-        if (window.innerWidth > 700) return;
-        e.preventDefault();
-        const nav2 = document.getElementById('phcNav2');
-        if (!nav2) return;
-        const isOpen = nav2.classList.contains('mobile-open');
-        if (isOpen) {
-          closeMobileNav();
-        } else {
-          nav2.removeAttribute('style');
-          nav2.classList.add('mobile-open', 'ready');
-          nav2.style.cssText = 'display:block;position:fixed;left:0;right:0;z-index:999;';
-          // Pozicioniraj nav2 ispod site-nav
-          const siteNav = document.getElementById('siteNav');
-          if (siteNav) {
-            const navBottom = siteNav.getBoundingClientRect().bottom;
-            nav2.style.top = navBottom + 'px';
+        if (a.id === 'navPrvenstva') {
+          e.preventDefault();
+          showMobileView('l2', true);
+        } else if (a.classList.contains('mnav-back')) {
+          e.preventDefault();
+          showMobileView(siteNav.dataset.view === 'l3' ? 'l2' : 'root', true);
+        } else if (a.dataset.page) {            // stavka 2. razine
+          e.preventDefault();
+          if (a.dataset.page === 'statistika') {
+            showMobileView('l3', true);
+          } else {
+            closeMobileNav();
+            window.location.href = BASE + '/prvenstva/#' + a.dataset.page;
           }
-          mobileOverlay.style.display = 'block';
+        } else if (a.dataset.tab) {             // stavka 3. razine
+          e.preventDefault();
+          closeMobileNav();
+          // Interni id taba "statistika" u URL-u se uvijek zove "podaci"
+          window.location.href = BASE + '/prvenstva/#statistika/' + (a.dataset.tab === 'statistika' ? 'podaci' : a.dataset.tab);
+        }
+        // ostale stavke (obične poveznice) rade normalno
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && siteNav.classList.contains('open')) {
+          closeMobileNav();
+          navToggle.focus();
         }
       });
-    }
 
-    // Sakrij nav2/nav3 kad se prozor umanji na mobitel
-    window.addEventListener('resize', () => {
-      if (window.innerWidth <= 700) {
-        const siteNavEl = document.getElementById('siteNav');
-        if (!siteNavEl?.classList.contains('open')) {
-          closeMobileNav();
-        }
-      } else {
-        // Desktop — ukloni mobile-open klase
-        const nav2 = document.getElementById('phcNav2');
-        const nav3 = document.getElementById('phcNav3');
-        if (nav2) nav2.classList.remove('mobile-open');
-        if (nav3) nav3.classList.remove('mobile-open');
-      }
-    });
+      // Prelazak između mobilnog i desktop prikaza (npr. rotacija, promjena veličine prozora)
+      // uvijek vraća izbornik u početno stanje.
+      mqMobile.addEventListener('change', closeMobileNav);
+    }
   }
 
   function initPhcNav(nav2, nav3) {
@@ -335,34 +394,6 @@ window.hcsMedalize = function (str) {
         e.preventDefault();
         const pg = this.dataset.page;
 
-        // Na mobilnom
-        if (window.innerWidth <= 700) {
-          if (pg === 'statistika') {
-            // Prikaži treću razinu izbornika umjesto navigacije
-            nav2.classList.remove('mobile-open', 'ready');
-            nav2.style.cssText = 'display:none;';
-            const overlay = document.getElementById('mobileNavOverlay');
-            if (overlay) overlay.style.display = 'none';
-            // Prikaži nav3
-            if (nav3) {
-              nav3.removeAttribute('style');
-              nav3.classList.add('mobile-open', 'ready');
-              nav3.style.cssText = 'display:block;position:fixed;left:0;right:0;z-index:999;';
-              const siteNavEl = document.getElementById('siteNav');
-              if (siteNavEl) {
-                const navBottom = siteNavEl.getBoundingClientRect().bottom;
-                nav3.style.top = navBottom + 'px';
-              }
-              const overlay2 = document.getElementById('mobileNavOverlay');
-              if (overlay2) overlay2.style.display = 'block';
-            }
-          } else {
-            closeMobileNav();
-            window.location.href = BASE + '/prvenstva/#' + pg;
-          }
-          return;
-        }
-
         setNav2Active(pg);
         if (typeof switchToPage === 'function') switchToPage(pg);
         if (pg === 'statistika') {
@@ -376,14 +407,6 @@ window.hcsMedalize = function (str) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
         const tab = this.dataset.tab;
-
-        // Na mobilnom — navigiraj na stranicu s hashom
-        if (window.innerWidth <= 700) {
-          closeMobileNav();
-          // Interni id taba "statistika" u URL-u se uvijek zove "podaci"
-          window.location.href = BASE + '/prvenstva/#statistika/' + (tab === 'statistika' ? 'podaci' : tab);
-          return;
-        }
 
         setNav3Active(tab);
         if (typeof switchToTab === 'function') switchToTab(tab);
