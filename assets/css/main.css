@@ -880,12 +880,13 @@ img { max-width: 100%; height: auto; display: block; }
 
 .kartica-red {
   display: grid;
-  grid-template-columns: 70px 1fr;
+  grid-template-columns: 70px 40px 1fr;
   align-items: center;
   column-gap: 0.5rem;
 }
 
-.kartica-red > .kat-znak {
+.kartica-red > .kat-znak,
+.kartica-red > .disc-znak {
   justify-self: start;
 }
 
@@ -927,7 +928,7 @@ img { max-width: 100%; height: auto; display: block; }
   }
 
   .kartica-red {
-    grid-template-columns: 62px 1fr;
+    grid-template-columns: 62px 40px 1fr;
   }
 
   .kartica-mjesto {
@@ -993,6 +994,34 @@ img { max-width: 100%; height: auto; display: block; }
 [data-theme="dark"] .kat-znak-juniori  { background: #1b3a1c; color: #81c784; }
 [data-theme="dark"] .kat-znak-seniori  { background: #4a3800; color: #ffd54f; }
 [data-theme="dark"] .kat-znak-veterani { background: #451515; color: #ef9a9a; }
+
+/* --- Kalendar bedž discipline ---
+   Bedž iza bedža kategorije (vidi gore) - vidi podaci/hcs-web-data.xlsx list
+   "Kalendar", stupci D/H (hrvatski/engleski naziv discipline):
+   M (muškarci) plava, Ž/W (žene) crvena, MC/MIX (mješoviti curling) žuta,
+   MP/MD (mješoviti parovi) zelena. Isti oblik kao .kat-znak, malo zasićenije
+   boje da se ne miješaju s bedžom kategorije. */
+.disc-znak {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 20px;
+  vertical-align: middle;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.disc-m  { background: #d3e6fb; color: #0d47a1; }
+.disc-z  { background: #f8cfcf; color: #b71c1c; }
+.disc-mc { background: #ffec80; color: #5f4500; }
+.disc-mp { background: #c8e9cb; color: #1b5e20; }
+
+[data-theme="dark"] .disc-m  { background: #12325a; color: #90caf9; }
+[data-theme="dark"] .disc-z  { background: #5a1a1a; color: #ef9a9a; }
+[data-theme="dark"] .disc-mc { background: #5a4600; color: #ffe082; }
+[data-theme="dark"] .disc-mp { background: #1d4a22; color: #a5d6a7; }
 
 .kalendar-legenda {
   font-size: 0.8rem;
