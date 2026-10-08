@@ -198,13 +198,13 @@ window.hcsMedalize = function (str) {
   // će se dogoditi klikom. Redoslijed teme pri klikanju: automatska -> svijetla -> tamna.
   const SWITCHER_TEXTS = {
     theme: {
-      auto:  { hr: 'Tema: automatska (prema uređaju). Klikni za svijetlu temu.', en: 'Theme: automatic (follows your device). Click for light theme.' },
-      light: { hr: 'Tema: svijetla. Klikni za tamnu temu.',                      en: 'Theme: light. Click for dark theme.' },
-      dark:  { hr: 'Tema: tamna. Klikni za automatsku temu.',                    en: 'Theme: dark. Click for automatic theme.' }
+      auto:  { hr: 'Prikaz boja: prema postavkama SUSTAVA. Klikni za SVIJETLI prikaz.', en: 'Theme: from the SYSTEM. Click for LIGHT theme.' },
+      light: { hr: 'Prikaz boja: SVIJETLI. Klikni za TAMNI prikaz.',                    en: 'Theme: LIGHT. Click for DARK theme.' },
+      dark:  { hr: 'Prikaz boja: TAMNI. Klikni za prikaz prema postavkama SUSTAVA.',    en: 'Theme: DARK. Click for SYSTEM theme.' }
     },
     lang: {
-      hr: { hr: 'Jezik: hrvatski. Klikni za engleski (English).', en: 'Language: Croatian. Click for English.' },
-      en: { hr: 'Jezik: engleski. Klikni za hrvatski (Croatian).', en: 'Language: English. Click for Croatian (Hrvatski).' }
+      hr: { hr: 'Jezik: HRVATSKI. Klikni za ENGLESKI / Click for ENGLISH.',    en: 'Language: CROATIAN. Click for ENGLISH / Klikni za ENGLESKI.' },
+      en: { hr: 'Jezik: ENGLESKI. Klikni za HRVATSKI / Click for CROATIAN.',   en: 'Language: ENGLISH. Click for CROATIAN / Klikni za HRVATSKI.' }
     }
   };
 
