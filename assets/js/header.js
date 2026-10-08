@@ -194,6 +194,39 @@ window.hcsMedalize = function (str) {
 
   buildMobileNav();
 
+  // Tooltip (title) i aria-label za gumbe teme i jezika: kažu što je trenutno uključeno i što
+  // će se dogoditi klikom. Redoslijed teme pri klikanju: automatska -> svijetla -> tamna.
+  const SWITCHER_TEXTS = {
+    theme: {
+      auto:  { hr: 'Tema: automatska (prema uređaju). Klikni za svijetlu temu.', en: 'Theme: automatic (follows your device). Click for light theme.' },
+      light: { hr: 'Tema: svijetla. Klikni za tamnu temu.',                      en: 'Theme: light. Click for dark theme.' },
+      dark:  { hr: 'Tema: tamna. Klikni za automatsku temu.',                    en: 'Theme: dark. Click for automatic theme.' }
+    },
+    lang: {
+      hr: { hr: 'Jezik: hrvatski. Klikni za engleski (English).', en: 'Language: Croatian. Click for English.' },
+      en: { hr: 'Jezik: engleski. Klikni za hrvatski (Croatian).', en: 'Language: English. Click for Croatian (Hrvatski).' }
+    }
+  };
+
+  function refreshSwitcherTitles() {
+    let lang = 'hr', theme = 'auto';
+    try { lang = localStorage.getItem('hcs-lang') === 'en' ? 'en' : 'hr'; } catch (e) {}
+    try { theme = localStorage.getItem('hcs-theme') || 'auto'; } catch (e) {}
+    if (!SWITCHER_TEXTS.theme[theme]) theme = 'auto';
+    const themeBtn = document.getElementById('themeToggle');
+    const langBtn = document.getElementById('langToggle');
+    if (themeBtn) {
+      const t = SWITCHER_TEXTS.theme[theme][lang];
+      themeBtn.title = t;
+      themeBtn.setAttribute('aria-label', t);
+    }
+    if (langBtn) {
+      const t = SWITCHER_TEXTS.lang[lang][lang];
+      langBtn.title = t;
+      langBtn.setAttribute('aria-label', t);
+    }
+  }
+
   initHeader();
 
   function initHeader() {
@@ -245,6 +278,7 @@ window.hcsMedalize = function (str) {
       }
       if (themeIcon) themeIcon.className = 'theme-icon hi ' + (ICONS[theme] || ICONS.auto);
       localStorage.setItem('hcs-theme', theme);
+      refreshSwitcherTitles();
     }
 
     applyTheme(localStorage.getItem('hcs-theme') || 'auto');
@@ -287,6 +321,7 @@ window.hcsMedalize = function (str) {
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
       if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';
       localStorage.setItem('hcs-lang', lang);
+      refreshSwitcherTitles();
       // Javljamo ostatku stranice (npr. prvenstva.js) da se jezik promijenio, za
       // dijelove koji sami generiraju svoj HTML pa ih ovaj querySelectorAll pristup
       // ne dohvaća automatski (npr. dinamički prikaz značaka na Postignućima).
