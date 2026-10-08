@@ -33,7 +33,7 @@ window.hcsMedalize = function (str) {
         <span class="theme-icon hi hi-sun" aria-hidden="true"></span>
       </button>
       <button class="lang-toggle" id="langToggle" aria-label="Change language">
-        <span id="langLabel">EN</span>
+        <span id="langLabel">HR</span>
       </button>
       <a class="m365-link" id="m365Link" href="https://login.microsoftonline.com/" target="_blank" rel="noopener noreferrer"
          data-title-hr="Prijava na interne stranice saveza"
@@ -319,7 +319,7 @@ window.hcsMedalize = function (str) {
         el.dataset.label = lang === 'en' ? el.dataset.labelEn : el.dataset.labelHr;
       });
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
-      if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';
+      if (langLabel) langLabel.textContent = lang === 'en' ? 'EN' : 'HR';  // prikazuje trenutno uključeni jezik
       localStorage.setItem('hcs-lang', lang);
       refreshSwitcherTitles();
       // Javljamo ostatku stranice (npr. prvenstva.js) da se jezik promijenio, za
@@ -330,13 +330,20 @@ window.hcsMedalize = function (str) {
 
     // Vijesti (popis i članci) postoje samo na hrvatskom: u engleskom načinu prikazujemo
     // napomenu. U hrvatskom načinu je tekst prazan, pa se element sakrije (vidi CSS :empty).
-    if (document.body.dataset.page === 'vijesti') {
+    // Prikazuje se na stranicama Vijesti te na početnoj (ispod naslova, iznad popisa vijesti).
+    const pageName = document.body.dataset.page;
+    if (pageName === 'vijesti' || pageName === 'pocetna') {
       const note = document.createElement('p');
       note.className = 'hr-only-note';
       note.dataset.hr = '';
       note.dataset.en = "News articles are published in Croatian only. Use your browser's translate feature if needed.";
-      const host = document.querySelector('.post-article') || document.querySelector('main.site-main');
-      if (host) host.insertBefore(note, host.firstChild);
+      if (pageName === 'pocetna') {
+        const list = document.getElementById('newsList');
+        if (list && list.parentNode) list.parentNode.insertBefore(note, list);
+      } else {
+        const host = document.querySelector('.post-article') || document.querySelector('main.site-main');
+        if (host) host.insertBefore(note, host.firstChild);
+      }
     }
 
     applyLang(localStorage.getItem('hcs-lang') || 'hr');
