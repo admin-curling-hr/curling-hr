@@ -26,12 +26,44 @@
       height: 200px;
       object-fit: cover;
       display: block;
-      margin: 0 auto 2rem;
+      margin: 0;
       border-radius: 6px;
+    }
+    /* Slika s opisom: opis je u donjem lijevom kutu, preko blagog tamnog prijelaza pri dnu
+       slike (prekriva samo donji dio majica, ne lica), pa je bijeli tekst čitljiv. */
+    .hero-figure {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+    }
+    .hero-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 1.8rem 30% 0.55rem 0.9rem;
+      text-align: left;
+      color: #fff;
+      font-size: 0.8rem;
+      line-height: 1.3;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.65);
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%);
+      border-radius: 0 0 6px 6px;
     }
     @media (max-width: 600px) {
       .home-hero-img {
         height: auto;
+        border-radius: 0;
+      }
+      /* Na uskim ekranima slika je preniska za tekst preko nje: opis ide ispod slike */
+      .hero-caption {
+        position: static;
+        padding: 0.45rem 0 0;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        text-shadow: none;
+        background: none;
         border-radius: 0;
       }
     }
@@ -43,10 +75,13 @@
 
 <main class="site-main">
 
-  <img src="assets/images/hero.jpg" alt="Hrvatska curling reprezentacija" class="home-hero-img">
+  <figure class="hero-figure">
+    <img src="assets/images/hero.jpg" alt="Hrvatska curling reprezentacija" class="home-hero-img">
+    <figcaption class="hero-caption" data-hr="Reprezentacija Hrvatske na Europskim pretkvalifikacijama za Svjetsko prvenstvo, Ljubljana 2026." data-en="Croatian national team at the European Pre-Qualifier for the World Championship, Ljubljana 2026">Reprezentacija Hrvatske na Europskim pretkvalifikacijama za Svjetsko prvenstvo, Ljubljana 2026.</figcaption>
+  </figure>
 
   <section class="home-news">
-    <h2 data-hr="Posljednje vijesti" data-en="Latest News">Posljednje vijesti</h2>
+    <h2 data-hr="Posljednje vijesti" data-en="Latest News (in Croatian)">Posljednje vijesti</h2>
     <div class="news-list" id="newsList">
       <p class="no-posts" data-hr="Učitavanje vijesti..." data-en="Loading news...">Učitavanje vijesti...</p>
     </div>
