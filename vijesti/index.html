@@ -55,6 +55,24 @@
       border-color: var(--hcs-red);
       color: #fff;
     }
+    /* Uski ekrani: 20+ godina u jednom redu s vodoravnim pomicanjem umjesto
+       prelamanja u više redova (--fl / --fr postavlja skripta: blijeđenje ruba
+       na strani na kojoj ima još godina za pomicanje) */
+    @media (max-width: 700px) {
+      .godina-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 4px 0;
+        margin-bottom: 1.2rem;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fl, 0px), #000 calc(100% - var(--fr, 0px)), transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 var(--fl, 0px), #000 calc(100% - var(--fr, 0px)), transparent 100%);
+      }
+      .godina-tabs::-webkit-scrollbar { display: none; }
+      .godina-tab { flex: 0 0 auto; }
+    }
     .godina-panel {
       display: none;
     }
@@ -147,6 +165,24 @@
         </div>
       `).join('');
 
+      // Vodoravni popis godina (uski ekrani): odabranu godinu dovedi u sredinu i
+      // blijedi rub na strani na kojoj ima još godina. Ne dira vertikalno pomicanje stranice.
+      function updateTabsFade() {
+        const max = tabsEl.scrollWidth - tabsEl.clientWidth;
+        tabsEl.style.setProperty('--fl', tabsEl.scrollLeft > 4 ? '28px' : '0px');
+        tabsEl.style.setProperty('--fr', max > 4 && tabsEl.scrollLeft < max - 4 ? '28px' : '0px');
+      }
+      function centerActiveTab(smooth) {
+        const el = tabsEl.querySelector('.godina-tab.active');
+        if (!el || tabsEl.scrollWidth <= tabsEl.clientWidth) { updateTabsFade(); return; }
+        const left = el.offsetLeft - (tabsEl.clientWidth - el.offsetWidth) / 2 - tabsEl.offsetLeft;
+        tabsEl.scrollTo({ left: Math.max(0, left), behavior: smooth ? 'smooth' : 'auto' });
+        updateTabsFade();
+      }
+      tabsEl.addEventListener('scroll', updateTabsFade, { passive: true });
+      window.addEventListener('resize', () => centerActiveTab(false));
+      centerActiveTab(false);
+
       // Tab click handler
       tabsEl.querySelectorAll('.godina-tab').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -156,6 +192,7 @@
           this.classList.add('active');
           document.getElementById('panel-' + year).classList.add('active');
           history.replaceState(null, '', '#' + year);
+          centerActiveTab(true);
         });
       });
     })

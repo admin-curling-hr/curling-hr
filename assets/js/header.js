@@ -33,7 +33,7 @@ window.hcsMedalize = function (str) {
         <span class="theme-icon hi hi-sun" aria-hidden="true"></span>
       </button>
       <button class="lang-toggle" id="langToggle" aria-label="Change language">
-        <span id="langLabel">HR</span>
+        <span id="langLabel">EN</span>
       </button>
       <a class="m365-link" id="m365Link" href="https://login.microsoftonline.com/" target="_blank" rel="noopener noreferrer"
          data-title-hr="Prijava na interne stranice saveza"
@@ -198,13 +198,13 @@ window.hcsMedalize = function (str) {
   // će se dogoditi klikom. Redoslijed teme pri klikanju: automatska -> svijetla -> tamna.
   const SWITCHER_TEXTS = {
     theme: {
-      auto:  { hr: 'Prikaz boja: prema postavkama SUSTAVA. Klikni za SVIJETLI prikaz.', en: 'Theme: from the SYSTEM. Click for LIGHT theme.' },
-      light: { hr: 'Prikaz boja: SVIJETLI. Klikni za TAMNI prikaz.',                    en: 'Theme: LIGHT. Click for DARK theme.' },
-      dark:  { hr: 'Prikaz boja: TAMNI. Klikni za prikaz prema postavkama SUSTAVA.',    en: 'Theme: DARK. Click for SYSTEM theme.' }
+      auto:  { hr: 'Klikni za SVIJETLI prikaz boja.',                    en: 'Click for LIGHT theme.' },
+      light: { hr: 'Klikni za TAMNI prikaz boja.',                       en: 'Click for DARK theme.' },
+      dark:  { hr: 'Klikni za prikaz boja prema postavkama SUSTAVA.',    en: 'Click for SYSTEM theme.' }
     },
     lang: {
-      hr: { hr: 'Jezik: HRVATSKI. Klikni za ENGLESKI / Click for ENGLISH.',    en: 'Language: CROATIAN. Click for ENGLISH / Klikni za ENGLESKI.' },
-      en: { hr: 'Jezik: ENGLESKI. Klikni za HRVATSKI / Click for CROATIAN.',   en: 'Language: ENGLISH. Click for CROATIAN / Klikni za HRVATSKI.' }
+      hr: { hr: 'Klikni za ENGLESKI / Click for ENGLISH.',    en: 'Click for ENGLISH / Klikni za ENGLESKI.' },
+      en: { hr: 'Klikni za HRVATSKI / Click for CROATIAN.',   en: 'Click for CROATIAN / Klikni za HRVATSKI.' }
     }
   };
 
@@ -276,7 +276,9 @@ window.hcsMedalize = function (str) {
       } else {
         document.documentElement.dataset.theme = theme;
       }
-      if (themeIcon) themeIcon.className = 'theme-icon hi ' + (ICONS[theme] || ICONS.auto);
+      // Ikona prikazuje što će se uključiti KLIKOM (sljedeća tema u krugu), ne trenutno stanje.
+      const nextTheme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+      if (themeIcon) themeIcon.className = 'theme-icon hi ' + (ICONS[nextTheme] || ICONS.auto);
       localStorage.setItem('hcs-theme', theme);
       refreshSwitcherTitles();
     }
@@ -319,7 +321,8 @@ window.hcsMedalize = function (str) {
         el.dataset.label = lang === 'en' ? el.dataset.labelEn : el.dataset.labelHr;
       });
       document.documentElement.lang = lang === 'en' ? 'en' : 'hr';
-      if (langLabel) langLabel.textContent = lang === 'en' ? 'EN' : 'HR';  // prikazuje trenutno uključeni jezik
+      // Oznaka prikazuje jezik na koji će se prijeći KLIKOM (ne trenutni): na hrvatskom piše EN i obratno.
+      if (langLabel) langLabel.textContent = lang === 'en' ? 'HR' : 'EN';
       localStorage.setItem('hcs-lang', lang);
       refreshSwitcherTitles();
       // Javljamo ostatku stranice (npr. prvenstva.js) da se jezik promijenio, za
