@@ -62,11 +62,20 @@
       <img src="1.jpg" alt="Opis slike">
       -->
 
-      <!-- YouTube video: -->
-      <!--
-      <iframe width="560" height="315"
-        src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
-        frameborder="0" allowfullscreen></iframe>
+      <!-- YouTube video (klikni-za-prikaz: nema kontakta s YouTubeom dok posjetitelj ne klikne).
+           Najlakše ga je umetnuti u editoru (gumb 🎬). Ručno: zamijeni ID_VIDEA (11 znakova) i Naslov.
+           Sličica je datoteka video-ID_VIDEA.jpg u istom folderu (ako je nema, skida je GitHub Action).
+           Za okomite videe (Shorts) dodaj klasu video-facade-okomit na button.
+           Na dno stranice treba i <script src="../../assets/js/video-facade.js"></script>.
+      <div class="vijest-video">
+        <button type="button" class="video-facade" data-yt="ID_VIDEA" data-title="Naslov">
+          <img src="video-ID_VIDEA.jpg" alt="" loading="lazy" onerror="this.remove()">
+          <span class="video-caption">
+            <span class="video-play" aria-hidden="true"></span>
+            <span class="video-text"><strong>Naslov</strong><span data-hr="Klikom na sliku učitava se video s YouTubea." data-en="Clicking the image loads the video from YouTube.">Klikom na sliku učitava se video s YouTubea.</span></span>
+          </span>
+        </button>
+      </div>
       -->
 
     </div>
@@ -81,6 +90,7 @@
 
 <script src="../../assets/js/header.js"></script>
 <script src="../../assets/js/vijesti-lightbox.js"></script>
+<!-- Ako vijest ima YouTube video, odkomentiraj: <script src="../../assets/js/video-facade.js"></script> -->
 <script>
 (function(){
   const d = document.querySelector('meta[name="datum"]');

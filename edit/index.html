@@ -132,7 +132,7 @@ input:focus { outline: none; border-color: var(--red); }
 .ql-editor { min-height: 200px; line-height: 1.65; }
 
 /* Umetni fotografije (gumb u alatnoj traci) */
-#insertGalleryBtn {
+#insertGalleryBtn, #insertVideoBtn {
   border: none;
   background: none;
   font-size: 15px;
@@ -142,7 +142,59 @@ input:focus { outline: none; border-color: var(--red); }
   line-height: 1;
   vertical-align: middle;
 }
-#insertGalleryBtn:hover { background: #e8e8e8; }
+#insertGalleryBtn:hover, #insertVideoBtn:hover { background: #e8e8e8; }
+
+/* Umetnuti YouTube video unutar teksta (placeholder u editoru) */
+.video-embed {
+  background: #f5f5f5;
+  border: 1.5px dashed #c8c8c8;
+  border-radius: 4px;
+  padding: 0.6rem;
+  margin: 0.4rem 0;
+  white-space: normal;
+}
+.video-embed-card { display: flex; gap: 12px; align-items: center; }
+.video-embed-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #1c1c1c;
+}
+.video-embed-thumb.okomit { width: 54px; aspect-ratio: 9 / 16; }
+.video-embed-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-embed-thumb::after {
+  content: "\25B6";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px; text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+.video-embed-info { min-width: 0; font-size: 0.82rem; line-height: 1.4; }
+.video-embed-info strong { display: block; font-size: 0.9rem; word-break: break-word; }
+.video-embed-info span { color: var(--muted); display: block; }
+.video-embed-actions { margin-top: 4px; display: flex; gap: 6px; }
+.video-embed-actions button {
+  font-size: 0.75rem; padding: 2px 8px; border: 1px solid var(--border);
+  border-radius: 4px; background: #fff; cursor: pointer;
+}
+.video-embed-actions button:hover { border-color: var(--red); color: var(--red); }
+
+/* Dijalog za umetanje videa */
+#videoDialog {
+  border: none; border-radius: 10px; padding: 1.2rem 1.4rem;
+  width: min(520px, calc(100vw - 32px)); box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+#videoDialog::backdrop { background: rgba(0,0,0,0.5); }
+#videoDialog h3 { margin: 0 0 0.9rem; font-size: 1.05rem; }
+#videoDialog .check { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.88rem; }
+#videoDialog .check input { margin-top: 3px; }
+.vd-poster-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.vd-poster-row img { height: 48px; border-radius: 4px; border: 1px solid var(--border); display: none; }
+.vd-preview { margin-top: 0.4rem; display: none; }
+.vd-preview img { max-height: 72px; border-radius: 4px; border: 1px solid var(--border); }
+.vd-error { color: var(--red); font-size: 0.8rem; min-height: 1.1em; margin: 0.3rem 0 0.6rem; }
 
 /* Umetnuta galerija unutar teksta (placeholder u editoru) */
 .gallery-embed {
@@ -382,6 +434,7 @@ select:focus { outline: none; border-color: var(--red); }
         </span>
         <span class="ql-formats">
           <button type="button" id="insertGalleryBtn" title="Umetni fotografije na mjesto kursora">📷</button>
+          <button type="button" id="insertVideoBtn" title="Umetni YouTube video na mjesto kursora">🎬</button>
         </span>
         <span class="ql-formats">
           <button class="ql-clean"></button>
@@ -389,7 +442,7 @@ select:focus { outline: none; border-color: var(--red); }
       </div>
       <div id="quillEditor"></div>
       <input type="file" id="galleryFileInput" multiple accept="image/*" style="display:none">
-      <p class="hint">Za novi redak unutar istog odlomka (bez velikog razmaka) pritisni <b>Shift+Enter</b>. Za umetanje fotografija na bilo koje mjesto u tekstu, postavi kursor gdje želiš i klikni na gumb 📷 u alatnoj traci.</p>
+      <p class="hint">Za novi redak unutar istog odlomka (bez velikog razmaka) pritisni <b>Shift+Enter</b>. Za umetanje fotografija na bilo koje mjesto u tekstu, postavi kursor gdje želiš i klikni na gumb 📷 u alatnoj traci. Za YouTube video klikni na gumb 🎬 (zalijepi poveznicu videa, upiši naslov; za okomite videe označi kvačicu).</p>
     </div>
   </div>
 
@@ -430,6 +483,37 @@ select:focus { outline: none; border-color: var(--red); }
   </div>
 
 </div>
+
+<dialog id="videoDialog">
+  <h3 id="vdHeading">Umetni YouTube video</h3>
+  <div class="field">
+    <label for="vdUrl">YouTube poveznica ili ID videa</label>
+    <input type="text" id="vdUrl" placeholder="https://www.youtube.com/watch?v=...  ili  https://youtu.be/...">
+    <div class="vd-preview" id="vdPreview"><img id="vdPreviewImg" alt=""></div>
+  </div>
+  <div class="field">
+    <label for="vdTitle">Naslov (piše na slici videa)</label>
+    <input type="text" id="vdTitle" placeholder="npr. Dodjela medalja">
+  </div>
+  <div class="field">
+    <label class="check"><input type="checkbox" id="vdVertical"> <span>Okomiti video (YouTube Shorts ili snimka snimljena uspravno). Prikazuje se u uskom, okomitom okviru.</span></label>
+  </div>
+  <div class="field">
+    <label>Sličica videa (neobavezno)</label>
+    <div class="vd-poster-row">
+      <button type="button" class="btn btn-outline" id="vdPosterBtn">📷 Odaberi sličicu</button>
+      <img id="vdPosterThumb" alt="">
+      <button type="button" class="btn btn-outline" id="vdPosterClear" style="display:none;color:var(--red)">✕ Ukloni</button>
+    </div>
+    <p class="hint">Ako ne odabereš sličicu, nakon objave ju automatski skida GitHub Action (kroz par minuta, napravi Fetch/Pull u GitHub Desktopu). Do tada se vidi tamna pločica s naslovom.</p>
+    <input type="file" id="vdPosterInput" accept="image/*" style="display:none">
+  </div>
+  <div class="vd-error" id="vdError"></div>
+  <div class="actions">
+    <button type="button" class="btn btn-primary" id="vdOk">Umetni</button>
+    <button type="button" class="btn btn-outline" id="vdCancel">Odustani</button>
+  </div>
+</dialog>
 
 <script>
 // ---- State ----
@@ -605,6 +689,200 @@ quill.root.addEventListener('click', function (e) {
   }
 });
 
+// ---- Umetanje YouTube videa (klikni-za-prikaz) ----
+// Isti princip kao galerija: placeholder (block embed) u tekstu nosi samo id, a podaci
+// (YouTube ID, naslov, okomito, neobavezna sličica) drže se u videoBlocks. Pri generiranju
+// se placeholder zamjenjuje oznakom .video-facade koju oživljava assets/js/video-facade.js.
+const videoBlocks = new Map(); // id placeholdera -> {ytId, title, okomit, posterBlob, posterThumb}
+let videoCounter = 0;
+let videoTargetId = null;      // ako je postavljen, dijalog UREĐUJE taj blok; inače umeće novi
+let videoSavedRange = null;
+let dialogPosterBlob = null;
+let dialogPosterThumb = '';
+
+function escHtml(t) {
+  return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Izvuci 11-znakovni ID iz poveznice (watch?v=, youtu.be/, shorts/, embed/, live/) ili golog ID-a.
+function parseYouTubeId(input) {
+  const t = (input || '').trim();
+  if (/^[A-Za-z0-9_-]{11}$/.test(t)) return t;
+  let m = t.match(/[?&]v=([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/);
+  if (m) return m[1];
+  m = t.match(/(?:youtu\.be\/|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/);
+  return m ? m[1] : '';
+}
+
+const VideoBlot = (function () {
+  const BE = Quill.import('blots/block/embed');
+  class VideoBlot extends BE {
+    static create(value) {
+      const node = super.create();
+      node.setAttribute('contenteditable', 'false');
+      node.setAttribute('data-video-id', value.id);
+      renderVideoNode(value.id, node);
+      return node;
+    }
+    static value(node) { return { id: node.getAttribute('data-video-id') }; }
+  }
+  VideoBlot.blotName = 'ytvideo';
+  VideoBlot.tagName = 'DIV';
+  VideoBlot.className = 'video-embed';
+  return VideoBlot;
+})();
+Quill.register(VideoBlot);
+
+function renderVideoNode(id, node) {
+  node = node || quill.root.querySelector(`.video-embed[data-video-id="${id}"]`);
+  if (!node) return;
+  const r = videoBlocks.get(id);
+  if (!r) return;
+  // U editoru (privatni alat) se za provjeru ID-a prikazuje YouTubeova sličica; posjetitelji je NE dobivaju s YouTubea.
+  const img = r.posterThumb || `https://i.ytimg.com/vi/${r.ytId}/mqdefault.jpg`;
+  node.innerHTML = `
+    <div class="video-embed-card" contenteditable="false">
+      <div class="video-embed-thumb${r.okomit ? ' okomit' : ''}"><img src="${img}" alt="" onerror="this.style.display='none'"></div>
+      <div class="video-embed-info">
+        <strong>${escHtml(r.title) || '(bez naslova)'}</strong>
+        <span>YouTube ${escHtml(r.ytId)} · ${r.okomit ? 'okomiti' : 'vodoravni'} · sličica: ${r.posterBlob ? 'ručno odabrana' : 'automatski (GitHub Action)'}</span>
+        <div class="video-embed-actions">
+          <button type="button" data-video-edit="${id}">Uredi</button>
+          <button type="button" data-video-remove="${id}">Ukloni</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+const vd = {
+  dlg: document.getElementById('videoDialog'),
+  url: document.getElementById('vdUrl'),
+  title: document.getElementById('vdTitle'),
+  vertical: document.getElementById('vdVertical'),
+  err: document.getElementById('vdError'),
+  prev: document.getElementById('vdPreview'),
+  prevImg: document.getElementById('vdPreviewImg'),
+  posterInput: document.getElementById('vdPosterInput'),
+  posterThumb: document.getElementById('vdPosterThumb'),
+  posterClear: document.getElementById('vdPosterClear')
+};
+
+function dialogSetPoster(blob, thumb) {
+  dialogPosterBlob = blob || null;
+  dialogPosterThumb = thumb || '';
+  vd.posterThumb.src = dialogPosterThumb;
+  vd.posterThumb.style.display = blob ? 'block' : 'none';
+  vd.posterClear.style.display = blob ? '' : 'none';
+}
+
+function dialogUpdatePreview() {
+  const id = parseYouTubeId(vd.url.value);
+  if (id) { vd.prevImg.src = `https://i.ytimg.com/vi/${id}/mqdefault.jpg`; vd.prev.style.display = 'block'; }
+  else { vd.prev.style.display = 'none'; }
+}
+vd.url.addEventListener('input', dialogUpdatePreview);
+
+function openVideoDialog(targetId) {
+  videoTargetId = targetId || null;
+  const r = targetId ? videoBlocks.get(targetId) : null;
+  document.getElementById('vdHeading').textContent = r ? 'Uredi YouTube video' : 'Umetni YouTube video';
+  document.getElementById('vdOk').textContent = r ? 'Spremi' : 'Umetni';
+  vd.url.value = r ? r.ytId : '';
+  vd.title.value = r ? r.title : '';
+  vd.vertical.checked = r ? r.okomit : false;
+  vd.err.textContent = '';
+  dialogSetPoster(r ? r.posterBlob : null, r ? r.posterThumb : '');
+  dialogUpdatePreview();
+  vd.dlg.showModal();
+  vd.url.focus();
+}
+
+// Sličica se pri odabiru smanji (najviše 960 px širine) i pretvori u JPEG, pa se uvijek sprema kao video-ID.jpg.
+function imageToJpegBlob(file, maxW) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const im = new Image();
+    im.onload = () => {
+      const k = Math.min(1, maxW / im.naturalWidth);
+      const c = document.createElement('canvas');
+      c.width = Math.round(im.naturalWidth * k);
+      c.height = Math.round(im.naturalHeight * k);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => b ? resolve(b) : reject(new Error('Pretvorba slike nije uspjela')), 'image/jpeg', 0.85);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Slika se ne može pročitati')); };
+    im.src = url;
+  });
+}
+
+document.getElementById('insertVideoBtn').addEventListener('click', function () {
+  videoSavedRange = quill.getSelection(true);
+  openVideoDialog(null);
+});
+document.getElementById('vdPosterBtn').addEventListener('click', () => vd.posterInput.click());
+vd.posterInput.addEventListener('change', async function () {
+  const f = this.files[0];
+  this.value = '';
+  if (!f) return;
+  try {
+    const blob = await imageToJpegBlob(f, 960);
+    dialogSetPoster(blob, await fileToBase64(blob));
+  } catch (e) { vd.err.textContent = 'Sličica: ' + e.message; }
+});
+vd.posterClear.addEventListener('click', () => dialogSetPoster(null, ''));
+document.getElementById('vdCancel').addEventListener('click', () => vd.dlg.close());
+
+document.getElementById('vdOk').addEventListener('click', function () {
+  const ytId = parseYouTubeId(vd.url.value);
+  if (!ytId) { vd.err.textContent = 'Ne prepoznajem YouTube poveznicu ili ID. ID ima točno 11 znakova (npr. PrINW32njmw).'; return; }
+  const rec = { ytId, title: vd.title.value.trim(), okomit: vd.vertical.checked, posterBlob: dialogPosterBlob, posterThumb: dialogPosterThumb };
+  if (videoTargetId) {
+    videoBlocks.set(videoTargetId, rec);
+    renderVideoNode(videoTargetId);
+  } else {
+    const id = 'vid-' + (++videoCounter) + '-' + Date.now();
+    videoBlocks.set(id, rec);
+    const range = videoSavedRange || quill.getSelection(true) || { index: quill.getLength(), length: 0 };
+    quill.insertEmbed(range.index, 'ytvideo', { id }, Quill.sources.USER);
+    quill.setSelection(range.index + 1, Quill.sources.SILENT);
+  }
+  vd.dlg.close();
+});
+
+quill.root.addEventListener('click', function (e) {
+  const ed = e.target.closest('[data-video-edit]');
+  if (ed) { openVideoDialog(ed.getAttribute('data-video-edit')); return; }
+  const rm = e.target.closest('[data-video-remove]');
+  if (rm) {
+    const id = rm.getAttribute('data-video-remove');
+    videoBlocks.delete(id);
+    const container = rm.closest('.video-embed');
+    const blot = container && Quill.find(container);
+    if (blot) quill.deleteText(quill.getIndex(blot), 1, Quill.sources.USER);
+  }
+});
+
+// Oznaka koja se upisuje u gotovu vijest (klikni-za-prikaz; vidi assets/js/video-facade.js i .vijest-video u main.css).
+// Sličica je lokalna datoteka video-ID.jpg u folderu vijesti (ručno odabrana ili je skida GitHub Action);
+// dok je nema, onerror je skriva i vidi se tamna pločica s naslovom.
+function buildVideoFacade(r) {
+  const t = escHtml(r.title);
+  const klasa = 'video-facade' + (r.okomit ? ' video-facade-okomit' : '');
+  const note = 'Klikom na sliku učitava se video s YouTubea.';
+  const noteEn = 'Clicking the image loads the video from YouTube.';
+  return `
+      <div class="vijest-video">
+        <button type="button" class="${klasa}" data-yt="${r.ytId}" data-title="${t}">
+          <img src="video-${r.ytId}.jpg" alt="" loading="lazy" onerror="this.remove()">
+          <span class="video-caption">
+            <span class="video-play" aria-hidden="true"></span>
+            <span class="video-text">${t ? `<strong>${t}</strong>` : ''}<span data-hr="${note}" data-en="${noteEn}">${note}</span></span>
+          </span>
+        </button>
+      </div>`;
+}
+
 // ---- Naziv foldera (samo prema datumu — nikad dvije vijesti isti dan) ----
 document.getElementById('datum').addEventListener('input', updateFolder);
 
@@ -699,6 +977,15 @@ async function generiraj() {
     wrapper.innerHTML = buildFotoGrid(records).trim();
     node.replaceWith(...wrapper.childNodes);
   });
+  let brojVidea = 0;
+  tmp.querySelectorAll('.video-embed').forEach(node => {
+    const rec = videoBlocks.get(node.getAttribute('data-video-id'));
+    if (!rec) { node.remove(); return; }
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = buildVideoFacade(rec).trim();
+    node.replaceWith(...wrapper.childNodes);
+    brojVidea++;
+  });
   const finalContent = tmp.innerHTML;
 
   const html = `<!DOCTYPE html>
@@ -742,7 +1029,8 @@ async function generiraj() {
 </main>
 
 <script src="../../assets/js/header.js"><\/script>
-<script src="../../assets/js/vijesti-lightbox.js"><\/script>
+<script src="../../assets/js/vijesti-lightbox.js"><\/script>${brojVidea ? `
+<script src="../../assets/js/video-facade.js"><\/script>` : ''}
 <script>
 (function(){
   const d = document.querySelector('meta[name="datum"]');
@@ -761,7 +1049,7 @@ async function generiraj() {
   const brojFotki = (naslovnaFile ? 1 : 0) +
     Array.from(galleryBlocks.values()).reduce((sum, r) => sum + r.length, 0);
   document.getElementById('downloadName').textContent =
-    `vijesti/${datum}/  (ZIP: index.html + ${brojFotki} fotografija)`;
+    `vijesti/${datum}/  (ZIP: index.html + ${brojFotki} fotografija` + (brojVidea ? ` + ${brojVidea} video` : '') + ')';
   document.getElementById('downloadCard').className = 'download-card show';
   document.getElementById('status').className = 'status';
 
@@ -791,6 +1079,8 @@ async function preuzmi() {
     galleryBlocks.forEach(records => {
       records.forEach(r => folder.file(r.name, r.file));
     });
+    // Ručno odabrane sličice videa (video-ID.jpg); za ostale ih skida GitHub Action.
+    videoBlocks.forEach(r => { if (r.posterBlob) folder.file(`video-${r.ytId}.jpg`, r.posterBlob); });
     const blob = await zip.generateAsync({ type: 'blob' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -825,6 +1115,7 @@ function resetForm() {
   document.getElementById('datum').value = new Date().toISOString().split('T')[0];
   quill.setText('');
   galleryBlocks.clear();
+  videoBlocks.clear();
   usedFilenames.clear();
   galleryCounter = 0;
   naslovnaFile = null;

@@ -2,6 +2,8 @@
    Dok posjetitelj ne klikne, stranica ne kontaktira YouTube (nema prijenosa IP adrese).
    Na klik se gumb .video-facade zamjenjuje YouTube plejerom (youtube-nocookie.com) i video odmah kreće.
 
+   U vijestima je pločica u <div class="vijest-video">; za okomite videe ima i klasu video-facade-okomit.
+
    Oznaka u HTML-u:
      <button type="button" class="video-facade" data-yt="ID_VIDEA" data-title="Naslov">
        <img src="slika.jpg" alt="" loading="lazy">
@@ -17,6 +19,8 @@ document.addEventListener('click', function (e) {
   var f = document.createElement('iframe');
   f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.yt) + '?autoplay=1&rel=0';
   f.title = btn.dataset.title || 'Video';
+  // Isti okvir kao pločica: u vijestima (.vijest-video) CSS po klasama zadaje omjer, a okomiti videi ostaju okomiti.
+  f.className = 'video-iframe' + (btn.classList.contains('video-facade-okomit') ? ' video-iframe-okomit' : '');
   f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
   f.allowFullscreen = true;
   btn.replaceWith(f);

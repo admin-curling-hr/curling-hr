@@ -618,25 +618,30 @@ img { max-width: 100%; height: auto; display: block; }
    requestFullscreen() ručno prebacuje ovu klasu, isti vizualni rezultat kao :fullscreen
    pravila iznad, samo bez sakrivanja adresne trake preglednika. */
 .vijesti-lightbox-stage.pseudo-fullscreen { position: fixed; inset: 0; z-index: 2001; margin: 0; background: #000; width: 100vw; height: 100vh; border-radius: 0; }
-/* max-width ovdje NIJE 96vw kao kod :fullscreen iznad (namjerno) - na uskim (mobilnim)
-   zaslonima 96vw fotografije uz strelice lijevo/desno (40px + razmak) ne bi stalo u
-   100vw pa bi strelice ispale izvan vidljivog dijela ekrana. Rezervira se prostor za
-   obje strelice (2 × ~55px). Desktop ovo ne pogađa jer .pseudo-fullscreen uopće ne
-   postoji tamo (aktivira se samo kad preglednik nema Fullscreen API, npr. iOS Safari). */
-.vijesti-lightbox-stage.pseudo-fullscreen .vijesti-lightbox-image { max-width: calc(100vw - 110px); max-height: 96vh; border-radius: 0; }
+/* Strelice su sada na samoj fotografiji, pa im ne treba rezervirati prostor sa strane. */
+.vijesti-lightbox-stage.pseudo-fullscreen .vijesti-lightbox-image { max-width: 100vw; max-height: 96vh; border-radius: 0; }
+/* Strelice su na samoj fotografiji (lijevo i desno, okomito u sredini) - okvir je zato širi.
+   Isti izgled kao gumb za zatvaranje i cijeli ekran (tamna prozirna podloga, bijela strelica). */
 .vijesti-lightbox-nav {
-  background: rgba(255, 255, 255, 0.15);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.55);
   border: none;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   font-size: 22px;
+  line-height: 1;
   color: #fff;
   cursor: pointer;
-  flex-shrink: 0;
 }
-.vijesti-lightbox-nav:hover { background: rgba(255, 255, 255, 0.3); }
+.vijesti-lightbox-prev { left: 8px; }
+.vijesti-lightbox-next { right: 8px; }
+.vijesti-lightbox-nav:hover { background: rgba(0, 0, 0, 0.8); }
 .vijesti-lightbox-nav:disabled { opacity: 0.25; cursor: default; }
+@media (max-width: 600px) { .vijesti-lightbox-overlay { padding: 40px 8px; } }
 .vijesti-lightbox-footer {
   display: flex;
   align-items: baseline;
@@ -1552,6 +1557,29 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .video-facade:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
 .video-wrap iframe { display: block; }
+
+/* --- Video u tekstu vijesti (generira ga editor, vidi edit/index.html): klikni-za-prikaz u stupcu teksta.
+   Vodoravni video je 16:9 u punoj širini stupca. Okomiti (Shorts) ima vlastiti uski okvir 9:16 -
+   najviše 360 px širine i 80% visine zaslona (na mobitelu puna širina stupca) - pa unutar njega nema crnih rubova. --- */
+.vijest-video { margin: 1.5rem 0; }
+.vijest-video .video-facade,
+.vijest-video .video-iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 6px;
+  margin: 0;
+}
+/* .post-content img ima marginu i zaobljene rubove (za fotke u tekstu) - ovdje to ne smije utjecati na sličicu videa */
+.vijest-video .video-facade img { margin: 0; border-radius: 0; }
+.vijest-video .video-facade-okomit,
+.vijest-video .video-iframe-okomit {
+  width: min(100%, 360px, calc(80vh * 0.5625));
+  aspect-ratio: 9 / 16;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* --- Korisne poveznice na naslovnici (pločice) ---
    Pločice fiksne širine poravnate ulijevo, kao izbornik i vijesti: adresa

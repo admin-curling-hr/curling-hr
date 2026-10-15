@@ -299,6 +299,7 @@
   /* Pregled fotografije: fotka centrirana okomito (ne uz vrh) i tamnija pozadina iza nje -
      isti dojam kao kod pregleda fotki iz vijesti. */
   .modal-overlay.overlay-photo{align-items:center; background:rgba(0,0,0,0.85);}
+  @media (max-width:600px){ .modal-overlay.overlay-photo{padding:40px 8px;} }
   .modal{background:var(--phc-white); border-radius:14px; max-width:640px; width:100%; padding:28px 28px 26px; position:relative;}
   .modal-close{position:absolute; top:16px; right:16px; width:30px; height:30px; border-radius:50%; border:none; background:var(--ice-2); font-size:16px; cursor:pointer; color:var(--navy); z-index:10;}
   .modal .info-block{font-size:13.5px; color:var(--text-muted); margin-bottom:20px; display:flex; flex-direction:column; gap:5px;}
@@ -368,9 +369,32 @@
 
   .video-thumb{position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; cursor:pointer; box-shadow:0 0 0 1px var(--sheet-line); background:#000;}
   .video-thumb video{width:100%; height:100%; object-fit:cover; display:block; pointer-events:none;}
+  .video-thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.15s;}
+  .video-thumb:hover img{transform:scale(1.06);}
+  .video-thumb-ph{background:linear-gradient(135deg,#2b3540,#14191f); display:flex; align-items:flex-end; justify-content:center;}
+  .video-thumb-ph .video-play-icon{inset:0 0 42% 0; background:none; font-size:26px;}
+  .video-ph-title{position:relative; z-index:1; color:#fff; font-size:0.72rem; font-weight:600; line-height:1.25; text-align:center; padding:0 0.5rem 0.5rem; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;}
+  /* YouTube u modalu: lokalna sličica + gumb za pokretanje; nakon klika zamjenjuje ga iframe */
+  /* Prozor videa = isti izgled kao pregled fotografija (.modal-photo, .lightbox-frame...).
+     Širina ovisi o omjeru stranica sličice (--ar, postavlja videoPosterLoaded): najviše 76vh visine,
+     pa sličica/plejer točno ispune okvir bez crnih rubova. */
+  .lightbox-body.video-body{flex:0 1 auto; width:min(100%, calc(76vh * var(--ar, 1.7778)));}
+  .video-body .lightbox-frame{display:block; width:100%;}
+  .video-yt-stage{position:relative; display:block; width:100%; aspect-ratio:var(--ar, 1.7778); padding:0; border:0; border-radius:8px; overflow:hidden; background:#000; cursor:pointer;}
+  .video-yt-stage img{width:100%; height:100%; object-fit:contain; display:block;}
+  .video-yt-stage::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.85) 100%); pointer-events:none;}
+  .video-yt-caption{position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; align-items:center; gap:0.65rem; padding:0.6rem 0.8rem; color:#fff; font-size:0.8rem; line-height:1.35; text-align:left;}
+  .video-yt-text{min-width:0;}
+  /* Gumb za reprodukciju kao na stranici "O curlingu": mali, crveni, u donjem lijevom kutu, lijevo od teksta */
+  .video-yt-play{position:relative; flex:0 0 auto; width:40px; height:28px; background:var(--hcs-red,#cc0000); border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.5); transition:transform 0.15s, background 0.15s;}
+  .video-yt-play::before{content:""; position:absolute; left:16px; top:8px; border-left:12px solid #fff; border-top:6px solid transparent; border-bottom:6px solid transparent;}
+  .video-yt-stage:hover .video-yt-play, .video-yt-stage:focus-visible .video-yt-play{transform:scale(1.1); background:#e60000;}
+  .video-yt-stage:focus-visible{outline:3px solid #fff; outline-offset:-3px;}
+  @media (max-width:600px){ .video-yt-caption{font-size:0.68rem; gap:0.5rem; padding:0.45rem 0.55rem;} .video-yt-play{width:34px; height:24px; border-radius:7px;} .video-yt-play::before{left:13px; top:6px; border-left-width:11px; border-top-width:6px; border-bottom-width:6px;} }
+  .video-yt-player{width:100%; aspect-ratio:var(--ar, 1.7778); border:0; border-radius:8px; display:block; background:#000;}
   .video-play-icon{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff; background:rgba(0,0,0,0.15); text-shadow:0 1px 4px rgba(0,0,0,0.6);}
   .video-thumb:hover .video-play-icon{background:rgba(0,0,0,0.3);}
-  .video-modal-player{width:100%; max-height:70vh; border-radius:8px; display:block; background:#000;}
+  .video-modal-player{max-width:100%; max-height:76vh; border-radius:8px; display:block; background:#000;}
 
   /* Modal bez bijelog okvira/paddinga - koristi se samo za prikaz fotografija
      (fotografija treba biti veća i bez "kartice" oko sebe). Natpis/brojač su ovdje
@@ -403,19 +427,15 @@
      requestFullscreen() ručno prebacuje ovu klasu, isti vizualni rezultat kao :fullscreen
      pravila iznad, samo bez sakrivanja adresne trake preglednika. */
   .lightbox.pseudo-fullscreen{position:fixed; inset:0; z-index:2001; margin:0; background:#000; width:100vw; height:100vh; border-radius:0;}
-  /* max-width ovdje NIJE 96vw kao kod :fullscreen iznad (namjerno) - na uskim (mobilnim)
-     zaslonima 96vw fotografije uz strelice lijevo/desno (38px + razmak) ne bi stalo u
-     100vw pa bi strelice ispale izvan vidljivog dijela ekrana. Rezervira se prostor za
-     obje strelice (2 × ~55px). Desktop ovo ne pogađa jer .pseudo-fullscreen uopće ne
-     postoji tamo (aktivira se samo kad preglednik nema Fullscreen API, npr. iOS Safari). */
-  .lightbox.pseudo-fullscreen .lightbox-image{max-width:calc(100vw - 110px); max-height:96vh; border-radius:0;}
-  .lightbox-nav{background:var(--ice-2); border:none; border-radius:50%; width:38px; height:38px; font-size:20px; color:var(--navy); cursor:pointer; flex-shrink:0;}
-  .lightbox-nav:hover{background:var(--sheet-line);}
+  /* Strelice su na samoj fotki, pa im ne treba rezervirati prostor sa strane. */
+  .lightbox.pseudo-fullscreen .lightbox-image{max-width:100vw; max-height:96vh; border-radius:0;}
+  /* Strelice su na samoj fotki/videu (lijevo i desno, okomito u sredini), pa je okvir širi:
+     isti izgled kao gumb za zatvaranje i cijeli ekran (tamna prozirna podloga, bijela strelica). */
+  .lightbox-nav{position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:38px; height:38px; border:none; border-radius:50%; background:rgba(28,43,57,0.65); color:#fff; font-size:22px; line-height:1; cursor:pointer;}
+  .lightbox-prev{left:8px;}
+  .lightbox-next{right:8px;}
+  .lightbox-nav:hover{background:rgba(28,43,57,0.85);}
   .lightbox-nav:disabled{opacity:0.3; cursor:default;}
-  /* Pregled fotografije: prozirna bijela pozadina strelica na tamnoj pozadini iza fotke -
-     isto kao kod pregleda fotki iz vijesti (.vijesti-lightbox-nav u main.css). */
-  .modal-photo .lightbox-nav{background:rgba(255,255,255,0.15); color:#fff;}
-  .modal-photo .lightbox-nav:hover{background:rgba(255,255,255,0.3);}
   .lightbox-footer{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-top:10px;}
   .lightbox-counter{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-muted); flex-shrink:0;}
   .lightbox-caption{font-family:'Space Grotesk', sans-serif; font-size:14.5px; font-weight:600; color:var(--navy);}

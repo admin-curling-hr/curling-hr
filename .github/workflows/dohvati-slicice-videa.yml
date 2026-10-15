@@ -1,0 +1,38 @@
+name: Dohvati sličice YouTube videa
+
+on:
+  push:
+    paths:
+      - 'prvenstva/**/video.txt'   # Pokreće se samo kad se mijenja neki video.txt
+      - 'vijesti/**/index.html'    # ... ili neka vijest (video u vijesti)
+  workflow_dispatch:                # Može se pokrenuti i ručno (Actions -> ovaj workflow -> Run workflow)
+
+jobs:
+  slicice:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Potrebno za commit nazad u repo
+
+    steps:
+      - name: Dohvati kod
+        uses: actions/checkout@v4
+
+      - name: Postavi Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Instaliraj Pillow
+        run: pip install pillow
+
+      - name: Skini sličice koje nedostaju (video-N.jpg)
+        run: python skripte/dohvati-slicice-videa.py
+
+      - name: Commitaj nove sličice ako ih ima
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 'prvenstva/**/video-*.jpg' 'vijesti/**/video-*.jpg'
+          git diff --cached --quiet || git commit -m "Auto: sličice YouTube videa"
+          git pull --rebase
+          git push

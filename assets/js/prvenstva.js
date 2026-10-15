@@ -1564,6 +1564,77 @@ async function fileExists(url){
   }
 }
 
+// video.txt: jedan video po retku, oblik "N: ID_VIDEA Naslov" (npr. "1: PrINW32njmw Dodjela medalja").
+// N = redni broj (sličica je video-N.jpg u istoj mapi); ID videa je točno 11 znakova (slova, brojke, - i _),
+// iza kojih slijedi razmak i naslov. Znak "|" iza ID-a je dopušten (stariji zapisi), ali nije potreban.
+// Naslov je neobavezan. Prazni retci i retci koji počinju s # se preskaču; nerazumljiv redak se preskače
+// tiho. Redoslijed redaka = redoslijed prikaza.
+async function loadVideoTxt(url){
+  const out = { captions: {}, yt: {}, order: [] };
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if(!res.ok) return out;
+    const text = await res.text();
+    text.split('\n').forEach(line => {
+      if(!line.trim() || /^\s*#/.test(line)) return;
+      const m = line.match(/^\s*(\d+)\s*:\s*([A-Za-z0-9_-]{11})(?:(?:\s*\|\s*|\s+)(.*?))?\s*$/);
+      if(!m) return;   // nerazumljiv redak se tiho preskače
+      const k = Number(m[1]);
+      if(!(k in out.yt)) out.order.push(k);
+      out.yt[k] = m[2];
+      out.captions[k] = m[3] || '';
+    });
+  } catch(e){}
+  return out;
+}
+
+// foto.txt kao POPIS fotografija (ako datoteka postoji, ona je jedini izvor; redoslijed = redoslijed redaka).
+// Dopušteni retci (prazni retci i retci koji počinju s # se preskaču):
+//   2                      -> 2.jpg bez natpisa
+//   2: Natpis              -> 2.jpg s natpisom
+//   test                   -> test.jpg (ili test.jpeg / test.png / test.webp, što postoji), bez natpisa
+//   test: Natpis
+//   dodjela-medalja.jpg    -> datoteka s točno tim imenom (jpg, jpeg, png, webp, gif)
+// Ime datoteke ne smije sadržavati razmake, dvotočku ni kosu crtu.
+// Fotografija s popisa koja ne postoji u mapi preskače se (nema slomljene slike).
+// Vraća null ako foto.txt ne postoji ili nema nijedan valjan redak (tada vrijedi stara logika 1.jpg, 2.jpg, ...),
+// inače {files:[putanje], captions:{1-bazirani položaj: natpis}}.
+async function loadPhotoList(folder){
+  let text;
+  try {
+    const res = await fetch(`${folder}/foto.txt`, { cache: 'no-store' });
+    if(!res.ok) return null;
+    text = await res.text();
+  } catch(e){ return null; }
+  const entries = [];
+  const seen = new Set();
+  text.split('\n').forEach(line => {
+    if(/^\s*#/.test(line)) return;
+    const m = line.match(/^\s*([^\s:\/\\]+)\s*(?::\s*(.*?))?\s*$/);
+    if(!m) return;
+    const token = m[1];
+    let candidates;
+    if(/^\d+$/.test(token)) candidates = [`${Number(token)}.jpg`];
+    else if(/\.(?:jpe?g|png|webp|gif)$/i.test(token)) candidates = [token];
+    else candidates = ['.jpg', '.jpeg', '.png', '.webp'].map(ext => token + ext);
+    if(seen.has(candidates[0])) return;
+    seen.add(candidates[0]);
+    entries.push({ token, candidates, caption: m[2] || '' });
+  });
+  if(!entries.length) return null;
+  const found = await Promise.all(entries.map(async e => {
+    for(const c of e.candidates){ if(await fileExists(`${folder}/${c}`)) return c; }
+    return null;
+  }));
+  const files = [], captions = {};
+  entries.forEach((e, i) => {
+    if(!found[i]) return;   // fotka s popisa koje nema u mapi tiho se preskače
+    files.push(`${folder}/${found[i]}`);
+    if(e.caption) captions[files.length] = e.caption;
+  });
+  return { files, captions };
+}
+
 // Provjerava do maxCount numeriranih datoteka ISTOVREMENO (ne jednu za drugom), pa vrati
 // samo one od 1. redom dok ne naiđe na prvu koja ne postoji (npr. 1.jpg, 2.jpg, ... do rupe)
 async function findSequentialFiles(pathFn, maxCount){
@@ -1859,9 +1930,10 @@ function closeModal(){
   _lightboxPhotos = [];
   _lightboxCaptions = {};
   _lightboxVideos = [];
-  _lightboxVideoCaptions = {};
   const vid = document.querySelector('#modalBody video');
   if(vid) vid.pause();
+  const ytf = document.querySelector('#modalBody iframe.video-yt-player');
+  if(ytf) ytf.remove();
 }
 document.getElementById('modalOverlay').addEventListener('click', (e) => {
   if(e.target.id === 'modalOverlay') closeModal();
@@ -2633,12 +2705,14 @@ async function render(){
     </section>`;
   }
 
-  // photos — numerirane 1.jpg, 2.jpg... u istoj mapi; sve provjere idu istovremeno pa
-  // uzimamo redom od 1. dok ne naiđemo na prvu rupu
-  const photos = await findSequentialFiles(i => `${tournFolder}/${i}.jpg`, 20);
+  // photos — popis iz foto.txt ili (rezerva) numerirane 1.jpg, 2.jpg... u istoj mapi; sve provjere
+  // idu istovremeno pa uzimamo redom od 1. dok ne naiđemo na prvu rupu
+  // Ako postoji foto.txt, on je popis fotografija (vidi loadPhotoList); ako ne, probavamo 1.jpg, 2.jpg, ...
+  const photoList = await loadPhotoList(tournFolder);
+  const photos = photoList ? photoList.files : await findSequentialFiles(i => `${tournFolder}/${i}.jpg`, 20);
   let photoCaptions = {};
   if(photos.length){
-    photoCaptions = await loadCaptions(`${tournFolder}/foto.txt`);
+    photoCaptions = photoList ? photoList.captions : await loadCaptions(`${tournFolder}/foto.txt`);
     html2 += `<section class="block"><h2 class="section-h">Fotografije</h2>`;
     html2 += `<div class="photo-grid">`;
     photos.forEach((p, i) => {
@@ -2647,15 +2721,34 @@ async function render(){
     html2 += `</div></section>`;
   }
 
-  // videi — numerirani 1.mp4, 2.mp4... isti princip kao fotografije
-  const videos = await findSequentialFiles(i => `${tournFolder}/${i}.mp4`, 10);
-  let videoCaptions = {};
+  // videi: YouTube (video.txt je popis; redak "N: ID Naslov" + sličica video-N.jpg, redoslijed = redoslijed
+  // redaka) ili, kao rezerva, lokalni numerirani 1.mp4, 2.mp4... Ako tournament ima YouTube zapise, mp4 se ne traži.
+  const vtxt = await loadVideoTxt(`${tournFolder}/video.txt`);
+  const ytNums = vtxt.order;   // redoslijed redaka u video.txt
+  const videos = [];
+  if(ytNums.length){
+    const posterOk = await Promise.all(ytNums.map(n => fileExists(`${tournFolder}/video-${n}.jpg`)));
+    ytNums.forEach((n, i) => {
+      // Bez sličice video se i dalje prikazuje (neutralna pločica s naslovom); sličicu inače stvara
+      // GitHub Action "Dohvati sličice YouTube videa" ili se ručno doda kao video-N.jpg.
+      videos.push({ type:'yt', id: vtxt.yt[n], poster: posterOk[i] ? `${tournFolder}/video-${n}.jpg` : null, caption: vtxt.captions[n] || '' });
+    });
+  } else {
+    const mp4s = await findSequentialFiles(i => `${tournFolder}/${i}.mp4`, 10);
+    mp4s.forEach((src, i) => videos.push({ type:'mp4', src, caption: '' }));
+  }
   if(videos.length){
-    videoCaptions = await loadCaptions(`${tournFolder}/video.txt`);
     html2 += `<section class="block"><h2 class="section-h">Videozapisi</h2>`;
     html2 += `<div class="photo-grid">`;
     videos.forEach((v, i) => {
-      html2 += `<div class="video-thumb" data-video-index="${i}"><video src="${v}#t=0.5" preload="metadata" muted playsinline></video><span class="video-play-icon">▶</span></div>`;
+      if(v.type === 'yt'){
+        const thumbImg = v.poster
+          ? `<img src="${escapeHtml(v.poster)}" alt="${escapeHtml(v.caption)}" loading="lazy">`
+          : `<span class="video-ph-title">${escapeHtml(v.caption || 'Video')}</span>`;
+        html2 += `<div class="video-thumb${v.poster ? '' : ' video-thumb-ph'}" data-video-index="${i}">${thumbImg}<span class="video-play-icon">▶</span></div>`;
+      } else {
+        html2 += `<div class="video-thumb" data-video-index="${i}"><video src="${v.src}#t=0.5" preload="metadata" muted playsinline></video><span class="video-play-icon">▶</span></div>`;
+      }
     });
     html2 += `</div></section>`;
   }
@@ -2674,7 +2767,7 @@ async function render(){
   });
   content.querySelectorAll('[data-video-index]').forEach(el => {
     const idx = Number(el.dataset.videoIndex);
-    el.addEventListener('click', () => openVideoModal(videos, idx, videoCaptions));
+    el.addEventListener('click', () => openVideoModal(videos, idx));
   });
 }
 
@@ -2941,10 +3034,11 @@ function renderLightbox(){
   document.getElementById('modalOverlay').classList.add('overlay-photo');
   body.innerHTML = `
     <div class="lightbox" id="lightboxStage">
-      <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" ${n<=1?'disabled':''}>‹</button>
       <div class="lightbox-body">
         <div class="lightbox-frame">
           <img class="lightbox-image" src="${src}" alt="Fotografija ${_lightboxIndex+1}">
+          <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" ${n<=1?'disabled':''} aria-label="Prethodna">‹</button>
+          <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" ${n<=1?'disabled':''} aria-label="Sljedeća">›</button>
           <button class="lightbox-close" onclick="closeModal()" title="Zatvori" aria-label="Zatvori">×</button>
           <button class="lightbox-fullscreen-btn" onclick="toggleLightboxFullscreen()" title="Prikaži preko cijelog ekrana"><span class="hi hi-expand"></span></button>
         </div>
@@ -2953,7 +3047,6 @@ function renderLightbox(){
           <div class="lightbox-counter">${_lightboxIndex+1}/${n}</div>
         </div>
       </div>
-      <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" ${n<=1?'disabled':''}>›</button>
     </div>
   `;
 }
@@ -2990,37 +3083,75 @@ function lightboxNav(delta){
 // ===================== Videozapisi (ista navigacija lijevo/desno) =====================
 let _lightboxVideos = [];
 let _lightboxVideoIndex = 0;
-let _lightboxVideoCaptions = {};
 
-function openVideoModal(videos, index, captions){
+function openVideoModal(videos, index){
   _lightboxVideos = videos;
   _lightboxVideoIndex = index;
-  _lightboxVideoCaptions = captions || {};
   renderVideoModal();
   document.getElementById('modalOverlay').classList.add('open');
 }
 
 function renderVideoModal(){
+  // Isti izgled kao pregled fotografija: bez bijele kartice, tamna pozadina, veći prozor,
+  // naslov i brojač ispod (renderLightbox). Na samom videu ostaju samo play i poruka o YouTubeu.
   const body = document.getElementById('modalBody');
   body.classList.remove('modal-wide');
-  body.classList.remove('modal-photo');
-  document.getElementById('modalOverlay').classList.remove('overlay-photo');
+  body.classList.add('modal-photo');
+  document.getElementById('modalOverlay').classList.add('overlay-photo');
   const n = _lightboxVideos.length;
-  const src = _lightboxVideos[_lightboxVideoIndex];
-  const caption = _lightboxVideoCaptions[_lightboxVideoIndex + 1];
+  const v = _lightboxVideos[_lightboxVideoIndex];
+  const caption = v.caption;
+  let player;
+  if(v.type === 'yt'){
+    // Sličica je lokalna: dok korisnik ne klikne, nema kontakta s YouTubeom/Googleom.
+    const en = (function(){ try { return localStorage.getItem('hcs-lang') === 'en'; } catch(e){ return false; } })();
+    const note = en ? 'Clicking the image loads the video from YouTube.' : 'Klikom na sliku učitava se video s YouTubea.';
+    player = `<button type="button" class="video-yt-stage" onclick="startYoutubeVideo(this)" data-yt="${escapeHtml(v.id)}" data-title="${escapeHtml(caption)}" aria-label="${escapeHtml(caption || 'Video')}">
+          ${v.poster ? `<img src="${escapeHtml(v.poster)}" alt="" onload="videoPosterLoaded(this)">` : ''}
+          <span class="video-yt-caption">
+            <span class="video-yt-play" aria-hidden="true"></span>
+            <span class="video-yt-text">${note}</span>
+          </span>
+        </button>`;
+  } else {
+    player = `<video class="video-modal-player" src="${v.src}" controls autoplay playsinline></video>`;
+  }
 
   body.innerHTML = `
-    <button class="modal-close" onclick="closeModal()">×</button>
     <div class="lightbox">
-      <button class="lightbox-nav lightbox-prev" onclick="videoNav(-1)" ${n<=1?'disabled':''}>‹</button>
-      <video class="video-modal-player" src="${src}" controls autoplay playsinline></video>
-      <button class="lightbox-nav lightbox-next" onclick="videoNav(1)" ${n<=1?'disabled':''}>›</button>
-    </div>
-    <div class="lightbox-footer">
-      <div class="lightbox-caption">${caption ? escapeHtml(caption) : ''}</div>
-      <div class="lightbox-counter">${_lightboxVideoIndex+1}/${n}</div>
+      <div class="lightbox-body${v.type === 'yt' ? ' video-body' : ''}">
+        <div class="lightbox-frame">
+          ${player}
+          <button class="lightbox-nav lightbox-prev" onclick="videoNav(-1)" ${n<=1?'disabled':''} aria-label="Prethodni">‹</button>
+          <button class="lightbox-nav lightbox-next" onclick="videoNav(1)" ${n<=1?'disabled':''} aria-label="Sljedeći">›</button>
+          <button class="lightbox-close" onclick="closeModal()" title="Zatvori" aria-label="Zatvori">×</button>
+        </div>
+        <div class="lightbox-footer">
+          <div class="lightbox-caption">${caption ? escapeHtml(caption) : ''}</div>
+          <div class="lightbox-counter">${_lightboxVideoIndex+1}/${n}</div>
+        </div>
+      </div>
     </div>
   `;
+}
+
+// Prozor videa poprima omjer stranica sličice (vodoravni 16:9, okomiti 9:16...), pa nema crnih rubova.
+function videoPosterLoaded(img){
+  if(!img.naturalWidth || !img.naturalHeight) return;
+  const b = img.closest('.lightbox-body');
+  if(b) b.style.setProperty('--ar', (img.naturalWidth / img.naturalHeight).toFixed(4));
+}
+
+// Klik na sličicu: tek tada se učitava YouTube plejer (youtube-nocookie.com) i video kreće.
+function startYoutubeVideo(btn){
+  const f = document.createElement('iframe');
+  f.className = 'video-yt-player';
+  f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.yt) + '?autoplay=1&rel=0&playsinline=1';
+  f.title = btn.dataset.title || 'Video';
+  f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+  f.allowFullscreen = true;
+  // Namjerno bez f.focus(): kad fokus uđe u iframe, tipka Esc ne stiže do stranice i modal se ne bi zatvarao.
+  btn.replaceWith(f);
 }
 
 function videoNav(delta){

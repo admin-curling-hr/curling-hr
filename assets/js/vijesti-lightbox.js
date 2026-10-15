@@ -34,10 +34,11 @@
     overlay.innerHTML = `
       <div class="vijesti-lightbox-modal">
         <div class="vijesti-lightbox-stage">
-          <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-prev" title="Prethodna" aria-label="Prethodna fotografija">&lsaquo;</button>
           <div class="vijesti-lightbox-body">
             <div class="vijesti-lightbox-frame">
               <img class="vijesti-lightbox-image" alt="">
+              <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-prev" title="Prethodna" aria-label="Prethodna fotografija">&lsaquo;</button>
+              <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-next" title="Sljedeća" aria-label="Sljedeća fotografija">&rsaquo;</button>
               <button type="button" class="vijesti-lightbox-close" title="Zatvori" aria-label="Zatvori">&times;</button>
               <button type="button" class="vijesti-lightbox-fullscreen-btn" title="Prikaži preko cijelog ekrana" aria-label="Cijeli ekran">&#9974;</button>
             </div>
@@ -46,7 +47,6 @@
               <div class="vijesti-lightbox-counter"></div>
             </div>
           </div>
-          <button type="button" class="vijesti-lightbox-nav vijesti-lightbox-next" title="Sljedeća" aria-label="Sljedeća fotografija">&rsaquo;</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);

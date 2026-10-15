@@ -42,7 +42,7 @@ o-nama/index.html       — O savezu, kontakt, tijela, članarine, akti (+ PDF-o
 o-curlingu/index.html   — Objašnjenje pravila curlinga (ručno se uređuje)
 prvenstva/index.html    — SPA za statistiku i rezultate PH (Pregled/Statistika/Postignuća)
 reprezentacija/index.html — Nastupi hrvatskih reprezentacija na SP/EP
-prvenstva/<sezona>/<dis-kat>/  — PDF zapisnici i fotografije po prvenstvu (npr. 2025-2026/M-S/)
+prvenstva/<sezona>/<dis-kat>/  — PDF zapisnici, fotografije (+ foto.txt) i videi (video.txt + sličice) po prvenstvu (npr. 2025-2026/M-S/)
 assets/
   css/main.css           — zajednički stilovi (header, tema, vijesti-lightbox...)
   css/prvenstva.css      — stilovi specifični za SPA stranicu Prvenstva
@@ -97,12 +97,18 @@ svjesno izuzeta).
 
 ## Tema (svijetlo/tamno/auto)
 
-Isto u `header.js`, gumb `#themeToggle` kruži kroz `light → dark → auto`, sprema izbor u
+Isto u `header.js`, gumb `#themeToggle` kruži kroz `auto → light → dark`, sprema izbor u
 `localStorage` (`hcs-theme`) i postavlja `data-theme="light"` ili `data-theme="dark"` na
 `<html>`. **Nema CSS `@media (prefers-color-scheme)` fallbacka nigdje u kodu** — tamni
 način rada ovisi isključivo o tom atributu, pa čak i u "auto" načinu JS mora aktivno
 očitati postavku sustava i postaviti atribut (ne smije se osloniti na to da CSS to sam
 odradi).
+
+**Gumbi prikazuju SLJEDEĆE stanje** (što će se dogoditi na klik), a ne trenutno: ikona
+teme je ikona sljedeće teme u ciklusu (`auto` = monitor, `light` = sunce, `dark` = mjesec),
+a oznaka jezika je jezik na koji se prelazi („EN" dok je prikazan hrvatski, „HR" dok je
+engleski). Tooltipovi (`SWITCHER_TEXTS` u `header.js`) opisuju trenutno stanje i što će
+klik napraviti.
 
 Boje su definirane kao CSS varijable u `assets/css/main.css` (`:root` za svijetlo,
 `[data-theme="dark"]` za tamno) — nova komponenta treba koristiti te varijable
@@ -127,6 +133,24 @@ Najlakši način — koristi ugrađeni editor, ne piši HTML ručno:
    (omeđen komentarima `og:start`/`og:end`; pregled kartice pri dijeljenju linka na
    Facebooku, WhatsAppu i sl.) i pritom sam commita i te izmjene. Ručno ga ne uređuj:
    mijenjaš samo meta tagove `naslov`/`excerpt`/`slika`, a blok se osvježi sam.
+
+**YouTube video u vijesti.** U alatnoj traci editora je gumb 🎬: postavi kursor, klikni
+ga, zalijepi YouTube poveznicu (`watch?v=`, `youtu.be/` ili `shorts/`) ili 11-znakovni ID,
+upiši naslov i, ako je video okomit (Shorts / snimka uspravno), označi kvačicu **Okomiti
+video**. U tekstu se prikaže kartica koju možeš **Urediti** ili **Ukloniti**. Vijest dobiva
+„klikni za prikaz" pločicu (isto kao na stranici *O curlingu*): dok posjetitelj ne klikne,
+stranica ne kontaktira YouTube; na klik se na istom mjestu pokreće player
+(`youtube-nocookie.com`). Vodoravni video je 16:9 u širini teksta; okomiti ima uski okvir
+9:16 (najviše 360 px širine i 80 % visine zaslona, na mobitelu puna širina stupca), pa nema
+crnih rubova. Video mora biti na YouTube kanalu Saveza kao *Nije javno dostupno*.
+
+Sličica videa je datoteka `video-ID.jpg` u mapi vijesti. Ako je u editoru **ne odabereš**,
+skida je automatski GitHub Action „Dohvati sličice YouTube videa" nakon pusha (za okomite
+videe uz automatsko rezanje crnih bočnih traka); nakon par minuta napravi **Fetch/Pull** u
+GitHub Desktopu. Dok sličice nema, vidi se tamna pločica s naslovom. Ako je odabereš,
+editor je smanji, pretvori u JPEG i stavi u ZIP, a Action je ne prepisuje. Ručno uređena
+vijest (bez editora): vidi komentirani primjer u `vijesti/TEMPLATE.html`; stranica mora
+uključiti `assets/js/video-facade.js`.
 
 Alternativa (rijetko potrebna): ručno kopirati `vijesti/TEMPLATE.html` u novu mapu
 `vijesti/YYYY-MM-DD/index.html` i ispuniti meta-tagove `datum`/`naslov`/`excerpt`
@@ -159,10 +183,62 @@ istine za provjeru.
    commita rezultat u `assets/js/znacke-data.js` — ne treba ga ručno dirati (do
    25.9.2026. workflow je pozivao krivo ime skripte pa nije radio; ispravljeno je,
    vidi [Poznati problemi](#poznati-problemi--na-što-paziti) niže).
-5. Ako je odigrano prvenstvo imalo skenirane zapisnike i fotografije, dodaj ih u
-   `prvenstva/<sezona>/<disciplina-kategorija>/` (npr. `prvenstva/2026-2027/M-S/`) —
-   `1.jpg`, `2.jpg`... za fotke, `PHC-...-Sustav.pdf` i `PHC-...-K1-1.pdf` i slično za
-   zapisnike (vidi format imena u `skripte/split-zapisnici.py`).
+5. Ako je odigrano prvenstvo imalo skenirane zapisnike, fotografije ili videe, dodaj ih u
+   `prvenstva/<sezona>/<disciplina-kategorija>/` (npr. `prvenstva/2026-2027/M-S/`):
+   `PHC-...-Sustav.pdf` i `PHC-...-K1-1.pdf` i slično za zapisnike (vidi format imena u
+   `skripte/split-zapisnici.py`), a fotografije i videe prema uputama u nastavku.
+
+   **Fotografije — `foto.txt`.** Ako u mapi postoji `foto.txt`, on je *popis* fotografija:
+   prikazuju se samo fotke s popisa, redoslijedom redaka. Dopušteni retci (prazni retci i
+   retci koji počinju s `#` se preskaču):
+
+   ```
+   2                      ← 2.jpg, bez natpisa
+   2: Natpis              ← 2.jpg s natpisom
+   dodjela                ← dodjela.jpg (ili .jpeg/.png/.webp, što postoji)
+   dodjela: Natpis
+   dodjela-medalja.jpg    ← datoteka s točno tim imenom (jpg, jpeg, png, webp, gif)
+   ```
+
+   Ime datoteke ne smije imati razmake, dvotočku ni kosu crtu. Ako je datoteka drukčije
+   nazvana (npr. `.JPG` velikim slovima), upiši puni naziv s nastavkom.
+
+   Fotka s popisa koja ne postoji u mapi se tiho preskače (bez poruke).
+   **Nova fotka koja nije u `foto.txt` neće se prikazati.** Ako `foto.txt` ne
+   postoji, stranica (kao rezerva) traži `1.jpg`, `2.jpg`... redom do prve rupe; tako
+   rade starije mape.
+
+   **Videi — `video.txt` + YouTube.** Videi se ne drže u repou (veliki su), nego se
+   objavljuju na YouTube kanalu Saveza kao **„Nije javno dostupno" (unlisted)**: ne mogu
+   se pronaći pretragom, ali se otvaraju preko poveznice i mogu se ugraditi. Ne smiju biti
+   „Privatno" (ne mogu se ugraditi). Za svaki video:
+
+   1. Uploadaj ga na YouTube kanal (vidljivost *Nije javno dostupno*) i zapiši ID videa
+      (11 znakova iz poveznice, `youtube.com/watch?v=`**`ID`**).
+   2. Dodaj redak u `video.txt`: `N: ID_VIDEA Naslov videa`, npr.
+      `1: PrINW32njmw Dodjela zlatnih medalja`. `N` je redni broj (po njemu se traži
+      sličica `video-N.jpg`), ID videa mora imati točno 11 znakova, a iza njega ide
+      razmak i naslov (naslov je neobavezan; znak `|` iza ID-a je dopušten, ali nije
+      potreban). Prazni retci i retci koji počinju s `#` se preskaču, a nerazumljiv redak
+      se tiho preskače (bez poruke), pa ako se video ne pojavi, provjeri redak. Commitaj.
+   3. **Sličicu (`video-N.jpg`) po potrebi sam skida GitHub Action** „Dohvati sličice
+      YouTube videa" (`.github/workflows/dohvati-slicice-videa.yml`, skripta
+      `skripte/dohvati-slicice-videa.py`): kad se `video.txt` promijeni, za svaki redak
+      kojemu nedostaje `video-N.jpg` skine YouTubeovu sličicu i sam commita. Nakon par
+      minuta napravi **Fetch/Pull** u GitHub Desktopu da dobiješ sličice. Sličicu skida
+      Action, a ne preglednik posjetitelja, pa posjetitelj nema kontakta s
+      YouTubeom/Googleom prije klika (usklađeno s Izjavom o zaštiti podataka).
+      Ako želiš vlastitu sličicu, samo je dodaj kao `video-N.jpg` (ne smije se zvati
+      `N.jpg` jer bi se pomiješala s fotkama) — postojeće se nikad ne prepisuju.
+      Sličicu možeš promijeniti brisanjem `video-N.jpg` i ponovnim pokretanjem Actiona
+      (*Actions → Dohvati sličice YouTube videa → Run workflow*).
+
+   `video.txt` je popis: videi se prikazuju redoslijedom redaka; ako sličica
+   `video-N.jpg` ne postoji (npr. Action još nije prošao ili YouTube nije dao sličicu), video se
+   svejedno prikazuje kao tamna pločica s naslovom. Vodoravni
+   videi (16:9) izgledaju najbolje; YouTube okomite i kratke (≤ 3 min) automatski vodi
+   kao *Shorts*, ali se ugrađuju jednako. Stari lokalni `1.mp4`, `2.mp4`... još rade kao
+   rezerva (bez naslova), ali samo ako u `video.txt` nema nijednog YouTube retka.
 6. Ako se pritom promijenio broj medalja nekog kluba, ažuriraj i
    `klubovi/index.html` ručno (vidi točku 2 gore).
 
@@ -197,6 +273,7 @@ Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću ma
 | `generiraj-znacke-data.py` | `assets/json/prvenstva-data.json` | `assets/js/znacke-data.js` | Automatski (GitHub Actions) |
 | `generiraj-prvenstva-data.py` | `podaci/prvenstva-data.xlsx` | `assets/json/prvenstva-data.json` | Ručno |
 | `generiraj-reprezentacija-data.py` | `podaci/reprezentacija-data.xlsx` | `assets/json/reprezentacija-data.json` | Ručno |
+| `dohvati-slicice-videa.py` | `prvenstva/**/video.txt` i video-pločice u `vijesti/*/index.html` | `video-N.jpg` / `video-ID.jpg` (sličice koje nedostaju, s YouTubea) | Automatski (GitHub Actions) |
 | `split-zapisnici.py` | skenirani PDF prvenstva | pojedinačni PDF zapisnici po utakmici | Ručno |
 
 ## GitHub Actions (automatska generacija)
@@ -206,6 +283,9 @@ Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću ma
 - `.github/workflows/generiraj-znacke.yml` — okida se na svaki push koji mijenja
   `assets/json/prvenstva-data.json`, pokreće generator značaka i sam commita
   rezultat.
+- `.github/workflows/dohvati-slicice-videa.yml` — okida se na svaki push koji mijenja
+  `prvenstva/**/video.txt` ili `vijesti/**/index.html` (i ručno, *Run workflow*), pokreće
+  `skripte/dohvati-slicice-videa.py` i sam commita nove `video-N.jpg`.
 
 ## Domena i hosting
 
