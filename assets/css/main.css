@@ -584,6 +584,7 @@ img { max-width: 100%; height: auto; display: block; }
   position: relative;
   display: inline-flex;
   max-width: 100%;
+  touch-action: pan-y pinch-zoom;   /* vodoravni swipe obrađuje vijesti-lightbox.js */
 }
 .vijesti-lightbox-image {
   max-width: 100%;

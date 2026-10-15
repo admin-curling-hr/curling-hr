@@ -3160,6 +3160,30 @@ function videoNav(delta){
   renderVideoModal();
 }
 
+// Swipe prstom lijevo/desno na mobitelu: prethodna/sljedeća fotka ili video (uz strelice).
+// Radi na slici/okviru i podnožju. Jedan slušatelj na dokumentu, pa ne ovisi o ponovnom iscrtavanju modala.
+// Kad je YouTube player pokrenut, dodire hvata sam player (tuđa domena), pa tada vrijede samo strelice.
+// Okomito pomicanje i uvećavanje (pinch) ne okidaju prelazak.
+(function(){
+  let sx = 0, sy = 0, tracking = false;
+  document.addEventListener('touchstart', (e) => {
+    tracking = e.touches.length === 1 && !!e.target.closest('#modalBody .lightbox-frame, #modalBody .lightbox-footer');
+    if(tracking){ sx = e.touches[0].clientX; sy = e.touches[0].clientY; }
+  }, { passive: true });
+  document.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if(!tracking) return;
+    tracking = false;
+    if(window.visualViewport && window.visualViewport.scale > 1.05) return;   // uvećano: prst pomiče sliku
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if(Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const dir = dx < 0 ? 1 : -1;   // prst ulijevo = sljedeća
+    if(_lightboxPhotos.length) lightboxNav(dir);
+    else if(_lightboxVideos.length) videoNav(dir);
+  }, { passive: true });
+})();
+
 document.addEventListener('keydown', (e) => {
   if(!document.getElementById('modalOverlay').classList.contains('open')) return;
   if(e.key === 'Escape'){ closeModal(); return; }

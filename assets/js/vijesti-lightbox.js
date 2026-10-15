@@ -129,6 +129,24 @@
     fsBtn.addEventListener('click', toggleFullscreen);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
+    // Swipe prstom lijevo/desno na mobitelu (uz strelice): prethodna/sljedeća fotografija.
+    // Okomito pomicanje i uvećavanje (pinch) ne okidaju prelazak.
+    let sx = 0, sy = 0, tracking = false;
+    overlay.addEventListener('touchstart', (e) => {
+      tracking = e.touches.length === 1 && !!e.target.closest('.vijesti-lightbox-frame, .vijesti-lightbox-footer');
+      if (tracking) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }
+    }, { passive: true });
+    overlay.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
+    overlay.addEventListener('touchend', (e) => {
+      if (!tracking) return;
+      tracking = false;
+      if (window.visualViewport && window.visualViewport.scale > 1.05) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      nav(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
     document.addEventListener('keydown', (e) => {
       if (!overlay.classList.contains('open')) return;
       if (e.key === 'Escape') close();

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="datum"   content="2000-05-20">
+  <meta name="naslov"  content="Automobilistička senzacija u Zagrebu">
+  <meta name="excerpt" content="Ovih dana se u Zagrebu našla automobilistička elita. Bilo je tu i vozača Formule 1 i kaskadera.">
+  <meta name="slika"   content="1.jpg">
+  <title>Automobilistička senzacija u Zagrebu – Hrvatski curling savez</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="icon" href="../../assets/images/hcs-logo.png" type="image/png">
+</head>
+<body data-page="vijesti">
+
+<div id="site-header"></div>
+
+<main class="site-main">
+  <article class="post-article">
+
+    <header class="post-header">
+      <div class="post-meta">
+        <a href="../" class="back-link" data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+        <time datetime="2000-05-20">20. 05. 2000.</time>
+      </div>
+      <h1 class="post-title">Automobilistička senzacija u Zagrebu</h1>
+    </header>
+
+    <div class="post-content">
+      <p>U nedjelju je u Zagrebu održana demonstracija brzih automobila i curlinga.</p><p>Na cesti su se natjecali automobili.</p><div class="foto-grid-vijest">
+        <a href="1-2.jpg" target="_blank"><img src="1-2.jpg" alt=""></a>
+        <a href="2.jpg" target="_blank"><img src="2.jpg" alt=""></a>
+      </div><div class="vijest-video">
+        <button type="button" class="video-facade" data-yt="aagZliNW9RE" data-title="Jureća formula">
+          <img src="video-aagZliNW9RE.jpg" alt="" loading="lazy" onerror="this.remove()">
+          <span class="video-caption">
+            <span class="video-play" aria-hidden="true"></span>
+            <span class="video-text"><strong>Jureća formula</strong><span data-hr="Klikom na sliku učitava se video s YouTubea." data-en="Clicking the image loads the video from YouTube.">Klikom na sliku učitava se video s YouTubea.</span></span>
+          </span>
+        </button>
+      </div><p>A na curling ledu su se mučili početnici na treningu.</p><div class="foto-grid-vijest">
+        <a href="3.jpg" target="_blank"><img src="3.jpg" alt=""></a>
+        <a href="4.jpg" target="_blank"><img src="4.jpg" alt=""></a>
+      </div><p>Evo odličnih igračica</p><div class="vijest-video">
+        <button type="button" class="video-facade video-facade-okomit" data-yt="tG2v7BL-WmQ" data-title="">
+          <img src="video-tG2v7BL-WmQ.jpg" alt="" loading="lazy" onerror="this.remove()">
+          <span class="video-caption">
+            <span class="video-play" aria-hidden="true"></span>
+            <span class="video-text"><span data-hr="Klikom na sliku učitava se video s YouTubea." data-en="Clicking the image loads the video from YouTube.">Klikom na sliku učitava se video s YouTubea.</span></span>
+          </span>
+        </button>
+      </div><p>No, sve u svemu bio je to jedan divan dan.<br></p>
+    </div>
+
+    <footer class="post-footer">
+      <a href="../" class="back-link"
+         data-hr="← Sve vijesti" data-en="← All news">← Sve vijesti</a>
+    </footer>
+
+  </article>
+</main>
+
+<script src="../../assets/js/header.js"></script>
+<script src="../../assets/js/vijesti-lightbox.js"></script>
+<script src="../../assets/js/video-facade.js"></script>
+<script>
+(function(){
+  const d = document.querySelector('meta[name="datum"]');
+  if (d) {
+    const g = d.content.split('-')[0];
+    document.querySelectorAll('.back-link').forEach(a => { a.href = '../#' + g; });
+  }
+})();
+</script>
+</body>
+</html>
