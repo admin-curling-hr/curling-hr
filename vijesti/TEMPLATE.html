@@ -62,18 +62,17 @@
       <img src="1.jpg" alt="Opis slike">
       -->
 
-      <!-- YouTube video (klikni-za-prikaz: nema kontakta s YouTubeom dok posjetitelj ne klikne).
+      <!-- YouTube video: sličica iste veličine kao fotke, u istoj .foto-grid-vijest mreži (može stajati uz fotke u istom redu).
+           Klik otvara prozor s fotkama i videima; tek klikom na sličicu u prozoru učitava se YouTube.
            Najlakše ga je umetnuti u editoru (gumb 🎬). Ručno: zamijeni ID_VIDEA (11 znakova) i Naslov.
            Sličica je datoteka video-ID_VIDEA.jpg u istom folderu (ako je nema, skida je GitHub Action).
-           Za okomite videe (Shorts) dodaj klasu video-facade-okomit na button.
-           Na dno stranice treba i <script src="../../assets/js/video-facade.js"></script>.
-      <div class="vijest-video">
-        <button type="button" class="video-facade" data-yt="ID_VIDEA" data-title="Naslov">
-          <img src="video-ID_VIDEA.jpg" alt="" loading="lazy" onerror="this.remove()">
-          <span class="video-caption">
-            <span class="video-play" aria-hidden="true"></span>
-            <span class="video-text"><strong>Naslov</strong><span data-hr="Klikom na sliku učitava se video s YouTubea." data-en="Clicking the image loads the video from YouTube.">Klikom na sliku učitava se video s YouTubea.</span></span>
-          </span>
+           Za okomite videe (Shorts) dodaj klasu video-tile-okomit na button.
+      <div class="foto-grid-vijest">
+        <a href="1.jpg" target="_blank"><img src="1.jpg" alt=""></a>
+        <button type="button" class="video-tile" data-yt="ID_VIDEA" data-title="Naslov" aria-label="Video: Naslov">
+          <img src="video-ID_VIDEA.jpg" alt="" loading="lazy" onerror="this.parentNode.classList.add('nema-slicice');this.remove()">
+          <span class="video-tile-title">Naslov</span>
+          <span class="video-tile-play" aria-hidden="true"></span>
         </button>
       </div>
       -->
@@ -90,7 +89,6 @@
 
 <script src="../../assets/js/header.js"></script>
 <script src="../../assets/js/vijesti-lightbox.js"></script>
-<!-- Ako vijest ima YouTube video, odkomentiraj: <script src="../../assets/js/video-facade.js"></script> -->
 <script>
 (function(){
   const d = document.querySelector('meta[name="datum"]');

@@ -10,9 +10,10 @@ s naše domene, bez kontakta s YouTubeom/Googleom prije klika). Postojeće slič
        N: ID_VIDEA Naslov
    treba postojati video-N.jpg u istoj mapi.
 
-2) Vijesti: za svaki video u vijesti/<datum>/index.html (button.video-facade s data-yt="ID")
-   treba postojati video-ID.jpg u istom folderu. Ako button ima klasu video-facade-okomit
-   (okomiti video / Shorts), s preuzete se sličice režu crne bočne trake, ako ih ima.
+2) Vijesti: za svaki video u vijesti/<datum>/index.html (button.video-tile, a u starijim vijestima
+   button.video-facade, s data-yt="ID") treba postojati video-ID.jpg u istom folderu. Ako button ima
+   klasu video-tile-okomit (odnosno video-facade-okomit; okomiti video / Shorts), s preuzete se
+   sličice režu crne bočne trake, ako ih ima.
 
 Sličica je JPEG širine najviše 640 px. Redoslijed pokušaja: maxresdefault (1280x720, 16:9) pa mqdefault
 (320x180, 16:9). Slike uže od 320 px (YouTubeov "nema slike" prikaz) odbacuju se.
@@ -92,20 +93,23 @@ def save_jpeg(img, target):
     img.save(target, 'JPEG', quality=82, optimize=True)
 
 
-# Otvarajući <button ...> tag s klasom video-facade (redoslijed atributa nije bitan)
+# Otvarajući <button ...> tag s klasom video-tile ili video-facade (redoslijed atributa nije bitan)
 FACADE_TAG = re.compile(r'<button\b[^>]*>', re.I)
 
 
 def news_videos(html):
-    """Vraća [(id, okomit)] za sve video-facade buttone u HTML-u vijesti."""
+    """Vraća [(id, okomit)] za sve video buttone (video-tile / video-facade) u HTML-u vijesti."""
     found = []
     for m in FACADE_TAG.finditer(html):
         tag = m.group(0)
         cls = re.search(r'\bclass="([^"]*)"', tag)
         yt = re.search(r'\bdata-yt="([A-Za-z0-9_-]{11})"', tag)
-        if not cls or not yt or 'video-facade' not in cls.group(1).split():
+        if not cls or not yt:
             continue
-        found.append((yt.group(1), 'video-facade-okomit' in cls.group(1).split()))
+        klase = cls.group(1).split()
+        if 'video-tile' not in klase and 'video-facade' not in klase:
+            continue
+        found.append((yt.group(1), 'video-tile-okomit' in klase or 'video-facade-okomit' in klase))
     return found
 
 

@@ -692,7 +692,7 @@ quill.root.addEventListener('click', function (e) {
 // ---- Umetanje YouTube videa (klikni-za-prikaz) ----
 // Isti princip kao galerija: placeholder (block embed) u tekstu nosi samo id, a podaci
 // (YouTube ID, naslov, okomito, neobavezna sličica) drže se u videoBlocks. Pri generiranju
-// se placeholder zamjenjuje oznakom .video-facade koju oživljava assets/js/video-facade.js.
+// se placeholder zamjenjuje sličicom .video-tile u .foto-grid-vijest (otvara je assets/js/vijesti-lightbox.js).
 const videoBlocks = new Map(); // id placeholdera -> {ytId, title, okomit, posterBlob, posterThumb}
 let videoCounter = 0;
 let videoTargetId = null;      // ako je postavljen, dijalog UREĐUJE taj blok; inače umeće novi
@@ -863,24 +863,38 @@ quill.root.addEventListener('click', function (e) {
   }
 });
 
-// Oznaka koja se upisuje u gotovu vijest (klikni-za-prikaz; vidi assets/js/video-facade.js i .vijest-video u main.css).
-// Sličica je lokalna datoteka video-ID.jpg u folderu vijesti (ručno odabrana ili je skida GitHub Action);
-// dok je nema, onerror je skriva i vidi se tamna pločica s naslovom.
+// Video u gotovoj vijesti je sličica iste veličine kao fotke u galeriji (.foto-grid-vijest), s malim
+// crvenim play znakom; klik je otvara u prozoru s fotkama (assets/js/vijesti-lightbox.js), a tek
+// tamo, klikom na sličicu, učitava se YouTube. Sličica je lokalna datoteka video-ID.jpg u folderu
+// vijesti (ručno odabrana ili je skida GitHub Action); dok je nema, vidi se tamna pločica s naslovom.
+// Vraća jedan .foto-grid-vijest s jednom sličicom; susjedne galerije/videi spaja spojiSusjedneGalerije().
 function buildVideoFacade(r) {
   const t = escHtml(r.title);
-  const klasa = 'video-facade' + (r.okomit ? ' video-facade-okomit' : '');
-  const note = 'Klikom na sliku učitava se video s YouTubea.';
-  const noteEn = 'Clicking the image loads the video from YouTube.';
+  const klasa = 'video-tile' + (r.okomit ? ' video-tile-okomit' : '');
   return `
-      <div class="vijest-video">
-        <button type="button" class="${klasa}" data-yt="${r.ytId}" data-title="${t}">
-          <img src="video-${r.ytId}.jpg" alt="" loading="lazy" onerror="this.remove()">
-          <span class="video-caption">
-            <span class="video-play" aria-hidden="true"></span>
-            <span class="video-text">${t ? `<strong>${t}</strong>` : ''}<span data-hr="${note}" data-en="${noteEn}">${note}</span></span>
-          </span>
+      <div class="foto-grid-vijest">
+        <button type="button" class="${klasa}" data-yt="${r.ytId}" data-title="${t}" aria-label="Video${t ? ': ' + t : ''}">
+          <img src="video-${r.ytId}.jpg" alt="" loading="lazy" onerror="this.parentNode.classList.add('nema-slicice');this.remove()">
+          <span class="video-tile-title">${t}</span>
+          <span class="video-tile-play" aria-hidden="true"></span>
         </button>
       </div>`;
+}
+
+// Fotke i videi koji u tekstu stoje jedno do drugoga (bez teksta između) idu u ISTU mrežu,
+// pa npr. fotka pa video stoje u istom redu (3 u redu na velikom ekranu, 2 na malom).
+function spojiSusjedneGalerije(root) {
+  let grid = null;
+  [...root.childNodes].forEach(n => {
+    if (n.nodeType === 1 && n.classList.contains('foto-grid-vijest')) {
+      if (grid) { while (n.firstChild) grid.appendChild(n.firstChild); n.remove(); }
+      else grid = n;
+    } else if (n.nodeType === 3 && !n.textContent.trim()) {
+      // samo razmak između blokova - ne prekida niz
+    } else {
+      grid = null;
+    }
+  });
 }
 
 // ---- Naziv foldera (samo prema datumu — nikad dvije vijesti isti dan) ----
@@ -986,6 +1000,7 @@ async function generiraj() {
     node.replaceWith(...wrapper.childNodes);
     brojVidea++;
   });
+  spojiSusjedneGalerije(tmp);
   const finalContent = tmp.innerHTML;
 
   const html = `<!DOCTYPE html>
@@ -1029,8 +1044,7 @@ async function generiraj() {
 </main>
 
 <script src="../../assets/js/header.js"><\/script>
-<script src="../../assets/js/vijesti-lightbox.js"><\/script>${brojVidea ? `
-<script src="../../assets/js/video-facade.js"><\/script>` : ''}
+<script src="../../assets/js/vijesti-lightbox.js"><\/script>
 <script>
 (function(){
   const d = document.querySelector('meta[name="datum"]');

@@ -1,7 +1,13 @@
-// Lightbox za fotografije u vijestima.
+// Lightbox za fotografije i YouTube videe u vijestima.
 // Klik na fotografiju u galeriji vijesti (.foto-grid-vijest) otvara uvećani
-// prikaz preko cijelog zaslona s navigacijom lijevo/desno, gumbom za prikaz
-// preko cijelog ekrana, brojačem (npr. 2/5) i gumbom za zatvaranje.
+// prikaz preko cijelog zaslona s navigacijom lijevo/desno (strelice, tipke, swipe),
+// gumbom za prikaz preko cijelog ekrana, brojačem (npr. 2/5) i gumbom za zatvaranje.
+// YouTube videi čine isti niz kao fotografije, redom kojim se pojavljuju u vijesti. Video je u galeriji
+// sličica iste veličine kao fotke (.foto-grid-vijest .video-tile); klik na nju otvara ovaj prozor na tom
+// videu: prikaže se sličica s play gumbom, a tek klikom na nju učitava se YouTube (do tada nema
+// kontakta s Googleom). Do videa se može doći i strelicom/swipeom s fotke.
+// Starije vijesti imaju video u punoj širini teksta (.vijest-video .video-facade): on se i dalje pokreće
+// jednim klikom na mjestu, a u nizu je ovog prozora kao i ostali.
 // Ne treba nikakvu izmjenu HTML-a galerije — modal se sam ubacuje u stranicu.
 
 (function () {
@@ -10,25 +16,46 @@
   // Sve fotografije u galeriji vijesti nalaze se unutar ".foto-grid-vijest"
   // (jedini, ujednačeni format koji koriste i editor.html i svi članci).
   const PHOTO_SELECTOR = '.foto-grid-vijest img';
+  // Videi: sličica u galeriji (novije vijesti, otvara ovaj prozor) i video u punoj širini teksta
+  // (starije vijesti, vidi video-facade.js); oboje ulaze u isti niz kao fotografije.
+  const VIDEO_SELECTOR = '.foto-grid-vijest .video-tile, .vijest-video .video-facade';
 
   function init() {
-    const photoEls = document.querySelectorAll(PHOTO_SELECTOR);
-    if (!photoEls.length) return;
-
-    // Skupi sve fotografije sa stranice (iz svih zona/galerija) u jedan niz,
-    // redom kojim se pojavljuju u tekstu.
-    const photos = [];
-    const captions = [];
+    // Skupi sve fotografije i videe sa stranice u jedan niz, redom kojim se pojavljuju u tekstu
+    // (querySelectorAll sa zarezom vraća elemente baš u redoslijedu dokumenta).
+    const items = [];
     const clickTargets = [];
-    photoEls.forEach(img => {
-      const index = photos.length;
-      photos.push(img.getAttribute('src'));
-      // Opis fotografije, ako postoji (alt/title na <img> elementu galerije).
-      captions.push(img.getAttribute('alt') || img.getAttribute('title') || '');
-      clickTargets.push({ el: img.closest('a') || img, index });
+    document.querySelectorAll(PHOTO_SELECTOR + ', ' + VIDEO_SELECTOR).forEach(el => {
+      if (el.matches(VIDEO_SELECTOR)) {
+        if (!el.dataset.yt) return;
+        const poster = el.querySelector('img');
+        const isTile = el.classList.contains('video-tile');
+        const index = items.length;
+        items.push({
+          type: 'yt',
+          id: el.dataset.yt,
+          caption: el.dataset.title || '',
+          poster: poster ? poster.getAttribute('src') : '',
+          okomit: el.classList.contains('video-tile-okomit') || el.classList.contains('video-facade-okomit')
+        });
+        if (isTile) clickTargets.push({ el, index });   // sličica u galeriji otvara prozor
+        return;
+      }
+      if (el.closest('.video-tile')) return;   // poster unutar sličice videa nije fotografija
+      const index = items.length;
+      items.push({
+        type: 'photo',
+        src: el.getAttribute('src'),
+        // Opis fotografije, ako postoji (alt/title na <img> elementu galerije).
+        caption: el.getAttribute('alt') || el.getAttribute('title') || ''
+      });
+      clickTargets.push({ el: el.closest('a') || el, index });
     });
 
     // Ubaci modal u DOM
+    // Bez fotografija i bez sličica videa u galeriji prozor nije potreban (stari video u tekstu pokreće se na mjestu).
+    if (!clickTargets.length) return;
+
     const overlay = document.createElement('div');
     overlay.className = 'vijesti-lightbox-overlay';
     overlay.innerHTML = `
@@ -52,6 +79,8 @@
     document.body.appendChild(overlay);
 
     const stage = overlay.querySelector('.vijesti-lightbox-stage');
+    const bodyEl = overlay.querySelector('.vijesti-lightbox-body');
+    const frameEl = overlay.querySelector('.vijesti-lightbox-frame');
     const imgEl = overlay.querySelector('.vijesti-lightbox-image');
     const captionEl = overlay.querySelector('.vijesti-lightbox-caption');
     const counterEl = overlay.querySelector('.vijesti-lightbox-counter');
@@ -61,36 +90,128 @@
     const fsBtn = overlay.querySelector('.vijesti-lightbox-fullscreen-btn');
 
     let current = 0;
+    let mediaEl = null;   // pločica ili iframe trenutnog videa (kad je prikazan video)
+
+    function clearVideo() {
+      // Uklanjanje iframea odmah zaustavlja video i zvuk.
+      if (mediaEl) { mediaEl.remove(); mediaEl = null; }
+    }
+
+    function isEnglish() {
+      try { return localStorage.getItem('hcs-lang') === 'en'; } catch (e) { return false; }
+    }
+
+    // Klik na sličicu: tek tada se učitava YouTube plejer (youtube-nocookie.com) i video kreće.
+    // Namjerno bez focus(): kad fokus uđe u iframe, tipka Esc ne stiže do stranice i prozor se ne bi zatvarao.
+    function startVideo(btn) {
+      const f = document.createElement('iframe');
+      f.className = 'vijesti-lightbox-player';
+      f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.yt) + '?autoplay=1&rel=0&playsinline=1';
+      f.title = btn.dataset.title || 'Video';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      btn.replaceWith(f);
+      mediaEl = f;
+    }
+
+    function renderVideo(it) {
+      // Okomiti video ima stalan omjer 9:16 (kao u tekstu vijesti); vodoravni preuzima omjer sličice.
+      leaveFullscreen();   // video ima vlastiti gumb za cijeli ekran unutar YouTube plejera
+      bodyEl.classList.add('video-body');
+      bodyEl.style.setProperty('--ar', it.okomit ? '0.5625' : '1.7778');
+      imgEl.hidden = true;
+      imgEl.removeAttribute('src');
+      fsBtn.hidden = true;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'vijesti-lightbox-yt';
+      btn.dataset.yt = it.id;
+      btn.dataset.title = it.caption;
+      btn.setAttribute('aria-label', it.caption || 'Video');
+      if (it.poster) {
+        const im = document.createElement('img');
+        im.alt = '';
+        if (it.okomit) im.className = 'cover';
+        im.addEventListener('load', () => {
+          if (!it.okomit && im.naturalWidth && im.naturalHeight) {
+            bodyEl.style.setProperty('--ar', (im.naturalWidth / im.naturalHeight).toFixed(4));
+          }
+        });
+        im.addEventListener('error', () => im.remove());   // bez sličice ostaje tamna pločica
+        im.src = it.poster;
+        btn.appendChild(im);
+      }
+      const cap = document.createElement('span');
+      cap.className = 'vijesti-lightbox-yt-caption';
+      const play = document.createElement('span');
+      play.className = 'vijesti-lightbox-yt-play';
+      play.setAttribute('aria-hidden', 'true');
+      const txt = document.createElement('span');
+      txt.textContent = isEnglish()
+        ? 'Clicking the image loads the video from YouTube.'
+        : 'Klikom na sliku učitava se video s YouTubea.';
+      cap.appendChild(play);
+      cap.appendChild(txt);
+      btn.appendChild(cap);
+      btn.addEventListener('click', () => startVideo(btn));
+      frameEl.insertBefore(btn, frameEl.firstChild);
+      mediaEl = btn;
+    }
 
     function render() {
-      imgEl.src = photos[current];
-      imgEl.alt = `Fotografija ${current + 1}`;
-      captionEl.textContent = captions[current] || '';
-      counterEl.textContent = `${current + 1}/${photos.length}`;
-      prevBtn.disabled = photos.length <= 1;
-      nextBtn.disabled = photos.length <= 1;
+      const it = items[current];
+      clearVideo();
+      if (it.type === 'yt') {
+        renderVideo(it);
+      } else {
+        bodyEl.classList.remove('video-body');
+        bodyEl.style.removeProperty('--ar');
+        imgEl.hidden = false;
+        fsBtn.hidden = false;
+        imgEl.src = it.src;
+        imgEl.alt = `Fotografija ${current + 1}`;
+      }
+      captionEl.textContent = it.caption || '';
+      counterEl.textContent = `${current + 1}/${items.length}`;
+      prevBtn.disabled = items.length <= 1;
+      nextBtn.disabled = items.length <= 1;
+    }
+
+    // Ako se video iz teksta upravo reproducira, pauziraj ga dok je prozor otvoren
+    // (video-facade.js plejer dobiva enablejsapi=1, pa prihvaća naredbu pauze).
+    function pauseInlineVideos() {
+      document.querySelectorAll('.vijest-video iframe').forEach(f => {
+        try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch (e) {}
+      });
     }
 
     function open(index) {
+      pauseInlineVideos();
       current = index;
       render();
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
-    function close() {
+    function leaveFullscreen() {
       const isFs = document.fullscreenElement || document.webkitFullscreenElement;
       if (isFs) {
         const exit = document.exitFullscreen || document.webkitExitFullscreen;
         if (exit) exit.call(document);
       }
       stage.classList.remove('pseudo-fullscreen');
+    }
+
+    function close() {
+      leaveFullscreen();
+      clearVideo();
       overlay.classList.remove('open');
       document.body.style.overflow = '';
     }
 
     function nav(delta) {
-      current = (current + delta + photos.length) % photos.length;
+      current = (current + delta + items.length) % items.length;
       render();
     }
 

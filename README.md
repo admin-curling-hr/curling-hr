@@ -50,7 +50,7 @@ assets/
   js/prvenstva.js         — cijela logika SPA-a (Prvenstva/Statistika/Postignuća/Reprezentacija)
   js/znacke-data.js       — podaci o značkama (auto-generirano, NE uređivati ručno)
   js/logo-data.js         — logotipi klubova kao base64 (generirano ručno iz PNG-ova, ne skriptom)
-  js/vijesti-lightbox.js  — lightbox za fotografije u vijestima
+  js/vijesti-lightbox.js  — lightbox za fotografije i YouTube videe u vijestima (jedan niz)
   json/prvenstva-data.json      — svi rezultati PH (izvor istine za SPA + značke)
   json/reprezentacija-data.json — svi nastupi reprezentacije
 podaci/                 — IZVORNE Excel/Word datoteke koje admin uređuje
@@ -137,20 +137,28 @@ Najlakši način — koristi ugrađeni editor, ne piši HTML ručno:
 **YouTube video u vijesti.** U alatnoj traci editora je gumb 🎬: postavi kursor, klikni
 ga, zalijepi YouTube poveznicu (`watch?v=`, `youtu.be/` ili `shorts/`) ili 11-znakovni ID,
 upiši naslov i, ako je video okomit (Shorts / snimka uspravno), označi kvačicu **Okomiti
-video**. U tekstu se prikaže kartica koju možeš **Urediti** ili **Ukloniti**. Vijest dobiva
-„klikni za prikaz" pločicu (isto kao na stranici *O curlingu*): dok posjetitelj ne klikne,
-stranica ne kontaktira YouTube; na klik se na istom mjestu pokreće player
-(`youtube-nocookie.com`). Vodoravni video je 16:9 u širini teksta; okomiti ima uski okvir
-9:16 (najviše 360 px širine i 80 % visine zaslona, na mobitelu puna širina stupca), pa nema
-crnih rubova. Video mora biti na YouTube kanalu Saveza kao *Nije javno dostupno*.
+video**. U tekstu se prikaže kartica koju možeš **Urediti** ili **Ukloniti**. U gotovoj
+vijesti video je **sličica iste veličine kao fotke** (3 u redu na velikom ekranu, 2 na malom)
+s malim crvenim play znakom dolje lijevo. Što u editoru stoji jedno do drugoga (galerija
+fotki, video, galerija...) bez teksta između, u gotovoj vijesti ulazi u **istu mrežu**, pa
+npr. fotka pa video stoje u istom redu. Tekst između njih prekida mrežu. Video mora biti na
+YouTube kanalu Saveza kao *Nije javno dostupno*.
+
+**Fotke i videi u istom prozoru.** Klik na fotku ili na sličicu videa otvara povećani prikaz
+u kojem su fotke i videi **jedan niz**, redom kojim se pojavljuju u vijesti (strelice, tipke
+← →, swipe; nakon zadnjeg ide opet na prvi). Za video se prikaže njegova sličica s crvenim
+play gumbom i porukom; tek klikom na nju učitava se YouTube (isto kao u Prvenstvima), pa do
+tada stranica ne kontaktira YouTube. Vodoravni video ima prozor 16:9, okomiti 9:16.
+Starije vijesti, koje imaju video u punoj širini teksta (`.vijest-video`), i dalje rade: taj se
+video pokreće jednim klikom na mjestu.
 
 Sličica videa je datoteka `video-ID.jpg` u mapi vijesti. Ako je u editoru **ne odabereš**,
 skida je automatski GitHub Action „Dohvati sličice YouTube videa" nakon pusha (za okomite
 videe uz automatsko rezanje crnih bočnih traka); nakon par minuta napravi **Fetch/Pull** u
 GitHub Desktopu. Dok sličice nema, vidi se tamna pločica s naslovom. Ako je odabereš,
 editor je smanji, pretvori u JPEG i stavi u ZIP, a Action je ne prepisuje. Ručno uređena
-vijest (bez editora): vidi komentirani primjer u `vijesti/TEMPLATE.html`; stranica mora
-uključiti `assets/js/video-facade.js`.
+vijest (bez editora): vidi komentirani primjer u `vijesti/TEMPLATE.html` (video je `button`
+s klasom `video-tile` unutar `.foto-grid-vijest`; posebna skripta nije potrebna).
 
 Alternativa (rijetko potrebna): ručno kopirati `vijesti/TEMPLATE.html` u novu mapu
 `vijesti/YYYY-MM-DD/index.html` i ispuniti meta-tagove `datum`/`naslov`/`excerpt`
