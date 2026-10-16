@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Inicijalna prijava ekipe — Hrvatski curling savez</title>
+<link rel="icon" href="../assets/images/hcs-logo.png">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #CC0000;
+  --red-dark: #990000;
+  --bg: #f0f0f0;
+  --white: #fff;
+  --border: #d0d0d0;
+  --text: #1a1a1a;
+  --muted: #666;
+  --err: #b00020;
+  --err-bg: #fdecee;
+  --ok-bg: #eaf6ec;
+  --ok: #1d6b2f;
+  --radius: 6px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  min-height: 100vh;
+}
+
+.app-header {
+  background: var(--red);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+/* Isto kao zaglavlje glavne stranice: logo bez obruba, naslov i podnaslov, sve u središnjem stupcu iste širine kao sadržaj. */
+.app-header-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.header-brand { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
+.header-brand img { width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0; }
+.header-titles { display: flex; flex-direction: column; min-width: 0; }
+.app-header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1.2; }
+.app-header p { font-size: 0.78rem; opacity: 0.85; }
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.home-btn:hover { background: rgba(255,255,255,0.3); }
+@media (max-width: 600px) {
+  .header-brand img { width: 46px; height: 46px; }
+  .app-header h1 { font-size: 1rem; }
+}
+
+main { max-width: 980px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+
+.intro { font-size: 0.9rem; color: var(--muted); margin: 0.25rem 0 1rem; }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.15rem 1.15rem;
+  margin-bottom: 1rem;
+}
+.card h2 {
+  font-size: 1rem;
+  color: var(--red-dark);
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.card h2 .br {
+  display: inline-flex;
+  width: 1.5rem; height: 1.5rem;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.8rem;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1rem; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+
+label.lbl, .lbl {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #333;
+}
+.lbl .req { color: var(--red); }
+
+input[type=text], input[type=date], select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text);
+}
+input:focus, select:focus {
+  outline: 2px solid var(--red);
+  outline-offset: 0;
+  border-color: var(--red);
+}
+.invalid { border-color: var(--err) !important; background: var(--err-bg) !important; }
+
+.hint { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; white-space: pre-line; }
+
+/* ---- Igrači ---- */
+.igraci-head, .igrac {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1.6fr) 5.2rem 4rem 4.8rem minmax(0, 1.2fr);
+  gap: 0.5rem;
+  align-items: center;
+}
+.igraci-head {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  padding: 0 0 0.3rem;
+  border-bottom: 2px solid var(--red);
+}
+.igraci-head .c, .igrac .chk { text-align: center; }
+.igrac { padding: 0.45rem 0; border-bottom: 1px solid #ececec; }
+.igrac .poz { font-weight: 700; font-size: 0.95rem; }
+.igrac .poz small { display: block; font-weight: 400; color: var(--muted); font-size: 0.72rem; }
+.igrac .chk input { width: 1.25rem; height: 1.25rem; accent-color: var(--red); cursor: pointer; }
+.igrac .m-lbl { display: none; }
+.igraci.bez-uloga .igraci-head, .igraci.bez-uloga .igrac { grid-template-columns: 7.5rem minmax(0, 1.6fr) 5.2rem minmax(0, 1.2fr); }
+.igraci.bez-uloga .chk, .igraci.bez-uloga .c { display: none; }
+
+@media (max-width: 760px) {
+  .igraci-head { display: none; }
+  .igrac, .igraci.bez-uloga .igrac {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 0.6rem;
+    padding: 0.8rem 0;
+  }
+  .igrac .poz { grid-column: 1 / -1; font-size: 1rem; color: var(--red-dark); }
+  .igrac .f-ime, .igrac .f-klub, .igrac .f-reg { grid-column: 1 / -1; }
+  .igrac .m-lbl { display: block; font-size: 0.72rem; font-weight: 600; color: #333; margin-bottom: 0.15rem; }
+  .igrac .chk { text-align: left; display: flex; align-items: center; gap: 0.45rem; }
+  .igrac .chk-prazno { display: none; }
+  .igrac .chk .m-lbl { margin: 0; font-size: 0.85rem; }
+}
+
+.prazno-igraci { color: var(--muted); font-size: 0.9rem; padding: 0.4rem 0; }
+
+/* ---- Ovjera ---- */
+.sign-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem; }
+
+.izjave p { font-size: 0.85rem; color: #333; margin: 0 0 0.6rem; line-height: 1.45; }
+.slazem { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 0.9rem; padding: 0.75rem 0.9rem; background: #fbf3f3; border: 1px solid #ecd0d0; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+.slazem input { width: 1.3rem; height: 1.3rem; margin-top: 0.1rem; flex: none; accent-color: var(--red); cursor: pointer; }
+.slazem:has(input.invalid) { border-color: var(--red); box-shadow: 0 0 0 2px rgba(204,0,0,.25); }
+.tekst-blok { font-size: 0.85rem; color: #333; white-space: pre-line; }
+.tekst-blok.pravila { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px solid #ececec; color: var(--muted); }
+
+/* ---- Gumbi i poruke ---- */
+.actions { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.65rem 1.2rem;
+  cursor: pointer;
+}
+.btn-primary { background: var(--red); color: #fff; }
+.btn-primary:hover { background: var(--red-dark); }
+.btn-primary:disabled { opacity: 0.6; cursor: wait; }
+.btn-sec { background: #fff; color: #333; border: 1px solid var(--border); }
+.btn-sec:hover { background: #f4f4f4; }
+
+.poruka { border-radius: 5px; padding: 0.7rem 0.9rem; font-size: 0.9rem; margin-bottom: 0.9rem; display: none; }
+.poruka.err { display: block; background: var(--err-bg); color: var(--err); border-left: 4px solid var(--err); }
+.poruka.ok { display: block; background: var(--ok-bg); color: var(--ok); border-left: 4px solid var(--ok); }
+.poruka ul { margin: 0.3rem 0 0 1.2rem; }
+.poruka strong { display: block; }
+
+.privatnost { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="header-brand">
+      <img src="../assets/images/hcs-logo.png" alt="">
+      <div class="header-titles">
+        <h1>Inicijalna prijava ekipe</h1>
+        <p>Hrvatski curling savez</p>
+      </div>
+    </div>
+    <a href="../" class="home-btn" title="Povratak na početnu stranicu">Početna</a>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Popunite obrazac, preuzmite PDF i pošaljite ga Savezu e-poštom na <span id="emailHcs">natjecanja@curling.hr</span>. Ispis i potpis nisu potrebni.</p>
+
+  <form id="forma" novalidate autocomplete="off">
+
+    <div class="card">
+      <h2><span class="br">1</span> Natjecanje</h2>
+      <div class="grid2">
+        <div>
+          <label class="lbl" for="natjecanje">Natjecanje <span class="req">*</span></label>
+          <select id="natjecanje" required></select>
+        </div>
+        <div>
+          <label class="lbl" for="sezona">Sezona <span class="req">*</span></label>
+          <select id="sezona" required></select>
+        </div>
+        <div>
+          <label class="lbl" for="disciplina">Disciplina <span class="req">*</span></label>
+          <select id="disciplina" required></select>
+        </div>
+        <div>
+          <label class="lbl" for="uzrast">Uzrast <span class="req">*</span></label>
+          <select id="uzrast" required></select>
+          <p class="hint" id="hintUzrast"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="br">2</span> Klub i ekipa</h2>
+      <div class="grid2">
+        <div>
+          <label class="lbl" for="klub">Klub koji prijavljuje <span class="req">*</span></label>
+          <select id="klub" required></select>
+        </div>
+        <div>
+          <label class="lbl" for="ekipa">Ekipa <span style="font-weight:400;color:var(--muted)">(neobavezno)</span></label>
+          <input type="text" id="ekipa" maxlength="60" aria-describedby="hintEkipa">
+          <p class="hint" id="hintEkipa">Navedite ime ekipe ako klub prijavljuje više od jedne ekipe.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="br">3</span> Sastav ekipe</h2>
+      <div id="igraci" class="igraci"></div>
+      <p class="hint" id="hintIgraci"></p>
+      <div id="pravila" class="tekst-blok pravila hidden"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="br">4</span> Trener</h2>
+      <div class="grid2">
+        <div>
+          <label class="lbl" for="trener">Ime i prezime trenera <span style="font-weight:400;color:var(--muted)">(neobavezno)</span></label>
+          <input type="text" id="trener" maxlength="80">
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cardIzjave">
+      <h2><span class="br">5</span> <span id="izjaveNaslov">Izjave i suglasnosti</span></h2>
+      <div class="izjave" id="izjaveBlok"></div>
+      <label class="slazem" for="slazem">
+        <input type="checkbox" id="slazem">
+        <span id="slazemTekst"></span>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2><span class="br">6</span> Datum i predstavnik kluba</h2>
+      <div class="grid2">
+        <div>
+          <label class="lbl" for="datum">Datum <span class="req">*</span></label>
+          <input type="date" id="datum" required>
+        </div>
+        <div>
+          <label class="lbl" for="predstavnik">Predstavnik kluba (ime i prezime) <span class="req">*</span></label>
+          <input type="text" id="predstavnik" maxlength="80" required>
+        </div>
+      </div>
+    </div>
+
+    <div id="poruka" class="poruka" role="alert" aria-live="polite"></div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary" id="btnPdf">Preuzmi PDF</button>
+      <button type="button" class="btn btn-sec" id="btnOcisti">Očisti obrazac</button>
+    </div>
+
+    <p class="privatnost">Podaci se upisuju samo u Vašem pregledniku: ne šalju se na internet i nigdje se ne spremaju. PDF se izrađuje na Vašem uređaju.</p>
+  </form>
+</main>
+
+
+<script src="../assets/vendor/jspdf/jspdf.umd.min.js"></script>
+<script src="../assets/js/prijava.js"></script>
+</body>
+</html>

@@ -22,6 +22,7 @@ kao gotov fajl za download, koji se onda ručno prebaci u GitHub Desktop i commi
   - [Dodavanje novog prvenstva / rezultata](#3-dodavanje-novog-prvenstva--rezultata)
   - [Ažuriranje nastupa reprezentacije](#4-ažuriranje-nastupa-reprezentacije)
   - [Digitalizacija skeniranih zapisnika](#5-digitalizacija-skeniranih-zapisnika)
+  - [Obrazac za prijavu ekipe (/prijava/)](#6-obrazac-za-prijavu-ekipe-prijava)
 - [Skripte — pregled](#skripte--pregled)
 - [GitHub Actions (automatska generacija)](#github-actions-automatska-generacija)
 - [Domena i hosting](#domena-i-hosting)
@@ -36,6 +37,7 @@ vijesti/                — Vijesti (arhiva + pojedinačni članci)
   TEMPLATE.html            — predložak za ručno dodavanje vijesti (rijetko se koristi, vidi niže)
   YYYY-MM-DD/index.html   — jedan članak po mapi (+ eventualne fotke u istoj mapi)
 edit/index.html         — WYSIWYG editor za pisanje vijesti (Quill.js), radi lokalno u pregledniku
+prijava/index.html       — obrazac za prijavu ekipe (bez poveznice u izborniku, noindex); izrađuje PDF na A4
 kalendar/index.html     — Kalendar natjecanja i treninga (ručno se uređuje)
 klubovi/index.html      — Popis aktivnih/neaktivnih klubova (ručno se uređuje)
 o-nama/index.html       — O savezu, kontakt, tijela, članarine, akti (+ PDF-ovi akata)
@@ -51,6 +53,9 @@ assets/
   js/znacke-data.js       — podaci o značkama (auto-generirano, NE uređivati ručno)
   js/logo-data.js         — logotipi klubova kao base64 (generirano ručno iz PNG-ova, ne skriptom)
   js/vijesti-lightbox.js  — lightbox za fotografije i YouTube videe u vijestima (jedan niz)
+  js/prijava.js           — logika obrasca za prijavu ekipe i izrada PDF-a (CONFIG na vrhu)
+  vendor/jspdf/           — biblioteka jsPDF (MIT) za izradu PDF-a u pregledniku
+  fonts/liberation-sans-subset-*.ttf — font Liberation Sans (podskup, OFL) za hrvatska slova u PDF-u; dohvaća ga prijava.js
   json/prvenstva-data.json      — svi rezultati PH (izvor istine za SPA + značke)
   json/reprezentacija-data.json — svi nastupi reprezentacije
 podaci/                 — IZVORNE Excel/Word datoteke koje admin uređuje
@@ -272,6 +277,39 @@ python3 skripte/split-zapisnici.py ./skenirano.pdf ./assets/json/prvenstva-data.
 
 Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću mapu pod
 `prvenstva/`.
+
+### 6. Obrazac za prijavu ekipe (`/prijava/`)
+
+Stranica `prijava/index.html` služi da ovlaštena osoba kluba popuni inicijalnu prijavu ekipe i preuzme
+PDF, koji se šalje Savezu e-poštom na `natjecanja@curling.hr` (ispis i potpis nisu potrebni). Nema poveznice u izborniku (kao
+`/edit/`; gore desno ima gumb *Početna*), ima `noindex` i nije u `sitemap.xml`: klubovima se šalje
+izravna adresa `https://curling.hr/prijava/`. PDF je izgledom usklađen s Word obrascem „PHC-M –
+Prijava ekipe" (zaglavlje, tablice, fusnote, pravila, datum i predstavnik kluba).
+
+Obrazac: natjecanje, sezona, disciplina, uzrast, klub, ekipa (neobavezno, samo ako klub prijavljuje
+više ekipa), sastav ekipe, trener (neobavezno), izjave i suglasnosti (obavezna potvrda „primam na znanje i prihvaćam"), datum i predstavnik kluba. Sastav ovisi o disciplini:
+muškarci i žene imaju 4 pozicije + rezervu (neobavezna, bez skipa i vice-skipa), mješoviti curling
+4 pozicije, mješoviti parovi „žena" i „muškarac". Na stranici su stupci: Pozicija, Ime i prezime,
+Reg. broj (registarski broj iz Matične knjige igrača HCS-a), Skip, Vice-skip i Klub (padajući popis
+aktivnih klubova; popunjava se samo ako igrač nije iz kluba koji prijavljuje). U PDF-u su stupci:
+Ime i prezime, Reg. broj, S/V (slovo „S" ili „V" uz skipa i vice-skipa) i Klub; datum i predstavnik
+kluba su na dnu u jednom retku (s razmakom između). Izjave i suglasnosti ispisuju se u PDF-u prije
+datuma i predstavnika, a PDF se ne može preuzeti dok se potvrda ne označi. U ekipama (osim kod mješovitih parova) obavezno
+je označiti jednog skipa i jednog vice-skipa. Gumb „Preuzmi PDF" izrađuje A4 PDF na jednoj stranici;
+naziv datoteke je `PHC-sezona-disciplina-uzrast-Prijava-klub.pdf`, npr. `PHC-2026-2027-M-S-Prijava-Vis.pdf`
+(ako je upisan naziv ekipe, dodaje se na kraj).
+
+Sve se izrađuje u pregledniku: podaci se nigdje ne šalju niti spremaju, a PDF izrađuje
+biblioteka iz repozitorija (`assets/vendor/jspdf/`) pa se ne kontaktira nikakav vanjski poslužitelj.
+
+**Što se mijenja i gdje:** sve je u bloku `CONFIG` na vrhu `assets/js/prijava.js`:
+natjecanja (naziv, naslov obrasca i pravila ispod tablica; novo natjecanje, npr. kup, = još jedan
+redak), discipline (pozicije igrača i uvodna rečenica o broju igrača), uzrasti, raspon sezona
+(`SEZONA_OD`/`SEZONA_DO`), popis aktivnih klubova, e-adresa na koju se šalju prijave (`HCS.email`) te
+`IZJAVE` (popis izjava i suglasnosti: naslov + tekst) i `IZJAVA_POTVRDA` (tekst potvrde uz kućicu). Tekst
+izjava treba uskladiti s Izjavom o zaštiti podataka i Pravilnikom o natjecanjima kad se oni promijene.
+Popis klubova `KLUBOVI` nije povezan sa stranicom *Klubovi*, pa ga
+treba ažurirati kad se neki klub doda ili ugasi.
 
 ## Skripte — pregled
 

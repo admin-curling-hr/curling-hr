@@ -38,7 +38,7 @@ SITEMAP_FILE = os.path.join(os.path.dirname(__file__), '..', 'sitemap.xml')
 SITE_URL = 'https://curling.hr'
 
 # Statične stranice koje idu u sitemap (redoslijed = redoslijed u sitemapu).
-# /edit/ i /404.html namjerno NISU ovdje.
+# /edit/, /prijava/ i /404.html namjerno NISU ovdje.
 STATIC_PAGES = [
     '/',
     '/vijesti/',

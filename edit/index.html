@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Editor vijesti — HCS</title>
+<title>Uređivanje i objava vijesti — Hrvatski curling savez</title>
+<link rel="icon" href="../assets/images/hcs-logo.png">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -33,22 +34,26 @@ body {
 .app-header {
   background: var(--red);
   color: #fff;
-  padding: 0.9rem 1.5rem;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
+/* Isto kao zaglavlje glavne stranice: logo bez obruba, naslov i podnaslov, sve u središnjem stupcu iste širine kao sadržaj. */
 .app-header-inner {
-  max-width: 860px;
+  max-width: 980px;
   margin: 0 auto;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 1rem;
 }
-.app-header h1 { font-size: 1rem; font-weight: 700; text-align: left; }
-.app-header p { font-size: 0.8rem; opacity: 0.75; }
+.header-brand { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
+.header-brand img { width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0; }
+.header-titles { display: flex; flex-direction: column; min-width: 0; }
+.app-header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1.2; }
+.app-header p { font-size: 0.78rem; opacity: 0.85; }
 .home-btn {
   display: inline-flex;
   align-items: center;
@@ -66,6 +71,10 @@ body {
   transition: background 0.15s;
 }
 .home-btn:hover { background: rgba(255,255,255,0.3); }
+@media (max-width: 600px) {
+  .header-brand img { width: 46px; height: 46px; }
+  .app-header h1 { font-size: 1rem; }
+}
 
 .app-body {
   max-width: 860px;
@@ -361,8 +370,14 @@ select:focus { outline: none; border-color: var(--red); }
 
 <header class="app-header">
   <div class="app-header-inner">
-    <h1>📰 Editor vijesti — Hrvatski curling savez</h1>
-    <a href="../" class="home-btn" title="Povratak na naslovnicu">🏠 Naslovnica</a>
+    <div class="header-brand">
+      <img src="../assets/images/hcs-logo.png" alt="">
+      <div class="header-titles">
+        <h1>Uređivanje i objava vijesti</h1>
+        <p>Hrvatski curling savez</p>
+      </div>
+    </div>
+    <a href="../" class="home-btn" title="Povratak na početnu stranicu">Početna</a>
   </div>
 </header>
 
