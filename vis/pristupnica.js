@@ -181,6 +181,12 @@
     }
     return (11 - a) % 10 === Number(s[10]);
   }
+  // Tko potvrđuje: član, a za maloljetnog člana roditelj/staratelj u njegovo ime (isti tekst na stranici i u PDF-u).
+  function potvrditelj(mal, ime, roditelj) {
+    if (!mal) return ime ? `${ime} (član)` : '—';
+    if (!roditelj) return 'roditelj/staratelj' + (ime ? ` (u ime člana ${ime})` : '');
+    return `${roditelj} (roditelj/staratelj, u ime člana ${ime || 'člana'})`;
+  }
   const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
   const telOk = (s) => /^[+0-9][0-9 ()\/.\-]{5,}$/.test(s) && (s.match(/\d/g) || []).length >= 6;
 
@@ -248,7 +254,7 @@
     prikazanoMal = mal;
   }
 
-  $('privatnost').innerHTML = `Podaci se upisuju samo na ovoj stranici i ne šalju se nikamo. Nakon preuzimanja PDF-a pošaljite ga klubu e-poštom na <a href="mailto:${KLUB.email}">${KLUB.email}</a>.`;
+  $('privatnost').innerHTML = `Podaci se upisuju samo u Vašem pregledniku, ne šalju se nikamo i nigdje se ne spremaju. PDF se izrađuje na Vašem uređaju.`;
   $('datum').value = danas();
 
   // ============================================================
@@ -268,11 +274,8 @@
     $('reqTel').style.display = mal ? 'none' : '';
     $('potvrdaTekst').textContent = tekstovi(mal).POTVRDA.tekst;
     const ime = trim(`${$('ime').value} ${$('prezime').value}`);
-    let tko = ime ? `${ime} (član)` : '—';
-    if (mal) {
-      const r = trim(`${$('rIme').value} ${$('rPrezime').value}`);
-      tko = (r ? `${r} (roditelj/staratelj, u ime člana ` : 'roditelj/staratelj') + (ime ? `${ime}` : 'član') + ')';
-    }
+    const r = trim(`${$('rIme').value} ${$('rPrezime').value}`);
+    const tko = potvrditelj(mal, ime, r);
     $('potvrdjuje').textContent = tko;
     // Kartica roditelja/staratelja je „1a” da ostale kartice zadrže iste brojeve bez obzira na dob člana.
     let n = 0;
@@ -542,15 +545,24 @@
       const fs = pt * f, lh = fs * PT * 1.18;
       const pripremi = cells.map((c) => {
         doc.setFont('Lib', c.bold ? 'bold' : 'normal'); doc.setFontSize(fs);
-        return { c, lines: c.text ? doc.splitTextToSize(String(c.text), c.w - 2 * PAD) : [''] };
+        let cfs = fs;
+        if (c.sazmi && c.text) {
+          // jedan redak: smanji font ćelije (do 6,5 pt) dok tekst ne stane u širinu
+          const sirina = doc.getTextWidth(String(c.text));
+          cfs = Math.max(6.5, Math.min(fs, fs * (c.w - 2 * PAD - 0.5) / sirina));
+          doc.setFontSize(cfs);
+          if (doc.getTextWidth(String(c.text)) <= c.w - 2 * PAD) return { c, cfs, lines: [String(c.text)] };
+          doc.setFontSize(cfs);
+        }
+        return { c, cfs, lines: c.text ? doc.splitTextToSize(String(c.text), c.w - 2 * PAD) : [''] };
       });
       const h = Math.max(minH * f, Math.max(...pripremi.map((x) => x.lines.length)) * lh + 2 * PAD);
       if (y + h > DONJE) nova();
       let x = L;
-      pripremi.forEach(({ c, lines }) => {
+      pripremi.forEach(({ c, lines, cfs }) => {
         if (c.fill) { doc.setFillColor(c.fill[0], c.fill[1], c.fill[2]); doc.rect(x, y, c.w, h, 'F'); }
         if (!c.bezRuba) { doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.25); doc.rect(x, y, c.w, h); }
-        doc.setFont('Lib', c.bold ? 'bold' : 'normal'); doc.setFontSize(fs); crna();
+        doc.setFont('Lib', c.bold ? 'bold' : 'normal'); doc.setFontSize(cfs); crna();
         const pomak = gore ? 0 : (h - 2 * PAD - lh * lines.length) / 2;
         lines.forEach((ln, i) => tekst(ln, x + PAD, y + PAD + lh * (i + 0.82) + pomak));
         x += c.w;
@@ -597,7 +609,7 @@
     OBAVIJEST.odlomci.forEach((o) => par([{ t: o.lead, b: true }, { t: o.tekst }], 7.8, { iza: 1.4 }));
 
     // --- privole ---
-    naslov('Privole (izborno)');
+    naslov(PRIVOLE.naslov);
     par([{ t: PRIVOLE.uvod }], 8, { iza: 1.4 });
     PRIVOLE.tocke.forEach((t, i) => {
       par(t.lead ? [{ t: `${i + 1}. ${t.lead}`, b: true }, { t: t.tekst }] : [{ t: `${i + 1}.`, b: true }, { t: t.tekst }], 8, { iza: 0.6 });
@@ -609,26 +621,18 @@
     naslov('Potvrda');
     par([{ t: POTVRDA.tekst, b: true }], 8.2, { indent: 6, kucica: true, iza: 3 });
     y += 2 * f;
-    // Datum je uzak (širina prema tekstu), a ostatak retka dobiva ime člana; roditelj/staratelj ide u zaseban redak.
+    // Datum je uzak (širina prema tekstu), a ostatak retka dobiva potvrditelj: isti tekst kao na web obrascu
+    // (član, a za maloljetnog roditelj/staratelj u njegovo ime), u jednom redu.
     const tw = (t, bold) => { doc.setFont('Lib', bold ? 'bold' : 'normal'); doc.setFontSize(9 * f); return doc.getTextWidth(t); };
     const sir_ = (t, bold) => tw(t, bold) + 2 * 1.6 + 1.5;
     const datumTxt = formatDatum(p.datum);
-    const fiksno = [sir_('Datum:', true), sir_(datumTxt), sir_('Član:', true)];
-    const razmak1 = 5;
-    const ostalo = W - fiksno[0] - fiksno[1] - razmak1 - fiksno[2];
-    const cells = [
-      { text: 'Datum:', w: fiksno[0], bold: true, fill: SIVO }, { text: datumTxt, w: fiksno[1] },
+    const wDatumL = sir_('Datum:', true), wDatum = sir_(datumTxt), wPotvrdaL = sir_('Potvrđuje:', true), razmak1 = 5;
+    redak([
+      { text: 'Datum:', w: wDatumL, bold: true, fill: SIVO }, { text: datumTxt, w: wDatum },
       { text: '', w: razmak1, bezRuba: true },
-      { text: 'Član:', w: fiksno[2], bold: true, fill: SIVO }
-    ];
-    cells.push({ text: imeClana, w: ostalo });
-    redak(cells, 7.5, 9);
-    if (p.maloljetan) {
-      // roditelj/staratelj u zasebnom retku, da dugačka imena ostanu u jednom redu
-      y += 2 * f;
-      const lblR = sir_('Roditelj/staratelj:', true);
-      redak([{ text: 'Roditelj/staratelj:', w: lblR, bold: true, fill: SIVO }, { text: `${p.rIme} ${p.rPrezime}`, w: W - lblR }], 7.5, 9);
-    }
+      { text: 'Potvrđuje:', w: wPotvrdaL, bold: true, fill: SIVO },
+      { text: potvrditelj(p.maloljetan, imeClana, p.maloljetan ? `${p.rIme} ${p.rPrezime}` : ''), w: W - wDatumL - wDatum - razmak1 - wPotvrdaL, sazmi: true }
+    ], 7.5, 9);
 
     // --- podnožje: crta i napomena o izradi ---
     const sad = new Date();
