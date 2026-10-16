@@ -160,3 +160,7 @@ table.svrhe td { padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--border)
 
 /* Zaglavlje iste širine kao sadržaj (kao na stranici prijave ekipe) */
 .app-header-inner { max-width: 980px; padding-left: 1rem; padding-right: 1rem; }
+
+/* Datum i potvrditelj na dnu: datum je uzak, a potvrditelj dobiva ostatak širine (da dugo ime ne prelazi u dva reda) */
+.potvrda-red { display: grid; grid-template-columns: 11rem 1fr; gap: 0.75rem 1rem; margin-top: 0.9rem; align-items: start; }
+@media (max-width: 640px) { .potvrda-red { grid-template-columns: 1fr; } }

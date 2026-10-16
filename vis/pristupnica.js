@@ -38,7 +38,7 @@
     naslov: 'Izjava o zdravstvenoj sposobnosti',
     uvod: v(
       'Ovom Pristupnicom izjavljujem sljedeće.',
-      'Ovom Pristupnicom, kao roditelj/staratelj člana mlađeg od 18 godina, u njegovo ime izjavljujem sljedeće. Suglasan/na sam sa sudjelovanjem člana na treninzima i natjecanjima pod nadzorom ovlaštene osobe kluba.'),
+      'Ovom Pristupnicom, kao roditelj/staratelj člana mlađeg od 18 godina, u njegovo ime izjavljujem sljedeće.'),
     tocke: [
       { lead: 'Zdravstvena sposobnost.',
         tekst: v(
@@ -47,7 +47,7 @@
       { lead: 'Upoznatost s rizicima i pravilima.',
         tekst: v(
           'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da sam upućen/a u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da ću ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.',
-          'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.') },
+          'Suglasan/na sam sa sudjelovanjem člana na treninzima i natjecanjima. Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.') },
       { lead: 'Prihvaćanje uobičajenog rizika.',
         tekst: v(
           'Na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
@@ -68,7 +68,7 @@
     zaglavlje: ['Podaci', 'Svrha', 'Pravna osnova', 'Rok čuvanja'],
     redovi: [
       [v('Ime i prezime, OIB, adresa, e-adresa i telefon člana',
-         'Ime i prezime, OIB, adresa, e-adresa i telefon člana te ime, e-adresa i telefon roditelja/staratelja'),
+         'Ime i prezime, OIB, adresa, e-adresa i telefon člana te ime i prezime, e-adresa i telefon roditelja/staratelja'),
        'Vođenje evidencije (popisa) članova, naplata članarine, komunikacija s članovima',
        'Zakonska obveza kluba kao udruge (vođenje popisa članova) i članski odnos / legitimni interes kluba',
        'Dok traje članstvo i 3 godine nakon prestanka; popis članova prema propisima o udrugama'],
@@ -108,12 +108,12 @@
       { id: 'foto-klub', lead: 'Fotografije i videozapisi.',
         tekst: v('Objavljivanje mojih fotografija i videozapisa na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetske stranice i društvene mreže).',
                  'Objavljivanje fotografija i videozapisa člana na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetska stranica i društvene mreže kluba).') },
-      { id: 'potvrda-lijecnik', lead: 'Liječnička potvrda.',
-        tekst: v('Evidencija datuma izdavanja i isteka liječničke potvrde o sposobnosti za bavljenje sportom i čuvanje njezine preslike do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati na treninzima i natjecanjima.',
-                 'Evidencija datuma izdavanja i isteka liječničke potvrde o sposobnosti člana za bavljenje sportom i čuvanje njezine preslike do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati na treninzima i natjecanjima.') }
+      { id: 'potvrda-lijecnik', lead: 'Liječničko uvjerenje.',
+        tekst: v('Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na treninzima i natjecanjima.',
+                 'Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti člana i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na treninzima i natjecanjima.') }
     ],
     napomene: [
-      v(null, 'Kad član postane punoljetan, klub će zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/staratelj.')
+      v(null, 'Kada član postane punoljetan, može zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/staratelj.')
     ]
   };
 
@@ -609,34 +609,26 @@
     naslov('Potvrda');
     par([{ t: POTVRDA.tekst, b: true }], 8.2, { indent: 6, kucica: true, iza: 3 });
     y += 2 * f;
-    // Datum je uzak (širina prema tekstu), a ostatak retka dobivaju imena potvrditelja.
+    // Datum je uzak (širina prema tekstu), a ostatak retka dobiva ime člana; roditelj/staratelj ide u zaseban redak.
     const tw = (t, bold) => { doc.setFont('Lib', bold ? 'bold' : 'normal'); doc.setFontSize(9 * f); return doc.getTextWidth(t); };
     const sir_ = (t, bold) => tw(t, bold) + 2 * 1.6 + 1.5;
     const datumTxt = formatDatum(p.datum);
     const fiksno = [sir_('Datum:', true), sir_(datumTxt), sir_('Član:', true)];
     const razmak1 = 5;
-    let ostalo = W - fiksno[0] - fiksno[1] - razmak1 - fiksno[2];
+    const ostalo = W - fiksno[0] - fiksno[1] - razmak1 - fiksno[2];
     const cells = [
       { text: 'Datum:', w: fiksno[0], bold: true, fill: SIVO }, { text: datumTxt, w: fiksno[1] },
       { text: '', w: razmak1, bezRuba: true },
       { text: 'Član:', w: fiksno[2], bold: true, fill: SIVO }
     ];
-    // podjela preostalog prostora među imenima: prema duljini teksta, uz jednaku raspodjelu viška
-    const podijeli = (tekstovi, ukupno) => {
-      const nat = tekstovi.map((t) => sir_(t));
-      const suma = nat.reduce((a, c) => a + c, 0);
-      return suma <= ukupno ? nat.map((n) => n + (ukupno - suma) / nat.length) : nat.map((n) => n * ukupno / suma);
-    };
-    if (p.maloljetan) {
-      const roditelj = `${p.rIme} ${p.rPrezime}`;
-      const razmak2 = 4, lblR = sir_('Roditelj/staratelj:', true);
-      const [wc, wr] = podijeli([imeClana, roditelj], ostalo - razmak2 - lblR);
-      cells.push({ text: imeClana, w: wc }, { text: '', w: razmak2, bezRuba: true },
-                 { text: 'Roditelj/staratelj:', w: lblR, bold: true, fill: SIVO }, { text: roditelj, w: wr });
-    } else {
-      cells.push({ text: imeClana, w: ostalo });
-    }
+    cells.push({ text: imeClana, w: ostalo });
     redak(cells, 7.5, 9);
+    if (p.maloljetan) {
+      // roditelj/staratelj u zasebnom retku, da dugačka imena ostanu u jednom redu
+      y += 2 * f;
+      const lblR = sir_('Roditelj/staratelj:', true);
+      redak([{ text: 'Roditelj/staratelj:', w: lblR, bold: true, fill: SIVO }, { text: `${p.rIme} ${p.rPrezime}`, w: W - lblR }], 7.5, 9);
+    }
 
     // --- podnožje: crta i napomena o izradi ---
     const sad = new Date();
