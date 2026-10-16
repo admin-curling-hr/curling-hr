@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pristupnica za prijem novih članova Curling kluba Vis: popunite obrazac, spremite ga kao PDF i pošaljite klubu e-poštom.">
+  <meta name="robots" content="noindex">
+  <title>Pristupnica — Curling klub Vis</title>
+  <link rel="stylesheet" href="vis.css">
+  <link rel="stylesheet" href="pristupnica.css">
+  <script>
+    // Tema: ista postavka kao na stranici kluba (ključ "vis-theme"), bez veze sa stranicama Saveza.
+    (function () {
+      var t = 'auto';
+      try { t = localStorage.getItem('vis-theme') || 'auto'; } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body data-page="vis-pristupnica">
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="header-brand">
+      <img src="logo.png" alt="">
+      <div class="header-titles">
+        <h1>Pristupnica za prijam novih članova</h1>
+        <p>Curling klub Vis</p>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button type="button" class="theme-btn" id="themeBtn" aria-label="Promjena teme"></button>
+      <a href="index.html" class="home-btn" title="Curling klub Vis">Klub</a>
+    </div>
+  </div>
+</header>
+
+<main class="forma-main">
+  <p class="intro">Ispunite Pristupnicu, pročitajte obavijesti i potvrdite izjave, spremite kao PDF i pošaljite klubu e-poštom na vis@curling.hr.</p>
+
+  <form id="forma" novalidate autocomplete="off">
+
+    <!-- Osobni podaci člana -->
+    <section class="card">
+      <h2><span class="br"></span>Osobni podaci člana</h2>
+      <div class="grid2">
+        <div><label class="lbl" for="ime">Ime <span class="req">*</span></label><input type="text" id="ime" maxlength="60" autocomplete="given-name"></div>
+        <div><label class="lbl" for="prezime">Prezime <span class="req">*</span></label><input type="text" id="prezime" maxlength="60" autocomplete="family-name"></div>
+        <div><label class="lbl" for="oib">OIB <span class="req">*</span></label><input type="text" id="oib" inputmode="numeric" maxlength="11" placeholder="11 znamenki"></div>
+        <div><label class="lbl" for="rodjen">Datum rođenja <span class="req">*</span></label><input type="date" id="rodjen" autocomplete="bday"></div>
+        <div><label class="lbl" for="adresa">Adresa <span class="req">*</span></label><input type="text" id="adresa" maxlength="100" autocomplete="street-address"></div>
+        <div><label class="lbl" for="mjesto">Mjesto <span class="req">*</span></label><input type="text" id="mjesto" maxlength="60" placeholder="npr. 10000 Zagreb" autocomplete="postal-code"></div>
+        <div><label class="lbl" for="email">E-adresa <span class="req" id="reqEmail">*</span></label><input type="email" id="email" maxlength="100" autocomplete="email"></div>
+        <div><label class="lbl" for="tel">Telefon <span class="req" id="reqTel">*</span></label><input type="tel" id="tel" maxlength="30" autocomplete="tel"></div>
+      </div>
+    </section>
+
+    <!-- Roditelj / staratelj (samo za članove mlađe od 18 godina) -->
+    <section class="card hidden" id="kartRoditelj">
+      <h2><span class="br"></span>Podaci o roditelju/staratelju <small>(za članove mlađe od 18 godina)</small></h2>
+      <div class="grid2">
+        <div><label class="lbl" for="rIme">Ime <span class="req">*</span></label><input type="text" id="rIme" maxlength="60"></div>
+        <div><label class="lbl" for="rPrezime">Prezime <span class="req">*</span></label><input type="text" id="rPrezime" maxlength="60"></div>
+        <div><label class="lbl" for="rEmail">E-adresa <span class="req">*</span></label><input type="email" id="rEmail" maxlength="100"></div>
+        <div><label class="lbl" for="rTel">Telefon <span class="req">*</span></label><input type="tel" id="rTel" maxlength="30"></div>
+      </div>
+    </section>
+
+    <!-- Izjave (tekstovi su u pristupnica.js) -->
+    <section class="card tekst" id="kartIzjave">
+      <h2><span class="br"></span>Izjave</h2>
+      <div id="izjave"></div>
+    </section>
+
+    <!-- Obavijest o zaštiti osobnih podataka -->
+    <section class="card tekst" id="kartObavijest">
+      <h2><span class="br"></span>Obavijest o zaštiti osobnih podataka</h2>
+      <div id="obavijest"></div>
+    </section>
+
+    <!-- Privole -->
+    <section class="card tekst" id="kartPrivole">
+      <h2><span class="br"></span>Privole <small>(izborno)</small></h2>
+      <div id="privole"></div>
+    </section>
+
+    <!-- Potvrda -->
+    <section class="card tekst" id="kartPotvrda">
+      <h2><span class="br"></span>Potvrda</h2>
+      <label class="potvrda-kucica">
+        <input type="checkbox" id="potvrda">
+        <span id="potvrdaTekst"></span>
+      </label>
+      <div class="grid2" style="margin-top:0.9rem">
+        <div><label class="lbl" for="datum">Datum <span class="req">*</span></label><input type="date" id="datum"></div>
+        <div><span class="lbl">Potvrđuje</span><div class="potvrdjuje" id="potvrdjuje">—</div></div>
+      </div>
+    </section>
+
+    <div id="poruka" class="poruka" role="alert" aria-live="polite"></div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary" id="btnPdf">Preuzmi PDF</button>
+      <button type="button" class="btn btn-sec" id="btnOcisti">Očisti obrazac</button>
+    </div>
+    <p class="privatnost" id="privatnost"></p>
+  </form>
+</main>
+
+<script src="vendor/jspdf/jspdf.umd.min.js"></script>
+<script src="pristupnica.js"></script>
+<script>
+  // Prekidač teme: automatska (prema sustavu) → svijetla → tamna. Ikona prikazuje što se uključuje klikom.
+  (function () {
+    var KLJUC = 'vis-theme', REDOSLIJED = ['auto', 'light', 'dark'];
+    var NAZIV = { auto: 'automatska (prema sustavu)', light: 'svijetla', dark: 'tamna' };
+    var SVG = function (unutra) {
+      return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + unutra + '</svg>';
+    };
+    var IKONE = {
+      auto: SVG('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'),
+      light: SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+      dark: SVG('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>')
+    };
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var btn = document.getElementById('themeBtn');
+    function procitaj() {
+      var t = 'auto';
+      try { t = localStorage.getItem(KLJUC) || 'auto'; } catch (e) {}
+      return REDOSLIJED.indexOf(t) < 0 ? 'auto' : t;
+    }
+    function primijeni(t) {
+      document.documentElement.setAttribute('data-theme', t === 'auto' ? (mq.matches ? 'dark' : 'light') : t);
+      var sljedeca = REDOSLIJED[(REDOSLIJED.indexOf(t) + 1) % REDOSLIJED.length];
+      btn.innerHTML = IKONE[sljedeca];
+      btn.title = 'Tema: ' + NAZIV[t] + '. Klik: ' + NAZIV[sljedeca] + '.';
+      btn.setAttribute('aria-label', btn.title);
+    }
+    btn.addEventListener('click', function () {
+      var sljedeca = REDOSLIJED[(REDOSLIJED.indexOf(procitaj()) + 1) % REDOSLIJED.length];
+      try { localStorage.setItem(KLJUC, sljedeca); } catch (e) {}
+      primijeni(sljedeca);
+    });
+    mq.addEventListener('change', function () { if (procitaj() === 'auto') primijeni('auto'); });
+    primijeni(procitaj());
+  })();
+</script>
+</body>
+</html>
