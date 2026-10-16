@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- og:start (pregled pri dijeljenju linka; ručno uređivati po potrebi) -->
+  <meta name="description" content="Curling klub Vis, Zagreb.">
+  <meta property="og:site_name" content="Hrvatski curling savez">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="hr_HR">
+  <meta property="og:url" content="https://curling.hr/vis/">
+  <meta property="og:title" content="Curling klub Vis">
+  <meta property="og:description" content="Curling klub Vis, Zagreb.">
+  <meta name="twitter:card" content="summary">
+  <!-- og:end -->
+  <title>Curling klub Vis</title>
+  <link rel="stylesheet" href="vis.css">
+  <script>
+    // Tema: odabir (auto / svijetla / tamna) pamti se samo za ovu stranicu (ključ "vis-theme"), bez veze sa stranicama Saveza.
+    (function () {
+      var t = 'auto';
+      try { t = localStorage.getItem('vis-theme') || 'auto'; } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body data-page="vis">
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="header-brand">
+      <img src="logo.png" alt="">
+      <div class="header-titles">
+        <h1>Curling klub Vis</h1>
+        <p>Zagreb</p>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button type="button" class="theme-btn" id="themeBtn" aria-label="Promjena teme"></button>
+      <a href="../" class="home-btn" title="Hrvatski curling savez">HCS</a>
+    </div>
+  </div>
+</header>
+
+<main class="site-main">
+  <div class="page-content">
+
+    <p class="ona-azurirano">Podaci ažurirani: 01. 07. 2026.</p>
+
+    <section class="ona-section">
+      <h2>O Hrvatskom curling savezu</h2>
+      <p>
+        <strong>Hrvatski curling savez</strong>
+        krovno je tijelo curling sporta u Republici Hrvatskoj, osnovan 2003. godine.
+      </p>
+      <p>
+        <strong>Hrvatski curling savez</strong>
+        punopravni je član
+        <a href="https://www.hoo.hr/" target="_blank" rel="noopener">Hrvatskog olimpijskog odbora</a>
+        i
+        <a href="https://worldcurling.org/" target="_blank" rel="noopener">Svjetske curling federacije</a>.
+      </p>
+      <dl class="ona-kontakt">
+        <dt>Adresa</dt>
+        <dd>Vučetićev prilaz 3<br>HR–10000 Zagreb</dd>
+        <dt>Telefon</dt>
+        <dd>+385 91 5346703</dd>
+        <dt>E-pošta</dt>
+        <dd>info@curling.hr</dd>
+        <dt>OIB</dt>
+        <dd>35927092577</dd>
+      </dl>
+    </section>
+
+    <section class="ona-section">
+      <h2>Tijela Hrvatskog curling saveza</h2>
+      <div class="tijela-grid">
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Predsjednik</div>
+          <div class="tijelo-clanovi">Alberto Skendrović</div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Dopredsjednici</div>
+          <div class="tijelo-clanovi">
+            Ante Baus<br>
+            Marko Stokuća
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Upravni odbor</div>
+          <div class="tijelo-clanovi">
+            Alberto Skendrović, predsjednik<br>
+            Ante Baus, član<br>
+            Marko Stokuća, član<br>
+            Bruno Samardžić, član<br>
+            Diego Einwalter, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Tajnik</div>
+          <div class="tijelo-clanovi">Dražen Ćutić</div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Nadzorni odbor</div>
+          <div class="tijelo-clanovi">
+            Dario Vuković, predsjednik<br>
+            Petra Beštak, član<br>
+            Davor Džepina, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Stegovna komisija</div>
+          <div class="tijelo-clanovi">
+            ?, predsjednik<br>
+            ?, član<br>
+            ?, član
+          </div>
+        </div>
+        <div class="tijelo-row">
+          <div class="tijelo-naziv">Komisija sportaša</div>
+          <div class="tijelo-clanovi">
+            Bruno Samardžić, član<br>
+            ?, član<br>
+            ?, član
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ona-section">
+      <h2>Punopravni članovi Hrvatskog curling saveza</h2>
+      <div class="clanovi-list">
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Vis</div>
+          <div class="clan-oib">OIB: 49289106763</div>
+          <div class="clan-period">član od 2003.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Čudnovati Čunjaš</div>
+          <div class="clan-oib">OIB: 62904723481</div>
+          <div class="clan-period">član od 2004.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Silent</div>
+          <div class="clan-oib">OIB: 23060715807</div>
+          <div class="clan-period">član od 2010.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Legija Zagreb</div>
+          <div class="clan-oib">OIB: 29853315204</div>
+          <div class="clan-period">član od 2018.</div>
+        </div>
+        <div class="clan-row">
+          <div class="clan-naziv">Curling klub Sisak</div>
+          <div class="clan-oib">OIB: 00545886834</div>
+          <div class="clan-period">član od 2018.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling club Zagreb</div>
+          <div class="clan-oib">OIB: 39039799048</div>
+          <div class="clan-period">2003. – 2024.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling klub Legija</div>
+          <div class="clan-oib">OIB: 16553574646</div>
+          <div class="clan-period">2003. – 2024.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling club Zapruđe</div>
+          <div class="clan-oib">OIB: 25782512086</div>
+          <div class="clan-period">2004. – 2016.</div>
+        </div>
+        <div class="clan-row neaktivan">
+          <div class="clan-naziv">Curling klub Croling</div>
+          <div class="clan-oib">OIB: 29216894945</div>
+          <div class="clan-period">2007. – 2020.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ona-section">
+      <h2>Cjenik Hrvatskog curling saveza</h2>
+      <div class="cjenik-list">
+        <div class="cjenik-row">
+          Godišnja članarina za članove Hrvatskog curling saveza
+          <span class="cjenik-iznos">160 €</span>
+        </div>
+        <div class="cjenik-row">
+          Kotizacija za nastup četveročlane ekipe na prvenstvu Hrvatske
+          <span class="cjenik-iznos">40 €</span>
+        </div>
+        <div class="cjenik-row">
+          Kotizacija za nastup dvočlane ekipe na prvenstvu Hrvatske
+          <span class="cjenik-iznos">20 €</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="ona-section">
+      <h2>Akti Hrvatskog curling saveza</h2>
+      <div class="akti-grid">
+        <div class="akti-skupina">
+          <div class="akti-kat">Statut</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/statut-hrvatskog-curling-saveza.pdf" target="_blank" rel="noopener">Statut Hrvatskog curling saveza</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Pravilnici</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/pravilnik-o-uvjetima-za-prijem-u-hcs.pdf" target="_blank" rel="noopener">Pravilnik o uvjetima za prijem u HCS</a>
+            <a href="../o-nama/pravilnik-o-registraciji.pdf" target="_blank" rel="noopener">Pravilnik o registraciji</a>
+            <a href="../o-nama/pravilnik-o-natjecanjima.pdf" target="_blank" rel="noopener">Pravilnik o natjecanjima</a>
+            <a href="../o-nama/pravilnik-o-reprezentacijama.pdf" target="_blank" rel="noopener">Pravilnik o reprezentacijama</a>
+            <a href="../o-nama/pravilnik-o-licenciranju-trenera.pdf" target="_blank" rel="noopener">Pravilnik o licenciranju trenera</a>
+            <a href="../o-nama/pravilnik-o-stegovnom-postupku.pdf" target="_blank" rel="noopener">Pravilnik o stegovnom postupku</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Poslovnici</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/poslovnik-o-radu-skupstine.pdf" target="_blank" rel="noopener">Poslovnik o radu Skupštine</a>
+            <a href="../o-nama/poslovnik-o-radu-upravnog-odbora.pdf" target="_blank" rel="noopener">Poslovnik o radu Upravnog odbora</a>
+            <a href="../o-nama/poslovnik-o-radu-nadzornog-odbora.pdf" target="_blank" rel="noopener">Poslovnik o radu Nadzornog odbora</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Zaštita podataka</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/izjava-o-zastiti-podataka.pdf" target="_blank" rel="noopener">Izjava o zaštiti podataka</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Planovi</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/plan-rada-za-2026.pdf" target="_blank" rel="noopener">Plan rada za 2026. godinu</a>
+            <a href="../o-nama/financijski-plan-za-2026.pdf" target="_blank" rel="noopener">Financijski plan za 2026. godinu</a>
+            <div class="akti-razdjelnik-godina">— — —</div>
+            <a href="../o-nama/plan-rada-za-2025.pdf" target="_blank" rel="noopener">Plan rada za 2025. godinu</a>
+            <a href="../o-nama/financijski-plan-za-2025.pdf" target="_blank" rel="noopener">Financijski plan za 2025. godinu</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Izvješća</div>
+          <div class="akti-stavke">
+            <a href="../o-nama/izvjesce-o-radu-za-2025.pdf" target="_blank" rel="noopener">Izvješće o radu za 2025. godinu</a>
+            <a href="../o-nama/financijsko-izvjesce-za-2025.pdf" target="_blank" rel="noopener">Financijsko izvješće za 2025. godinu</a>
+            <a href="../o-nama/izvjesce-o-provedbi-zakona-o-pravu-na-pristup-informacijama-za-2025.pdf" target="_blank" rel="noopener">Izvješće o pristupu informacijama za 2025. godinu</a>
+            <div class="akti-razdjelnik-godina">— — —</div>
+            <a href="../o-nama/izvjesce-o-radu-za-2024.pdf" target="_blank" rel="noopener">Izvješće o radu za 2024. godinu</a>
+            <a href="../o-nama/financijsko-izvjesce-za-2024.pdf" target="_blank" rel="noopener">Financijsko izvješće za 2024. godinu</a>
+            <a href="../o-nama/izvjesce-o-provedbi-zakona-o-pravu-na-pristup-informacijama-za-2024.pdf" target="_blank" rel="noopener">Izvješće o pristupu informacijama za 2024. godinu</a>
+          </div>
+        </div>
+        <div class="akti-skupina">
+          <div class="akti-kat">Zapisnici</div>
+          <div class="akti-stavke">
+            <span>Zapisnik s izborne Skupštine 11.06.2026.</span>
+            <span>Zapisnik s redovne Skupštine 2025.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  // Prekidač teme: automatska (prema sustavu) → svijetla → tamna. Ikona prikazuje što se uključuje klikom.
+  (function () {
+    var KLJUC = 'vis-theme', REDOSLIJED = ['auto', 'light', 'dark'];
+    var NAZIV = { auto: 'automatska (prema sustavu)', light: 'svijetla', dark: 'tamna' };
+    var SVG = function (unutra) {
+      return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + unutra + '</svg>';
+    };
+    var IKONE = {
+      auto: SVG('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'),
+      light: SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+      dark: SVG('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>')
+    };
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var btn = document.getElementById('themeBtn');
+    function procitaj() {
+      var t = 'auto';
+      try { t = localStorage.getItem(KLJUC) || 'auto'; } catch (e) {}
+      return REDOSLIJED.indexOf(t) < 0 ? 'auto' : t;
+    }
+    function primijeni(t) {
+      document.documentElement.setAttribute('data-theme', t === 'auto' ? (mq.matches ? 'dark' : 'light') : t);
+      var sljedeca = REDOSLIJED[(REDOSLIJED.indexOf(t) + 1) % REDOSLIJED.length];
+      btn.innerHTML = IKONE[sljedeca];
+      btn.title = 'Tema: ' + NAZIV[t] + '. Klik: ' + NAZIV[sljedeca] + '.';
+      btn.setAttribute('aria-label', btn.title);
+    }
+    btn.addEventListener('click', function () {
+      var sljedeca = REDOSLIJED[(REDOSLIJED.indexOf(procitaj()) + 1) % REDOSLIJED.length];
+      try { localStorage.setItem(KLJUC, sljedeca); } catch (e) {}
+      primijeni(sljedeca);
+    });
+    mq.addEventListener('change', function () { if (procitaj() === 'auto') primijeni('auto'); });
+    primijeni(procitaj());
+  })();
+</script>
+</body>
+</html>
