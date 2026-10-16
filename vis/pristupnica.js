@@ -50,19 +50,13 @@
           'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.') },
       { lead: 'Prihvaćanje uobičajenog rizika.',
         tekst: v(
-          'Na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
-          'Član na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis sudjeluje dobrovoljno i uz moju suglasnost, a u njegovo ime prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.') },
+          'Na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
+          'Član na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjeluje dobrovoljno i uz moju suglasnost, a u njegovo ime prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.') },
       { lead: 'Prijava ozljede i osiguranje.',
         tekst: v(
           'Ozljedu ili nezgodu na treningu ili natjecanju odmah ću prijaviti treneru ili odgovornoj osobi kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.',
-          'Ozljedu ili nezgodu člana na treningu ili natjecanju član će odmah prijaviti treneru ili odgovornoj osobi (a ja ću to učiniti čim saznam) kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.') },
-      { lead: 'Osiguranje (old).', osiguranje: true,
-        tekst: v('Obaviješten/a sam o osiguranju (označite jedno):', 'Obaviješten/a sam o osiguranju člana (označite jedno):') }
+          'Ozljedu ili nezgodu člana na treningu ili natjecanju član će odmah prijaviti treneru ili odgovornoj osobi (a ja ću to učiniti čim saznam) kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.') }
     ],
-    osiguranje: [
-      { id: 'A', tekst: 'Član je osiguran od posljedica nezgode preko kluba ili Saveza', poljeNaziv: 'Polica/opseg osiguranja', pdfPrefiks: ' (polica/opseg: ', pdfSufiks: ').' },
-      { id: 'B', tekst: 'Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.' }
-    ]
   };
 
   const OBAVIJEST = {
@@ -73,20 +67,20 @@
         'Curling klub Vis, Poljana Borisa Hanžekovića 43, 10000 Zagreb, ' + KLUB.kontaktPodaci + '. Ova obavijest daje se sukladno Općoj uredbi o zaštiti podataka (GDPR). Budući da je član mlađi od 18 godina, obavijest se daje roditelju/staratelju, koji u ime člana ostvaruje i prava navedena niže.') },
     zaglavlje: ['Podaci', 'Svrha', 'Pravna osnova', 'Rok čuvanja'],
     redovi: [
-      [v('Ime i prezime, OIB, datum rođenja, adresa, država, državljanstvo, e-adresa i telefon člana',
-         'Ime i prezime, OIB, datum rođenja, adresa, država, državljanstvo, e-adresa i telefon člana te ime, e-adresa i telefon roditelja/staratelja'),
+      [v('Ime i prezime, OIB, adresa, e-adresa i telefon člana',
+         'Ime i prezime, OIB, adresa, e-adresa i telefon člana te ime, e-adresa i telefon roditelja/staratelja'),
        'Vođenje evidencije (popisa) članova, naplata članarine, komunikacija s članovima',
        'Zakonska obveza kluba kao udruge (vođenje popisa članova) i članski odnos / legitimni interes kluba',
-       'Dok traje članstvo i 1 godinu nakon prestanka; popis članova prema propisima o udrugama'],
+       'Dok traje članstvo i 3 godine nakon prestanka; popis članova prema propisima o udrugama'],
       ['Ime i prezime, datum rođenja, državljanstvo i klub',
        'Sudjelovanje na natjecanjima i prijava natjecatelja; datum rođenja za razvrstavanje u kategorije, državljanosto za provjeru prava nastupa na međunarodnim natjecanjima',
        'Legitimni interes kluba i člana za sudjelovanje u natjecanjima',
-       'Za vrijeme trajanja natjecanja; rezultati se čuvaju trajno kao sportski arhiv'],
-      ['Datum izdavanja i isteka liječničke potvrde, podatak da je član sposoban i preslika potvrde; dijagnoze i nalazi se ne prikupljaju',
+       'Za vrijeme trajanja natjecanja; rezultati i podaci o natjecateljima se čuvaju trajno kao sportski arhiv'],
+      ['Datum izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša, podatak da je član sposoban i preslika uvjerenja; dijagnoze i nalazi se ne prikupljaju',
        'Provjera sposobnosti za bavljenje sportom (sigurnost treninga i natjecanja)',       
        v('Izričita privola',
          'Izričita privola roditelja/staratelja u ime člana'),
-       'Do isteka valjanosti potvrde ili povlačenja privole; zatim se preslika vraća članu ili uništava'],
+       'Do isteka valjanosti uvjerenja ili povlačenja privole; zatim se preslika vraća članu ili uništava'],
       ['Fotografije i videozapisi s treninga, natjecanja i događanja',
        'Objava fotografija i videozapisa člana',       
        v('Dobrovoljna privola, vidi dolje',
@@ -94,13 +88,13 @@
        'Do povlačenja privole ili zahtjeva za uklanjanje']
     ],
     odlomci: [
-      { lead: 'Primatelji podataka:',
-        tekst: 'Hrvatski curling savez (registracija članova i natjecatelja, rezultati i statistika natjecanja), organizatori natjecanja u Hrvatskoj i inozemstvu te Svjetska curling federacija, i to samo podaci potrebni za prijavu i provedbu natjecanja; pružatelj usluge e-pošte (Microsoft). Liječničke potvrde ne šalju se Savezu ni drugim primateljima (Savezu klub samo potvrđuje da postoji valjana potvrda), a pristup imaju samo ovlaštene osobe kluba. Podatke ne šaljemo drugim primateljima, osim kad to zahtijeva zakon.' },
-      { lead: 'Je li davanje podataka obvezno:',
+      { lead: 'Primatelji podataka: ',
+        tekst: 'Hrvatski curling savez, organizatori natjecanja u Hrvatskoj i inozemstvu te Svjetska curling federacija (registracija članova i natjecatelja, rezultati i statistika natjecanja, fotografije i videozapisi); pružatelj usluge e-pošte (Microsoft). Uvjerenja o zdravstvenoj sposobnosti sportaša ne šalju se Savezu ni drugim primateljima (Savezu klub samo potvrđuje da postoji valjana potvrda), a pristup imaju samo ovlaštene osobe kluba. Podaci se ne šalju drugim primateljima, osim kad to zahtijeva zakon.' },
+      { lead: 'Je li davanje podataka obvezno: ',
         tekst: v(
           'Podaci iz Pristupnice potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.',
           'Podaci iz Pristupnice (uključujući podatke roditelja/staratelja) potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje člana na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.') },
-      { lead: 'Vaša prava:',
+      { lead: 'Vaša prava: ',
         tekst: v(
           'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.',
           'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka (gdje se primjenjuje). Ta prava u ime člana ostvaruje roditelj/staratelj. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.') }
@@ -114,9 +108,6 @@
       { id: 'foto-klub', lead: 'Fotografije i videozapisi.',
         tekst: v('Objavljivanje mojih fotografija i videozapisa na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetske stranice i društvene mreže).',
                  'Objavljivanje fotografija i videozapisa člana na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetska stranica i društvene mreže kluba).') },
-      { id: 'foto-savez',
-        tekst: v('Fotografije i videozapisi na stranicama Hrvatskog curling saveza (curling.hr), kada ih klub dostavi Savezu za objavu vijesti i izvješća s natjecanja.',
-                 'Fotografije i videozapisi člana na stranicama Hrvatskog curling saveza (curling.hr), kada ih klub dostavi Savezu za objavu vijesti i izvješća s natjecanja.') },
       { id: 'potvrda-lijecnik', lead: 'Liječnička potvrda.',
         tekst: v('Evidencija datuma izdavanja i isteka liječničke potvrde o sposobnosti za bavljenje sportom i čuvanje njezine preslike do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati na treninzima i natjecanjima.',
                  'Evidencija datuma izdavanja i isteka liječničke potvrde o sposobnosti člana za bavljenje sportom i čuvanje njezine preslike do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati na treninzima i natjecanjima.') }
@@ -206,14 +197,6 @@
     h += `<h3>${esc(ZDRAVLJE.naslov)}</h3><p>${esc(ZDRAVLJE.uvod)}</p><ol>`;
     ZDRAVLJE.tocke.forEach((t, i) => {
       h += `<li>${lead(`${i + 1}. ${t.lead}`, t.tekst)}`;
-      if (t.osiguranje) {
-        h += '<div class="opcije" id="osigGrupa" role="radiogroup">';
-        ZDRAVLJE.osiguranje.forEach((o) => {
-          h += `<label class="opcija"><input type="radio" name="osig" value="${o.id}"><span>${esc(o.tekst)}</span></label>`;
-          if (o.poljeNaziv) h += `<div class="inline-polje hidden" id="policaWrap"><label class="lbl" for="polica">${esc(o.poljeNaziv)} <span class="opc">(neobavezno)</span></label><input type="text" id="polica" maxlength="120"></div>`;
-        });
-        h += '</div>';
-      }
       h += '</li>';
     });
     h += '</ol>';
@@ -290,10 +273,10 @@
     let tko = ime ? `${ime} (član)` : '—';
     if (mal) {
       const r = trim(`${$('rIme').value} ${$('rPrezime').value}`);
-      tko = (ime ? `${ime} (član)` : 'član') + '; ' + (r ? `${r} (roditelj/staratelj)` : 'roditelj/staratelj');
+//      tko = (ime ? `${ime} (član)` : 'član') + '; ' + (r ? `${r} (roditelj/staratelj)` : 'roditelj/staratelj');
+      tko = (r ? `${r} (roditelj/staratelj u ime člana ` : 'roditelj/staratelj') + (ime ? `${ime}` : 'član') + ')';
     }
     $('potvrdjuje').textContent = tko;
-    $('policaWrap').classList.toggle('hidden', !document.querySelector('input[name="osig"][value="A"]').checked);
     // Kartica roditelja/staratelja je „1a” da ostale kartice zadrže iste brojeve bez obzira na dob člana.
     let n = 0;
     document.querySelectorAll('main .card').forEach((k) => {
@@ -360,15 +343,6 @@
       p.rPrezime = zahtijevaj('rPrezime', 'Upišite prezime roditelja/staratelja.');
       p.rEmail = zahtijevaj('rEmail', 'Upišite ispravnu e-adresu roditelja/staratelja.', emailOk);
       p.rTel = zahtijevaj('rTel', 'Upišite ispravan telefon roditelja/staratelja.', telOk);
-    }
-
-    // osiguranje
-    {
-      const sel = document.querySelector('input[name="osig"]:checked');
-      oznaciGrupu($('osigGrupa'), !sel);
-      if (!sel) greske.push({ poruka: 'Označite jednu od opcija u točki o osiguranju (Izjava o zdravstvenoj sposobnosti).', el: document.querySelector('input[name="osig"]') });
-      p.osig = sel ? sel.value : '';
-      p.polica = trim($('polica').value);
     }
 
     // privole
@@ -612,15 +586,7 @@
     naslov(ZDRAVLJE.naslov);
     par([{ t: ZDRAVLJE.uvod }], 8.2, { iza: 1.4 });
     ZDRAVLJE.tocke.forEach((t, i) => {
-      par([{ t: `${i + 1}. ${t.lead}`, b: true }, { t: t.tekst }], 8.2, { iza: t.osiguranje ? 0.6 : 1.4 });
-      if (t.osiguranje) {
-        ZDRAVLJE.osiguranje.forEach((o) => {
-          let txt = o.tekst;
-          if (o.pdfPrefiks) txt += o.pdfPrefiks + (p.osig === o.id && p.polica ? p.polica : '______________________') + o.pdfSufiks;
-          par([{ t: txt }], 8.2, { indent: 8, kucica: p.osig === o.id, iza: 0.6 });
-        });
-        y += 0.8 * f;
-      }
+      par([{ t: `${i + 1}. ${t.lead}`, b: true }, { t: t.tekst }], 8.2, { iza: 1.4 });
     });
 
     // --- obavijest o zaštiti osobnih podataka ---
