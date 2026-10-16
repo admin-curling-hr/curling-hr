@@ -73,7 +73,7 @@
        'Zakonska obveza kluba kao udruge (vođenje popisa članova) i članski odnos / legitimni interes kluba',
        'Dok traje članstvo i 3 godine nakon prestanka; popis članova prema propisima o udrugama'],
       ['Ime i prezime, datum rođenja, državljanstvo i klub',
-       'Sudjelovanje na natjecanjima i prijava natjecatelja; datum rođenja za razvrstavanje u kategorije, državljanosto za provjeru prava nastupa na međunarodnim natjecanjima',
+       'Sudjelovanje na natjecanjima i prijava natjecatelja; datum rođenja za razvrstavanje u kategorije, državljanstvo za provjeru prava nastupa na međunarodnim natjecanjima',
        'Legitimni interes kluba i člana za sudjelovanje u natjecanjima',
        'Za vrijeme trajanja natjecanja; rezultati i podaci o natjecateljima se čuvaju trajno kao sportski arhiv'],
       ['Datum izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša, podatak da je član sposoban i preslika uvjerenja; dijagnoze i nalazi se ne prikupljaju',
@@ -113,8 +113,6 @@
                  'Evidencija datuma izdavanja i isteka liječničke potvrde o sposobnosti člana za bavljenje sportom i čuvanje njezine preslike do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati na treninzima i natjecanjima.') }
     ],
     napomene: [
-      v('Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde nije moguće sudjelovati u treninzima i natjecanjima.',
-        'Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz potvrde, ali je član dužan na traženje pokazati valjanu potvrdu. Bez valjane potvrde član ne može sudjelovati u treninzima i natjecanjima.'),
       v(null, 'Kad član postane punoljetan, klub će zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/staratelj.')
     ]
   };
@@ -273,8 +271,7 @@
     let tko = ime ? `${ime} (član)` : '—';
     if (mal) {
       const r = trim(`${$('rIme').value} ${$('rPrezime').value}`);
-//      tko = (ime ? `${ime} (član)` : 'član') + '; ' + (r ? `${r} (roditelj/staratelj)` : 'roditelj/staratelj');
-      tko = (r ? `${r} (roditelj/staratelj u ime člana ` : 'roditelj/staratelj') + (ime ? `${ime}` : 'član') + ')';
+      tko = (r ? `${r} (roditelj/staratelj, u ime člana ` : 'roditelj/staratelj') + (ime ? `${ime}` : 'član') + ')';
     }
     $('potvrdjuje').textContent = tko;
     // Kartica roditelja/staratelja je „1a” da ostale kartice zadrže iste brojeve bez obzira na dob člana.
@@ -612,16 +609,32 @@
     naslov('Potvrda');
     par([{ t: POTVRDA.tekst, b: true }], 8.2, { indent: 6, kucica: true, iza: 3 });
     y += 2 * f;
+    // Datum je uzak (širina prema tekstu), a ostatak retka dobivaju imena potvrditelja.
+    const tw = (t, bold) => { doc.setFont('Lib', bold ? 'bold' : 'normal'); doc.setFontSize(9 * f); return doc.getTextWidth(t); };
+    const sir_ = (t, bold) => tw(t, bold) + 2 * 1.6 + 1.5;
+    const datumTxt = formatDatum(p.datum);
+    const fiksno = [sir_('Datum:', true), sir_(datumTxt), sir_('Član:', true)];
+    const razmak1 = 5;
+    let ostalo = W - fiksno[0] - fiksno[1] - razmak1 - fiksno[2];
     const cells = [
-      { text: 'Datum:', w: 17, bold: true, fill: SIVO }, { text: formatDatum(p.datum), w: 26 },
-      { text: '', w: 5, bezRuba: true }
+      { text: 'Datum:', w: fiksno[0], bold: true, fill: SIVO }, { text: datumTxt, w: fiksno[1] },
+      { text: '', w: razmak1, bezRuba: true },
+      { text: 'Član:', w: fiksno[2], bold: true, fill: SIVO }
     ];
+    // podjela preostalog prostora među imenima: prema duljini teksta, uz jednaku raspodjelu viška
+    const podijeli = (tekstovi, ukupno) => {
+      const nat = tekstovi.map((t) => sir_(t));
+      const suma = nat.reduce((a, c) => a + c, 0);
+      return suma <= ukupno ? nat.map((n) => n + (ukupno - suma) / nat.length) : nat.map((n) => n * ukupno / suma);
+    };
     if (p.maloljetan) {
-      cells.push({ text: 'Član:', w: 13, bold: true, fill: SIVO }, { text: imeClana, w: 36 },
-                 { text: '', w: 4, bezRuba: true },
-                 { text: 'Roditelj/staratelj:', w: 38, bold: true, fill: SIVO }, { text: `${p.rIme} ${p.rPrezime}`, w: W - 17 - 26 - 5 - 13 - 36 - 4 - 38 });
+      const roditelj = `${p.rIme} ${p.rPrezime}`;
+      const razmak2 = 4, lblR = sir_('Roditelj/staratelj:', true);
+      const [wc, wr] = podijeli([imeClana, roditelj], ostalo - razmak2 - lblR);
+      cells.push({ text: imeClana, w: wc }, { text: '', w: razmak2, bezRuba: true },
+                 { text: 'Roditelj/staratelj:', w: lblR, bold: true, fill: SIVO }, { text: roditelj, w: wr });
     } else {
-      cells.push({ text: 'Član:', w: 14, bold: true, fill: SIVO }, { text: imeClana, w: W - 17 - 26 - 5 - 14 });
+      cells.push({ text: imeClana, w: ostalo });
     }
     redak(cells, 7.5, 9);
 
