@@ -61,6 +61,9 @@
     'Veterani su igrači koji imaju 50 godina na dan 30.6. prije natjecanja.'
   ];
 
+  // Napomena iznad tablice sastava (web i PDF); prikazuje se za discipline s ulogama (M, Ž, MC).
+  const NAPOMENA_POZICIJE = 'U svakoj utakmici prvenstva ekipa može promijeniti pozicije i uloge svih igrača prijavljenih u ovoj inicijalnoj prijavi.';
+
   const SEZONA_OD = 2026;   // prva sezona: 2026-2027
   const SEZONA_DO = 2039;   // zadnja sezona: 2039-2040
 
@@ -181,15 +184,16 @@
     if (!d) {
       box.className = 'igraci';
       box.innerHTML = '<p class="prazno-igraci">Odaberite disciplinu da biste mogli upisati sastav ekipe.</p>';
-      $('hintIgraci').textContent = '';
+      $('napomenaSastav').textContent = '';
       return;
     }
 
     const uloge = d.skip;
+    $('napomenaSastav').textContent = uloge ? NAPOMENA_POZICIJE : '';
     box.className = 'igraci' + (uloge ? '' : ' bez-uloga');
     const glava = `
       <div class="igraci-head">
-        <div>Pozicija</div><div>Ime i prezime</div><div>Reg. broj</div>
+        <div>Pozicija</div><div>Ime i prezime</div><div>HCS registarski broj</div>
         ${uloge ? '<div class="c">Skip</div><div class="c">Vice-skip</div>' : ''}
         <div>Klub (ako nije iz kluba koji prijavljuje)</div>
       </div>`;
@@ -200,7 +204,7 @@
         <div class="poz">${p.n}<small>${p.obavezno === false ? 'neobavezno' : ''}</small></div>
         <div class="f-ime"><span class="m-lbl">Ime i prezime</span>
           <input type="text" class="in-ime" maxlength="80" aria-label="Ime i prezime: ${p.n}"></div>
-        <div class="f-reg"><span class="m-lbl">Reg. broj</span>
+        <div class="f-reg"><span class="m-lbl">HCS registarski broj</span>
           <input type="text" class="in-reg" maxlength="10" inputmode="numeric" aria-label="Registarski broj iz Matične knjige igrača: ${p.n}"></div>
         ${uloge ? (p.obavezno === false ? `
         <div class="chk chk-prazno"></div><div class="chk chk-prazno"></div>` : `
@@ -225,12 +229,6 @@
       });
     }
 
-    $('hintIgraci').textContent = [
-      'Reg. broj je registarski broj iz Matične knjige igrača HCS-a.',
-      uloge ? 'Označite jednog skipa i jednog vice-skipa.' : '',
-      'Klub igrača upišite samo ako igrač nije iz kluba koji prijavljuje.',
-      'Rezerva nije obavezna.'
-    ].filter((t) => t && (t !== 'Rezerva nije obavezna.' || d.pozicije.some((x) => x.obavezno === false))).join('\n');
     osvjeziPravila();
   }
 
@@ -306,12 +304,12 @@
 
         if (obavezno || upisano) {
           if (!ime) err(`Upišite ime i prezime igrača: ${p.n}.`, r.querySelector('.in-ime'));
-          if (!reg) err(`Upišite registarski broj (Reg. broj) igrača: ${p.n}${ime ? ' (' + ime + ')' : ''}.`, r.querySelector('.in-reg'));
+          if (!reg) err(`Upišite HCS registarski broj igrača: ${p.n}${ime ? ' (' + ime + ')' : ''}.`, r.querySelector('.in-reg'));
         }
         if (reg) {
           const k = reg.toLowerCase().replace(/\s+/g, '');
           if (viđeniReg.has(k)) {
-            err(`Registarski broj ${reg} upisan je dvaput (${viđeniReg.get(k)} i ${p.n}).`, r.querySelector('.in-reg'));
+            err(`HCS registarski broj ${reg} upisan je dvaput (${viđeniReg.get(k)} i ${p.n}).`, r.querySelector('.in-reg'));
           } else {
             viđeniReg.set(k, p.n);
           }
@@ -433,7 +431,7 @@
       const lh = fs * 0.3528 * 1.18;
       const pripremi = cells.map((c) => {
         doc.setFont('Lib', c.bold ? 'bold' : 'normal');
-        const lines = (c.sup !== undefined || c.center) ? [c.text || ''] : (c.text ? doc.splitTextToSize(String(c.text), c.w - 2 * PAD) : ['']);
+        const lines = (c.sup !== undefined || c.center) ? String(c.text || '').split('\n') : (c.text ? doc.splitTextToSize(String(c.text), c.w - 2 * PAD) : ['']);
         return { c, lines };
       });
       const h = Math.max(minH * f, Math.max(...pripremi.map((x) => x.lines.length)) * lh + 2 * PAD);
@@ -445,18 +443,21 @@
         doc.setFont('Lib', c.bold ? 'bold' : 'normal'); doc.setFontSize(fs); crna();
         const baza = (i) => y + PAD + lh * (i + 0.82) + (h - 2 * PAD - lh * lines.length) / 2;
         if (c.sup !== undefined || c.center) {
-          // jedan redak, neobavezni eksponent (broj fusnote) i sufiks (npr. dvotočka)
-          const sw = doc.getTextWidth(c.text || '');
-          doc.setFontSize(fs * 0.62);
-          const supW = c.sup ? doc.getTextWidth(c.sup) : 0;
-          doc.setFontSize(fs);
-          const sufW = c.sufiks ? doc.getTextWidth(c.sufiks) : 0;
-          const ukupno = sw + supW + sufW;
-          const x0 = c.center ? x + (c.w - ukupno) / 2 : x + PAD;
-          const yy = baza(0);
-          tekst(c.text || '', x0, yy);
-          if (c.sup) { doc.setFontSize(fs * 0.62); tekst(c.sup, x0 + sw, yy - fs * 0.3528 * 0.38); doc.setFontSize(fs); }
-          if (c.sufiks) tekst(c.sufiks, x0 + sw + supW, yy);
+          // jedan ili više redaka (\n); eksponent (broj fusnote) i sufiks (npr. dvotočka) idu iza zadnjeg retka
+          lines.forEach((ln, i) => {
+            const zadnji = i === lines.length - 1;
+            const sw = doc.getTextWidth(ln);
+            doc.setFontSize(fs * 0.62);
+            const supW = zadnji && c.sup ? doc.getTextWidth(c.sup) : 0;
+            doc.setFontSize(fs);
+            const sufW = zadnji && c.sufiks ? doc.getTextWidth(c.sufiks) : 0;
+            const ukupno = sw + supW + sufW;
+            const x0 = c.center ? x + (c.w - ukupno) / 2 : x + PAD;
+            const yy = baza(i);
+            tekst(ln, x0, yy);
+            if (zadnji && c.sup) { doc.setFontSize(fs * 0.62); tekst(c.sup, x0 + sw, yy - fs * 0.3528 * 0.38); doc.setFontSize(fs); }
+            if (zadnji && c.sufiks) tekst(c.sufiks, x0 + sw + supW, yy);
+          });
         } else {
           lines.forEach((ln, i) => tekst(ln, x + PAD, baza(i)));
         }
@@ -475,12 +476,20 @@
     dvaPara('Klub', p.klub.kratko, 'Ekipa', p.ekipa, br('Ako klub prijavljuje više od jedne ekipe, navesti ime ekipe'));
     y += 9 * f;
 
-    // Sastav ekipe: Pozicija, Ime i prezime, Reg. broj, [S/V], Klub
-    const st = uloge ? [28, 62, 22, 16, 46] : [36, 66, 24, 48];
+    // Napomena o promjeni pozicija i uloga (samo discipline s ulogama), iznad tablice sastava
+    if (uloge) {
+      font('normal', 8.5 * f); crna();
+      const lhN = 8.5 * f * 0.3528 * 1.3;
+      doc.splitTextToSize(NAPOMENA_POZICIJE, W).forEach((red) => { tekst(red, L, y); y += lhN; });
+      y += 3 * f;
+    }
+
+    // Sastav ekipe: Pozicija, Ime i prezime, HCS registarski broj, [S/V], Klub
+    const st = uloge ? [28, 52, 34, 16, 44] : [34, 58, 34, 48];
     const iKlub = uloge ? 4 : 3;
     const zaglavlje = [{ text: '', w: st[0], bezRuba: true }];
     zaglavlje.push({ text: 'Ime i prezime', w: st[1], bold: true, fill: SIVO });
-    zaglavlje.push({ text: 'Reg. broj', sup: br('Registarski broj iz Matične knjige igrača HCS-a'), w: st[2], bold: true, fill: SIVO });
+    zaglavlje.push({ text: 'HCS registarski\nbroj', sup: br('Registarski broj iz Matične knjige igrača HCS-a'), w: st[2], bold: true, fill: SIVO });
     if (uloge) zaglavlje.push({ text: 'S/V', sup: br('S = skip, V = vice skip'), w: st[3], bold: true, fill: SIVO, center: true });
     zaglavlje.push({ text: 'Klub', sup: br('Ako je igrač iz drugog kluba, navesti ime kluba'), w: st[iKlub], bold: true, fill: SIVO });
     redak(zaglavlje, 7.5, 9.5);

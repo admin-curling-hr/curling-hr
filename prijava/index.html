@@ -139,11 +139,13 @@ input:focus, select:focus {
 .invalid { border-color: var(--err) !important; background: var(--err-bg) !important; }
 
 .hint { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; white-space: pre-line; }
+.hint.napomena-sastav { margin: 0 0 0.7rem; }
+.hint.napomena-sastav:empty { display: none; }
 
 /* ---- Igrači ---- */
 .igraci-head, .igrac {
   display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1.6fr) 5.2rem 4rem 4.8rem minmax(0, 1.2fr);
+  grid-template-columns: 7.5rem minmax(0, 1.6fr) 7rem 4rem 4.8rem minmax(0, 1.2fr);
   gap: 0.5rem;
   align-items: center;
 }
@@ -162,7 +164,7 @@ input:focus, select:focus {
 .igrac .poz small { display: block; font-weight: 400; color: var(--muted); font-size: 0.72rem; }
 .igrac .chk input { width: 1.25rem; height: 1.25rem; accent-color: var(--red); cursor: pointer; }
 .igrac .m-lbl { display: none; }
-.igraci.bez-uloga .igraci-head, .igraci.bez-uloga .igrac { grid-template-columns: 7.5rem minmax(0, 1.6fr) 5.2rem minmax(0, 1.2fr); }
+.igraci.bez-uloga .igraci-head, .igraci.bez-uloga .igrac { grid-template-columns: 7.5rem minmax(0, 1.6fr) 7rem minmax(0, 1.2fr); }
 .igraci.bez-uloga .chk, .igraci.bez-uloga .c { display: none; }
 
 @media (max-width: 760px) {
@@ -190,7 +192,8 @@ input:focus, select:focus {
 .slazem input { width: 1.3rem; height: 1.3rem; margin-top: 0.1rem; flex: none; accent-color: var(--red); cursor: pointer; }
 .slazem:has(input.invalid) { border-color: var(--red); box-shadow: 0 0 0 2px rgba(204,0,0,.25); }
 .tekst-blok { font-size: 0.85rem; color: #333; white-space: pre-line; }
-.tekst-blok.pravila { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px solid #ececec; color: var(--muted); }
+/* Crtu iznad pravila daje već donji rub zadnjeg retka tablice (inače bi bile dvije crte jedna za drugom). */
+.tekst-blok.pravila { margin-top: 0.7rem; color: var(--muted); }
 
 /* ---- Gumbi i poruke ---- */
 .actions { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
@@ -279,8 +282,8 @@ input:focus, select:focus {
 
     <div class="card">
       <h2><span class="br">3</span> Sastav ekipe</h2>
+      <p class="hint napomena-sastav" id="napomenaSastav"></p>
       <div id="igraci" class="igraci"></div>
-      <p class="hint" id="hintIgraci"></p>
       <div id="pravila" class="tekst-blok pravila hidden"></div>
     </div>
 
