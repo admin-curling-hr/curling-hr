@@ -1797,3 +1797,18 @@ img { max-width: 100%; height: auto; display: block; }
 .hi-zap{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E");}
 .hi-cube{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.3 7L12 12l8.7-5M12 22V12'/%3E%3C/svg%3E");}
 .hi-user{--hi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E");}
+
+/* --- Uživo: stavka izbornika (vidljiva samo dok traje natjecanje, vidi uzivo-config.js) --- */
+.site-nav ul li[hidden] { display: none; }
+.nav-live {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.4rem;
+  border-radius: 50%;
+  background: #fff;
+  vertical-align: 0.05em;
+  animation: hcs-live-pulse 1.4s ease-in-out infinite;
+}
+@keyframes hcs-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { .nav-live { animation: none; } }

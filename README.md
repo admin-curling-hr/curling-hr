@@ -23,6 +23,7 @@ kao gotov fajl za download, koji se onda ručno prebaci u GitHub Desktop i commi
   - [Ažuriranje nastupa reprezentacije](#4-ažuriranje-nastupa-reprezentacije)
   - [Digitalizacija skeniranih zapisnika](#5-digitalizacija-skeniranih-zapisnika)
   - [Obrazac za prijavu ekipe (/prijava/)](#6-obrazac-za-prijavu-ekipe-prijava)
+  - [Rezultati uživo (/uzivo/)](#7-rezultati-uživo-uzivo)
 - [Skripte — pregled](#skripte--pregled)
 - [GitHub Actions (automatska generacija)](#github-actions-automatska-generacija)
 - [Domena i hosting](#domena-i-hosting)
@@ -38,6 +39,7 @@ vijesti/                — Vijesti (arhiva + pojedinačni članci)
   YYYY-MM-DD/index.html   — jedan članak po mapi (+ eventualne fotke u istoj mapi)
 edit/index.html         — WYSIWYG editor za pisanje vijesti (Quill.js), radi lokalno u pregledniku
 prijava/index.html       — obrazac za prijavu ekipe (bez poveznice u izborniku, noindex); izrađuje PDF na A4
+uzivo/index.html        — Rezultati uživo: SoftPeelR u okviru; stavka "Uživo" u izborniku samo dok traje natjecanje
 kalendar/index.html     — Kalendar natjecanja i treninga (ručno se uređuje)
 klubovi/index.html      — Popis aktivnih/neaktivnih klubova (ručno se uređuje)
 o-nama/index.html       — O savezu, kontakt, tijela, članarine, akti (+ PDF-ovi akata)
@@ -54,6 +56,9 @@ assets/
   js/logo-data.js         — logotipi klubova kao base64 (generirano ručno iz PNG-ova, ne skriptom)
   js/vijesti-lightbox.js  — lightbox za fotografije i YouTube videe u vijestima (jedan niz)
   js/prijava.js           — logika obrasca za prijavu ekipe i izrada PDF-a (CONFIG na vrhu)
+  js/uzivo-config.js      — postavke za Uživo: popis natjecanja, SoftPeelR brojevi, datumi prikaza (RUČNO se uređuje)
+  js/uzivo.js             — logika stranice /uzivo/
+  css/uzivo.css           — stilovi stranice /uzivo/
   vendor/jspdf/           — biblioteka jsPDF (MIT) za izradu PDF-a u pregledniku
   fonts/liberation-sans-subset-*.ttf — font Liberation Sans (podskup, OFL) za hrvatska slova u PDF-u; dohvaća ga prijava.js
   json/prvenstva-data.json      — svi rezultati PH (izvor istine za SPA + značke)
@@ -310,6 +315,34 @@ redak), discipline (pozicije igrača i uvodna rečenica o broju igrača), uzrast
 izjava treba uskladiti s Izjavom o zaštiti podataka i Pravilnikom o natjecanjima kad se oni promijene.
 Popis klubova `KLUBOVI` nije povezan sa stranicom *Klubovi*, pa ga
 treba ažurirati kad se neki klub doda ili ugasi.
+
+### 7. Rezultati uživo (`/uzivo/`)
+
+Rezultati natjecanja vode se u besplatnoj usluzi [SoftPeelR](https://softpeelr.com) (unos s tableta,
+poredak, raspored). Stranica `/uzivo/` prikazuje njihove stranice unutar okvira (iframe), s gumbima
+Poredak / Rezultati / Raspored / Krugovi / Ekipe i poveznicom „Otvori u punom prikazu".
+Stavka **Uživo** u izborniku (između Početne i Vijesti, s trepćućom točkom) vidljiva je **samo dok
+je neko natjecanje aktivno**; inače je nema. Ako netko otvori `/uzivo/` izravno dok ništa nije aktivno,
+vidi kratku poruku s poveznicom na Kalendar.
+
+**Sve se uređuje u `assets/js/uzivo-config.js`** (upute su u komentaru na vrhu datoteke):
+
+- `ukljuceno: "auto"` — natjecanje se prikazuje od `prikaziOd` do `prikaziDo` (uključivo, zagrebačko
+  vrijeme). Preporučeno: natjecanja upisati unaprijed, a stavka se sama pojavi i nestane.
+- `ukljuceno: true` — prikazuju se sva natjecanja s popisa (za test); `false` — sve isključeno.
+- Za svako natjecanje: `naziv` (+ neobavezno `nazivEn`), `mjesto`, `datumi` (tekst za prikaz),
+  `softpeelr` (broj s kraja adrese turnira, npr. `.../tournaments/2260` → `2260`), `prikaziOd`, `prikaziDo`.
+- Više istovremeno aktivnih natjecanja (npr. juniori i juniorke) → na stranici se pojavi izbor natjecanja.
+
+Postupak: napraviti turnir u SoftPeelR-u → upisati blok u `uzivo-config.js` → commit (može i izravno
+na github.com, i s mobitela). Postavke učitava `header.js` na svakoj stranici; ako datoteka ima
+sintaksnu grešku, stavka se jednostavno ne prikazuje (greška je vidljiva u konzoli preglednika).
+GitHub Pages može nekoliko minuta posluživati staru verziju datoteke.
+
+Ograničenja: sadržaj okvira je SoftPeelR-ov (engleski, njihov izgled; hrvatski ne nude). SoftPeelR ima
+i nedokumentirani JSON (`.json` na kraju adrese), ali bez CORS zaglavlja, pa ga stranica ne može
+izravno čitati. Ako SoftPeelR jednom zabrani prikaz u okviru, ostaje poveznica na puni prikaz.
+`/uzivo/` nije u `sitemap.xml` jer je sadržaj privremen.
 
 ## Skripte — pregled
 

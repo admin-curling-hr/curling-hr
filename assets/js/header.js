@@ -51,6 +51,7 @@ window.hcsMedalize = function (str) {
   <nav class="site-nav" id="siteNav">
     <ul>
       <li><a href="${BASE}/" data-hr="Početna" data-en="Home">Početna</a></li>
+      <li id="navUzivoLi" hidden><a href="${BASE}/uzivo/" id="navUzivo"><span data-hr="Uživo" data-en="Live">Uživo</span><span class="nav-live" aria-hidden="true"></span></a></li>
       <li><a href="${BASE}/vijesti/" data-hr="Vijesti" data-en="News">Vijesti</a></li>
       <li><a href="${BASE}/kalendar/" data-hr="Kalendar događanja" data-en="Events">Kalendar događanja</a></li>
       <li><a href="${BASE}/klubovi/" data-hr="Klubovi" data-en="Clubs">Klubovi</a></li>
@@ -228,6 +229,41 @@ window.hcsMedalize = function (str) {
   }
 
   initHeader();
+  initUzivo();
+
+  // ===== Uživo =====
+  // Postavke su u assets/js/uzivo-config.js (učitava se ovdje, pa ga ne treba dodavati u
+  // svaki HTML). Stavka "Uživo" je u izborniku skrivena i otkriva se samo ako je barem
+  // jedno natjecanje aktivno. Ista provjera (hcsUzivoAktivna) koristi se na /uzivo/.
+  function initUzivo() {
+    function danas() {
+      try {
+        return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zagreb', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+      } catch (e) {
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      }
+    }
+    window.hcsUzivoAktivna = function (cfg) {
+      if (!cfg || cfg.ukljuceno === false || !Array.isArray(cfg.natjecanja)) return [];
+      const lista = cfg.natjecanja.filter(n => n && n.naziv && n.softpeelr);
+      if (cfg.ukljuceno === true) return lista;
+      const d = danas();
+      return lista.filter(n => n.prikaziOd && n.prikaziDo && n.prikaziOd <= d && d <= n.prikaziDo);
+    };
+    // ?v= se mijenja svakih 5 minuta, da preglednik ne drži staru verziju postavki satima.
+    window.hcsUzivoReady = new Promise(resolve => {
+      const s = document.createElement('script');
+      s.src = BASE + '/assets/js/uzivo-config.js?v=' + Math.floor(Date.now() / 300000);
+      s.onload = () => resolve(window.HCS_UZIVO || null);
+      s.onerror = () => { console.warn('Uživo: uzivo-config.js se ne može učitati.'); resolve(null); };
+      document.head.appendChild(s);
+    });
+    window.hcsUzivoReady.then(cfg => {
+      const li = document.getElementById('navUzivoLi');
+      if (li && window.hcsUzivoAktivna(cfg).length) li.hidden = false;
+    });
+  }
 
   function initHeader() {
     const page = document.body.dataset.page || '';
