@@ -67,9 +67,8 @@
       '</div>' +
       '<div class="uz-frame-box"><iframe class="uz-frame" src="' + esc(url) + '" title="' +
         esc(naziv(n) + ' – ' + t(p.hr, p.en)) + '" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>' +
-      '<div class="uz-foot">' +
-        '<span>' + t('Rezultate vodi SoftPeelR; prikaz se osvježava na njihovoj strani.', 'Results are kept in SoftPeelR and update on their side.') + '</span>' +
-        '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + t('Otvori u punom prikazu', 'Open full view') + ' ↗</a>' +
+      '<div class="uz-foot">' +        
+        '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + t('Otvori u punom prikazu na SoftPeelR.com', 'Open full view on SoftPeeR.com') + ' ↗</a>' +
       '</div>';
     app.innerHTML = html;
 
