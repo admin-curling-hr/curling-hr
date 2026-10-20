@@ -39,8 +39,8 @@ window.HCS_UZIVO = {
       mjesto: "Intercable Arena Bruneck, Brunico, Italija",
       datumi: "07. – 08. 11. 2026.",
       softpeelr: 2388,
-      prikaziOd: "2026-10-15",
-      prikaziDo: "2026-11-11"
+      prikaziOd: "2026-11-01",
+      prikaziDo: "2026-11-18"
     },
     {
       naziv: "2. prvenstvo Hrvatske (juniori) i 4. prvenstvo Hrvatske (juniorke)",
@@ -48,8 +48,8 @@ window.HCS_UZIVO = {
       mjesto: "Intercable Arena Bruneck, Brunico, Italija",
       datumi: "07. – 08. 11. 2026.",
       softpeelr: 2386,
-      prikaziOd: "2026-10-15",
-      prikaziDo: "2026-11-11"
+      prikaziOd: "2026-11-01",
+      prikaziDo: "2026-11-18"
     }
   ]
 };
