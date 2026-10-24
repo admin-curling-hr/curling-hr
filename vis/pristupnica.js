@@ -46,8 +46,8 @@
           'Član je zdravstveno sposoban za bavljenje curlingom. Valjanu liječničku potvrdu o sposobnosti člana za bavljenje sportom dostavit ću klubu te je obnavljati prije isteka valjanosti. Klub ću bez odgode obavijestiti o svakoj promjeni zdravstvenog stanja člana zbog koje je sigurno bavljenje sportom ograničeno; pritom nisam dužan/na navoditi dijagnozu.') },
       { lead: 'Upoznatost s rizicima i pravilima.',
         tekst: v(
-          'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da sam upućen/a u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da ću ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.',
-          'Suglasan/na sam sa sudjelovanjem člana na treninzima i natjecanjima. Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama trenera ili odgovorne osobe.') },
+          'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da sam upućen/a u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da ću ih se pridržavati zajedno s uputama odgovorne osobe.',
+          'Suglasan/na sam sa sudjelovanjem člana na treninzima i natjecanjima. Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama odgovorne osobe.') },
       { lead: 'Prihvaćanje uobičajenog rizika.',
         tekst: v(
           'Na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
@@ -72,7 +72,7 @@
        'Vođenje evidencije (popisa) članova, naplata članarine, komunikacija s članovima',
        'Zakonska obveza kluba kao udruge (vođenje popisa članova) i članski odnos / legitimni interes kluba',
        'Dok traje članstvo i 3 godine nakon prestanka; popis članova prema propisima o udrugama'],
-      ['Ime i prezime, datum rođenja, državljanstvo i klub',
+      ['Ime i prezime, HCS registarski broj, datum rođenja, državljanstvo i klub',
        'Sudjelovanje na natjecanjima i prijava natjecatelja; datum rođenja za razvrstavanje u kategorije, državljanstvo za provjeru prava nastupa na međunarodnim natjecanjima',
        'Legitimni interes kluba i člana za sudjelovanje u natjecanjima',
        'Za vrijeme trajanja natjecanja; rezultati i podaci o natjecateljima se čuvaju trajno kao sportski arhiv'],
