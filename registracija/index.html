@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Registracija igrača — Hrvatski curling savez</title>
+<title>Zahtjev za registraciju igrača — Hrvatski curling savez</title>
 <link rel="icon" href="../assets/images/hcs-logo.png">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -140,10 +140,13 @@ input:focus, select:focus {
 
 .hint { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; white-space: pre-line; }
 
-/* ---- Ovjera ---- */
-.sign-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem; }
-
-.izjave p { font-size: 0.85rem; color: #333; margin: 0 0 0.6rem; line-height: 1.45; }
+/* ---- Zaštita podataka i potvrda kluba ---- */
+.tekst-blok { font-size: 0.85rem; color: #333; line-height: 1.5; }
+.izjave p { font-size: 0.85rem; color: #333; margin: 0 0 0.6rem; line-height: 1.5; }
+.slazem { display: flex; gap: 0.7rem; align-items: flex-start; margin: 0.9rem 0 1rem; padding: 0.75rem 0.9rem; background: #fbf3f3; border: 1px solid #ecd0d0; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+.slazem input { width: 1.3rem; height: 1.3rem; margin-top: 0.1rem; flex: none; accent-color: var(--red); cursor: pointer; }
+.slazem:has(input.invalid) { border-color: var(--red); box-shadow: 0 0 0 2px rgba(204,0,0,.25); }
+.razmak { margin-top: 0.75rem; }
 
 /* ---- Gumbi i poruke ---- */
 .actions { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
@@ -170,11 +173,6 @@ input:focus, select:focus {
 
 .privatnost { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 .hidden { display: none !important; }
-
-.izjave p { font-size: 0.85rem; color: #333; margin: 0 0 0.6rem; line-height: 1.5; }
-.izjave p.izjava-glavna { font-size: 0.92rem; font-weight: 700; color: var(--text); }
-.izjave .sitno { display: block; font-size: 0.78rem; color: var(--muted); }
-.potvrda-kluba { font-size: 0.85rem; color: #333; margin: 0 0 0.8rem; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -184,7 +182,7 @@ input:focus, select:focus {
     <div class="header-brand">
       <img src="../assets/images/hcs-logo.png" alt="">
       <div class="header-titles">
-        <h1>Registracija igrača</h1>
+        <h1>Zahtjev za registraciju igrača</h1>
         <p>Hrvatski curling savez</p>
       </div>
     </div>
@@ -193,24 +191,31 @@ input:focus, select:focus {
 </header>
 
 <main>
-  <p class="intro">Upišite podatke i preuzmite PDF. Ispišite ga; potpisuju igrač-ica, ovlaštena osoba kluba te, za maloljetne igrače-ice, roditelj ili staratelj. Potpisani zahtjev pošaljite Savezu e-poštom (sken ili fotografija) na <span id="emailHcs">info@curling.hr</span>.</p>
+  <p class="intro">Ovlaštena osoba kluba ispunjava Zahtjev, preuzima PDF i šalje Savezu e-poštom s adrese kluba na <span id="emailHcs">tajnik@curling.hr</span>.</p>
 
   <form id="forma" novalidate autocomplete="off">
 
     <div class="card">
-      <h2><span class="br">1</span> Podaci o igraču-ici</h2>
+      <h2><span class="br">1</span> Klub i igrač-ica</h2>
       <div class="grid2">
         <div>
-          <label class="lbl" for="ime">Ime i prezime <span class="req">*</span></label>
-          <input type="text" id="ime" maxlength="80" autocomplete="name">
+          <label class="lbl" for="klub">Klub koji podnosi zahtjev <span class="req">*</span></label>
+          <select id="klub" required></select>
+        </div>
+      </div>
+      <p class="hint">Zahtjev se podnosi i kad igrač-ica prelazi iz drugog kluba: registracijom za novi klub prestaje registracija za dosadašnji. Raniju registraciju Savez provjerava sam u Matičnoj knjizi.</p>
+      <div class="grid2 razmak">
+        <div>
+          <label class="lbl" for="ime">Ime <span class="req">*</span></label>
+          <input type="text" id="ime" maxlength="50">
         </div>
         <div>
-          <label class="lbl" for="klub">Curling klub <span class="req">*</span></label>
-          <select id="klub"></select>
+          <label class="lbl" for="prezime">Prezime <span class="req">*</span></label>
+          <input type="text" id="prezime" maxlength="60">
         </div>
         <div>
           <label class="lbl" for="rodjen">Datum rođenja <span class="req">*</span></label>
-          <input type="date" id="rodjen" autocomplete="bday">
+          <input type="date" id="rodjen">
           <p class="hint" id="hintRodjen"></p>
         </div>
         <div>
@@ -220,31 +225,26 @@ input:focus, select:focus {
       </div>
     </div>
 
-    <div class="card hidden" id="kartRoditelj">
-      <h2><span class="br">1a</span> Roditelj/staratelj <small style="font-weight:400;color:var(--muted)">(za igrače-ice mlađe od 18 godina)</small></h2>
+    <div class="card">
+      <h2><span class="br">2</span> <span id="zastitaNaslov">Zaštita osobnih podataka</span></h2>
+      <p class="tekst-blok" id="zastita"></p>
+    </div>
+
+    <div class="card">
+      <h2><span class="br">3</span> <span id="potvrdaNaslov">Potvrda kluba</span></h2>
+      <div class="izjave" id="potvrde"></div>
+      <label class="slazem" for="slazem">
+        <input type="checkbox" id="slazem">
+        <span id="slazemTekst"></span>
+      </label>
       <div class="grid2">
         <div>
-          <label class="lbl" for="roditelj">Ime i prezime roditelja/staratelja <span style="font-weight:400;color:var(--muted)">(neobavezno)</span></label>
-          <input type="text" id="roditelj" maxlength="80">
-          <p class="hint">Ispisuje se ispod crte za potpis; ako ostane prazno, upisuje se rukom.</p>
+          <label class="lbl" for="datum">Datum <span class="req">*</span></label>
+          <input type="date" id="datum">
         </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2><span class="br">2</span> Izjave i zaštita osobnih podataka</h2>
-      <div class="izjave" id="izjave"></div>
-      <p class="sign-note">Izjave se potvrđuju potpisom na ispisanom zahtjevu.</p>
-    </div>
-
-    <div class="card">
-      <h2><span class="br">3</span> Potvrda kluba</h2>
-      <p class="potvrda-kluba" id="potvrdaKluba"></p>
-      <div class="grid2">
         <div>
-          <label class="lbl" for="ovlastena">Ime i prezime ovlaštene osobe kluba <span style="font-weight:400;color:var(--muted)">(neobavezno)</span></label>
+          <label class="lbl" for="ovlastena">Ovlaštena osoba kluba (ime i prezime) <span class="req">*</span></label>
           <input type="text" id="ovlastena" maxlength="80">
-          <p class="hint">Ispisuje se ispod crte za potpis; ako ostane prazno, upisuje se rukom.</p>
         </div>
       </div>
     </div>

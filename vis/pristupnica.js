@@ -19,26 +19,26 @@
     kontaktPodaci: 'vis@curling.hr'       // adresa za zahtjeve o osobnim podacima (stoji u Obavijesti)
   };
 
-  const MALOLJETAN_DO = 18;   // mlađi od ovoga: otvaraju se podaci o roditelju/staratelju
+  const MALOLJETAN_DO = 18;   // mlađi od ovoga: otvaraju se podaci o roditelju/skrbniku
 
   // Tekstovi koji se razlikuju za punoljetne i maloljetne članove pišu se kao v(punoljetni, maloljetni).
   // Maloljetni se prikazuje čim datum rođenja pokaže da član ima manje od MALOLJETAN_DO godina: tada sve izjave,
-  // obavijest i privole govore o članu u trećem licu, a daje ih roditelj/staratelj u njegovo ime.
+  // obavijest i privole govore o članu u trećem licu, a daje ih roditelj/skrbnik u njegovo ime.
   // v(null, 'tekst') znači da se odlomak prikazuje samo za maloljetne članove.
   const v = (clan, mal) => ({ clan, mal });
 
   const IZJAVA_CLANA = {
-    naslov: v('Izjava člana', 'Izjava roditelja/staratelja u ime člana'),
+    naslov: v('Izjava člana', 'Izjava roditelja/skrbnika u ime člana'),
     tekst: v(
-      'Ovom Pristupnicom potvrđujem da su svi uneseni podaci točni, prihvaćam Statut Curling kluba Vis te se obvezujem pravovremeno plaćati članarinu.',
-      'Ovom Pristupnicom, kao roditelj/staratelj člana mlađeg od 18 godina, potvrđujem da su svi uneseni podaci točni te u njegovo ime prihvaćam Statut Curling kluba Vis. Obvezujem se da će se članarina za člana pravovremeno plaćati.')
+      'Ovom Pristupnicom potvrđujem da su svi uneseni podaci točni, prihvaćam Statut Curling kluba Vis te se obvezujem pravovremeno plaćati članarinu. Pristajem na registraciju u Hrvatskom curling savezu za Curling klub Vis i prihvaćam Statut i opće akte Hrvatskog curling saveza.',
+      'Ovom Pristupnicom, kao roditelj/skrbnik člana mlađeg od 18 godina, potvrđujem da su svi uneseni podaci točni te u njegovo ime prihvaćam Statut Curling kluba Vis. Suglasan/na sam da se član registrira u Hrvatskom curling savezu za Curling klub Vis te u njegovo ime prihvaćam Statut i opće akte Hrvatskog curling saveza. Obvezujem se da će se članarina za člana pravovremeno plaćati.')
   };
 
   const ZDRAVLJE = {
     naslov: 'Izjava o zdravstvenoj sposobnosti',
     uvod: v(
       'Ovom Pristupnicom izjavljujem sljedeće.',
-      'Ovom Pristupnicom, kao roditelj/staratelj člana mlađeg od 18 godina, u njegovo ime izjavljujem sljedeće.'),
+      'Ovom Pristupnicom, kao roditelj/skrbnik člana mlađeg od 18 godina, u njegovo ime izjavljujem sljedeće.'),
     tocke: [
       { lead: 'Zdravstvena sposobnost.',
         tekst: v(
@@ -64,11 +64,11 @@
     uvod: { lead: 'Voditelj obrade:',
       tekst: v(
         'Curling klub Vis, Poljana Borisa Hanžekovića 43, 10000 Zagreb, ' + KLUB.kontaktPodaci + '. Ova obavijest daje se sukladno Općoj uredbi o zaštiti podataka (GDPR).',
-        'Curling klub Vis, Poljana Borisa Hanžekovića 43, 10000 Zagreb, ' + KLUB.kontaktPodaci + '. Ova obavijest daje se sukladno Općoj uredbi o zaštiti podataka (GDPR). Budući da je član mlađi od 18 godina, obavijest se daje roditelju/staratelju, koji u ime člana ostvaruje i prava navedena niže.') },
+        'Curling klub Vis, Poljana Borisa Hanžekovića 43, 10000 Zagreb, ' + KLUB.kontaktPodaci + '. Ova obavijest daje se sukladno Općoj uredbi o zaštiti podataka (GDPR). Budući da je član mlađi od 18 godina, obavijest se daje roditelju/skrbniku, koji u ime člana ostvaruje i prava navedena niže.') },
     zaglavlje: ['Podaci', 'Svrha', 'Pravna osnova', 'Rok čuvanja'],
     redovi: [
       [v('Ime i prezime, OIB, adresa, e-adresa i telefon člana',
-         'Ime i prezime, OIB, adresa, e-adresa i telefon člana te ime i prezime, e-adresa i telefon roditelja/staratelja'),
+         'Ime i prezime, OIB, adresa, e-adresa i telefon člana te ime i prezime, e-adresa i telefon roditelja/skrbnika'),
        'Vođenje evidencije (popisa) članova, naplata članarine, komunikacija s članovima',
        'Zakonska obveza kluba kao udruge (vođenje popisa članova) i članski odnos / legitimni interes kluba',
        'Dok traje članstvo i 3 godine nakon prestanka; popis članova prema propisima o udrugama'],
@@ -79,12 +79,12 @@
       ['Datum izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša, podatak da je član sposoban i preslika uvjerenja; dijagnoze i nalazi se ne prikupljaju',
        'Provjera sposobnosti za bavljenje sportom (sigurnost treninga i natjecanja)',       
        v('Izričita privola',
-         'Izričita privola roditelja/staratelja u ime člana'),
+         'Izričita privola roditelja/skrbnika u ime člana'),
        'Do isteka valjanosti uvjerenja ili povlačenja privole; zatim se preslika vraća članu ili uništava'],
       ['Fotografije i videozapisi s treninga, natjecanja i događanja',
        'Objava fotografija i videozapisa člana',       
        v('Dobrovoljna privola, vidi dolje',
-         'Dobrovoljna privola roditelja/staratelja, vidi dolje'),
+         'Dobrovoljna privola roditelja/skrbnika, vidi dolje'),
        'Do povlačenja privole ili zahtjeva za uklanjanje']
     ],
     odlomci: [
@@ -93,11 +93,11 @@
       { lead: 'Je li davanje podataka obvezno: ',
         tekst: v(
           'Podaci iz Pristupnice potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.',
-          'Podaci iz Pristupnice (uključujući podatke roditelja/staratelja) potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje člana na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.') },
+          'Podaci iz Pristupnice (uključujući podatke roditelja/skrbnika) potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje člana na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.') },
       { lead: 'Vaša prava: ',
         tekst: v(
           'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.',
-          'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka (gdje se primjenjuje). Ta prava u ime člana ostvaruje roditelj/staratelj. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.') }
+          'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka (gdje se primjenjuje). Ta prava u ime člana ostvaruje roditelj/skrbnik. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.') }
     ]
   };
 
@@ -113,7 +113,7 @@
                  'Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti člana i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na treninzima i natjecanjima.') }
     ],
     napomene: [
-      v(null, 'Kada član postane punoljetan, može zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/staratelj.')
+      v(null, 'Kada član postane punoljetan, može zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/skrbnik.')
     ]
   };
 
@@ -121,7 +121,7 @@
     naslov: 'Potvrda',
     tekst: v(
       'Potvrđujem da sam pročitao/la obavijest o zaštiti osobnih podataka te potvrđujem sve gore navedene izjave i označene odgovore na privole.',
-      'Potvrđujem da sam roditelj/staratelj člana mlađeg od 18 godina, da sam pročitao/la obavijest o zaštiti osobnih podataka te da u njegovo ime dajem sve gore navedene izjave i označene odgovore na privole.')
+      'Potvrđujem da sam roditelj/skrbnik člana mlađeg od 18 godina, da sam pročitao/la obavijest o zaštiti osobnih podataka te da u njegovo ime dajem sve gore navedene izjave i označene odgovore na privole.')
   };
 
   // Razrješava v(…) u tekstove za punoljetnog ili maloljetnog člana (odlomci s vrijednošću null se izostavljaju).
@@ -181,11 +181,11 @@
     }
     return (11 - a) % 10 === Number(s[10]);
   }
-  // Tko potvrđuje: član, a za maloljetnog člana roditelj/staratelj u njegovo ime (isti tekst na stranici i u PDF-u).
+  // Tko potvrđuje: član, a za maloljetnog člana roditelj/skrbnik u njegovo ime (isti tekst na stranici i u PDF-u).
   function potvrditelj(mal, ime, roditelj) {
     if (!mal) return ime ? `${ime} (član)` : '—';
-    if (!roditelj) return 'roditelj/staratelj' + (ime ? ` (u ime člana ${ime})` : '');
-    return `${roditelj} (roditelj/staratelj, u ime člana ${ime || 'člana'})`;
+    if (!roditelj) return 'roditelj/skrbnik' + (ime ? ` (u ime člana ${ime})` : '');
+    return `${roditelj} (roditelj/skrbnik, u ime člana ${ime || 'člana'})`;
   }
   const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
   const telOk = (s) => /^[+0-9][0-9 ()\/.\-]{5,}$/.test(s) && (s.match(/\d/g) || []).length >= 6;
@@ -277,7 +277,7 @@
     const r = trim(`${$('rIme').value} ${$('rPrezime').value}`);
     const tko = potvrditelj(mal, ime, r);
     $('potvrdjuje').textContent = tko;
-    // Kartica roditelja/staratelja je „1a” da ostale kartice zadrže iste brojeve bez obzira na dob člana.
+    // Kartica roditelja/skrbnika je „1a” da ostale kartice zadrže iste brojeve bez obzira na dob člana.
     let n = 0;
     document.querySelectorAll('main .card').forEach((k) => {
       const b = k.querySelector('h2 .br');
@@ -339,10 +339,10 @@
     p.tel = opcionalno('tel', 'Telefon nije ispravan.', 'Upišite telefon člana.', telOk);
 
     if (mal) {
-      p.rIme = zahtijevaj('rIme', 'Upišite ime roditelja/staratelja.');
-      p.rPrezime = zahtijevaj('rPrezime', 'Upišite prezime roditelja/staratelja.');
-      p.rEmail = zahtijevaj('rEmail', 'Upišite ispravnu e-adresu roditelja/staratelja.', emailOk);
-      p.rTel = zahtijevaj('rTel', 'Upišite ispravan telefon roditelja/staratelja.', telOk);
+      p.rIme = zahtijevaj('rIme', 'Upišite ime roditelja/skrbnika.');
+      p.rPrezime = zahtijevaj('rPrezime', 'Upišite prezime roditelja/skrbnika.');
+      p.rEmail = zahtijevaj('rEmail', 'Upišite ispravnu e-adresu roditelja/skrbnika.', emailOk);
+      p.rTel = zahtijevaj('rTel', 'Upišite ispravan telefon roditelja/skrbnika.', telOk);
     }
 
     // privole
@@ -583,7 +583,7 @@
     par2('E-adresa', p.email, 'Telefon', p.tel);
 
     if (p.maloljetan) {
-      naslov('Podaci o roditelju/staratelju (za članove mlađe od 18 godina)');
+      naslov('Podaci o roditelju/skrbniku (za članove mlađe od 18 godina)');
       par2('Ime', p.rIme, 'Prezime', p.rPrezime);
       par2('E-adresa', p.rEmail, 'Telefon', p.rTel);
     }
@@ -622,7 +622,7 @@
     par([{ t: POTVRDA.tekst, b: true }], 8.2, { indent: 6, kucica: true, iza: 3 });
     y += 2 * f;
     // Datum je uzak (širina prema tekstu), a ostatak retka dobiva potvrditelj: isti tekst kao na web obrascu
-    // (član, a za maloljetnog roditelj/staratelj u njegovo ime), u jednom redu.
+    // (član, a za maloljetnog roditelj/skrbnik u njegovo ime), u jednom redu.
     const tw = (t, bold) => { doc.setFont('Lib', bold ? 'bold' : 'normal'); doc.setFontSize(9 * f); return doc.getTextWidth(t); };
     const sir_ = (t, bold) => tw(t, bold) + 2 * 1.6 + 1.5;
     const datumTxt = formatDatum(p.datum);
