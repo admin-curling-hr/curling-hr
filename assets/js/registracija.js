@@ -1,7 +1,7 @@
-// registracija.js — obrazac RI-1 „Zahtjev za registraciju igrača-ice" (stranica /registracija/, bez poveznice u izborniku).
+// registracija.js — obrazac „Zahtjev za registraciju igrača" (stranica /registracija/, bez poveznice u izborniku).
 // Zahtjev podnosi KLUB: ovlaštena osoba kluba upiše podatke, označi potvrdu kluba, preuzme PDF (jedna A4 stranica)
 // i pošalje ga Savezu e-poštom s adrese kluba. Ispis i potpisi nisu potrebni (kao kod prijave ekipe, /prijava/).
-// Pristupnicu igrača-ice (za maloljetne i s potpisom roditelja ili skrbnika) čuva klub i predočuje je Savezu na zahtjev;
+// Pristupnicu igrača (za maloljetne i s potpisom roditelja ili skrbnika) čuva klub i predočuje je Savezu na zahtjev;
 // uvjerenje o zdravstvenoj sposobnosti provjerava se pri nastupu na natjecanju (Pravilnik o registraciji, čl. 6).
 // Podaci se upisuju samo u pregledniku; PDF se izrađuje na uređaju pomoću jsPDF (assets/vendor/jspdf) i fonta
 // s hrvatskim slovima (assets/fonts/liberation-sans-subset-*.ttf). Ništa se ne šalje niti sprema.
@@ -21,9 +21,11 @@
     adresa: 'Zagreb, Vučetićev prilaz 3/11',
     email: 'tajnik@curling.hr',                 // na ovu adresu klubovi šalju PDF zahtjeva
     stranica: 'curling.hr/registracija/',
-    obrazac: 'Registracija',
     naslov: 'Zahtjev za registraciju igrača'
   };
+
+  // Napomena o rodu (kao čl. 1. Pravilnika o registraciji): prikazuje se u sekciji 1 i ispisuje u PDF-u ispod naslova.
+  const NAPOMENA_ROD = 'Izrazi u ovom obrascu koji imaju rodno značenje odnose se jednako na muški i ženski rod.';
 
   const MALOLJETAN_DO = 18;   // mlađi od ovoga: potvrda kluba uključuje rečenice o roditelju ili skrbniku
 
@@ -40,8 +42,8 @@
   // --- Sekcija 2: obavijest Saveza o obradi podataka (čl. 14. GDPR-a: podaci se dobivaju od kluba) ---
   const ZASTITA_NASLOV = 'Zaštita osobnih podataka';
   const ZASTITA =
-    'Hrvatski curling savez (Vučetićev prilaz 3/11, Zagreb; info@curling.hr) kao voditelj obrade obrađuje podatke iz ovog ' +
-    'zahtjeva (ime i prezime, datum rođenja, državljanstvo i klub igrača-ice te ime i prezime ovlaštene osobe kluba) radi ' +
+    'Hrvatski curling savez (Vučetićev prilaz 3, Zagreb; info@curling.hr) kao voditelj obrade obrađuje podatke iz ovog ' +
+    'zahtjeva (ime i prezime, datum rođenja, državljanstvo i klub igrača te ime i prezime ovlaštene osobe kluba) radi ' +
     'registracije i vođenja Matične knjige registriranih igrača, provjere prava nastupa i organizacije natjecanja te vođenja ' +
     'rezultata i sportske statistike, na temelju Pravilnika o registraciji i legitimnog interesa Saveza i klubova (čl. 6. st. 1. ' +
     't. f Opće uredbe o zaštiti podataka). Podatke Savez dobiva od kluba. Ime i prezime, registarski broj, klub i sportski ' +
@@ -49,32 +51,32 @@
     'rokovima čuvanja i pravima ispitanika nalazi se u Izjavi o zaštiti podataka na mrežnim stranicama Saveza (curling.hr), ' +
     'a prava se ostvaruju na info@curling.hr.';
 
-  // --- Sekcija 3: potvrda kluba (mal = igrač-ica mlađi-a od 18 godina) ---
+  // --- Sekcija 3: potvrda kluba (mal = igrač mlađi od 18 godina) ---
   // Usklađeno s Pravilnikom o registraciji (čl. 3, 5, 6, 11). Svaka točka: naslov + tekst; tekst je funkcija dobi.
   // Jednu registraciju po igraču (čl. 5) i prijelaz (čl. 11) provjerava Savez u Matičnoj knjizi, pa ih klub ne potvrđuje.
   const POTVRDE_NASLOV = 'Potvrda kluba';
   const POTVRDE = [
     { naslov: 'Članstvo i pristanak',
-      tekst: (mal) => 'Igrač-ica je član-ica kluba. U pristupnici kluba pristao-la je na registraciju u Hrvatskom curling savezu ' +
-        'i prihvatio-la Statut i opće akte Saveza.' +
-        (mal ? ' Budući da je igrač-ica mlađi-a od 18 godina, pristupnicu je potpisao i roditelj ili skrbnik, koji je suglasan ' +
+      tekst: (mal) => 'Igrač je član kluba. U pristupnici kluba pristao je na registraciju u Hrvatskom curling savezu ' +
+        'i prihvatio Statut i opće akte Saveza.' +
+        (mal ? ' Budući da je igrač mlađi od 18 godina, pristupnicu je potpisao i roditelj ili skrbnik, koji je suglasan ' +
                's registracijom i nastupima za klub.' : '') },
     { naslov: 'Točnost podataka',
       tekst: () => 'Podaci u zahtjevu su točni i odgovaraju podacima iz pristupnice. Klub odgovara za njihovu istinitost i bez ' +
         'odgode će Savezu javiti svaku promjenu.' },
     { naslov: 'Zdravstvena sposobnost',
-      tekst: () => 'Klub je upoznat da igrač-ica smije nastupiti na natjecanju samo s valjanim uvjerenjem o zdravstvenoj ' +
+      tekst: () => 'Klub je upoznat da igrač smije nastupiti na natjecanju samo s valjanim uvjerenjem o zdravstvenoj ' +
         'sposobnosti sportaša, u skladu s Pravilnikom o natjecanjima.' },
     { naslov: 'Obavijest o obradi podataka',
-      tekst: (mal) => 'Klub je igrača-icu' + (mal ? ' i roditelja ili skrbnika' : '') + ' upoznao s obradom osobnih podataka ' +
+      tekst: (mal) => 'Klub je igrača' + (mal ? ' i roditelja ili skrbnika' : '') + ' upoznao s obradom osobnih podataka ' +
         'u Savezu opisanom u ovom zahtjevu.' },
     { naslov: 'Pristupnica',
-      tekst: () => 'Pristupnicu igrača-ice čuva klub. Savezu se ne dostavlja, a klub je predočuje na zahtjev Saveza.' },
+      tekst: () => 'Pristupnicu igrača čuva klub. Savezu se ne dostavlja, a klub je predočuje na zahtjev Saveza.' },
     { naslov: 'Ovlaštenje',
       tekst: () => 'Zahtjev podnosi ovlaštena osoba kluba prijavljena Savezu, s adrese elektroničke pošte koju je klub prijavio ' +
         'Savezu.' }
   ];
-  const POTVRDA_KUCICA = 'Kao ovlaštena osoba kluba potvrđujem da sam pročitao/la gornje točke te ih u ime kluba potvrđujem i prihvaćam.';
+  const POTVRDA_KUCICA = 'Kao ovlaštena osoba kluba potvrđujem da sam pročitao gornje točke te ih u ime kluba potvrđujem i prihvaćam.';
 
   // ============================================================
   //  Pomoćne funkcije
@@ -123,6 +125,7 @@
     sel.appendChild(o);
   });
 
+  $('napomenaRod').textContent = NAPOMENA_ROD;
   $('emailHcs').innerHTML = `<a href="mailto:${HCS.email}">${HCS.email}</a>`;
   $('datum').value = danas();
   $('zastitaNaslov').textContent = ZASTITA_NASLOV;
@@ -142,7 +145,7 @@
   function iscrtaj() {
     const mal = maloljetan();
     $('hintRodjen').textContent = mal
-      ? 'Igrač-ica je mlađi-a od 18 godina: klub u potvrdi (sekcija 3) potvrđuje i suglasnost roditelja ili skrbnika.'
+      ? 'Igrač je mlađi od 18 godina: klub u potvrdi (sekcija 3) potvrđuje i suglasnost roditelja ili skrbnika.'
       : '';
     const box = $('potvrde');
     box.innerHTML = '';
@@ -176,8 +179,8 @@
     const ovlastena = trim($('ovlastena').value);
 
     if (!klub) err('Odaberite klub koji podnosi zahtjev.', $('klub'));
-    if (!ime) err('Upišite ime igrača-ice.', $('ime'));
-    if (!prezime) err('Upišite prezime igrača-ice.', $('prezime'));
+    if (!ime) err('Upišite ime igrača.', $('ime'));
+    if (!prezime) err('Upišite prezime igrača.', $('prezime'));
     if (!rodjen) err('Upišite datum rođenja.', $('rodjen'));
     else if (rodjen > new Date()) err('Datum rođenja ne može biti u budućnosti.', $('rodjen'));
     else if (starost(rodjen, new Date()) > 110) err('Provjerite datum rođenja.', $('rodjen'));
@@ -256,7 +259,7 @@
 
     doc.setProperties({
       title: `${HCS.naslov} — ${imePrezime}`,
-      subject: `${HCS.obrazac}: ${p.klub.naziv}`,
+      subject: p.klub.naziv,
       author: p.klub.naziv,
       creator: HCS.stranica
     });
@@ -305,10 +308,9 @@
       y += 6 * f;
     }
 
-    // --- zaglavlje: logotip lijevo, oznaka obrasca desno, naziv i adresa Saveza ---
+    // --- zaglavlje: logotip, naziv i adresa Saveza ---
     if (logo) { try { doc.addImage(logo, 'PNG', L, y, 22 * f, 22 * f); } catch (e) { /* bez logotipa */ } }
-    font('bold', 9.5); crna();
-    tekst(HCS.obrazac, L + W, y + 11 * f, { align: 'right' });
+    crna();
     y += 22 * f + 4 * f;
     font('bold', 10); tekst(HCS.naziv, L, y); y += 4.6;
     font('normal', 10); tekst(HCS.adresa, L, y);
@@ -317,10 +319,13 @@
     // --- naslov ---
     font('bold', 13 * f); crna();
     tekst(HCS.naslov, L + W / 2, y, { align: 'center' });
-    y += 11 * f;
+    y += 5.5 * f;
+    font('italic', 8 * f); doc.setTextColor(90, 90, 90);
+    tekst(NAPOMENA_ROD, L + W / 2, y, { align: 'center' });
+    y += 7.5 * f;
 
-    // --- 1. klub i igrač-ica ---
-    naslovSekcije('1. Klub i igrač-ica');
+    // --- 1. klub i igrač ---
+    naslovSekcije('1. Klub i igrač');
     const xp = L + 42;
     polje('Klub podnositelj:', p.klub.naziv, L + 2, xp, L + W);
     y += 9 * f;
@@ -392,10 +397,10 @@
     return doc;
   }
 
-  // Naziv: RI-1-Registracija-<ime>-<prezime>-<klub>.pdf, npr. RI-1-Registracija-Ivan-Horvat-Vis.pdf
+  // Naziv: Registracija-<ime>-<prezime>-<klub>.pdf, npr. Registracija-Ivan-Horvat-Vis.pdf
   function nazivDatoteke(p) {
     const dio = (x) => bezDijakritika(String(x)).replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'x';
-    return ['RI-1', 'Registracija', p.ime, p.prezime, p.klub.kratko].map(dio).join('-') + '.pdf';
+    return ['Registracija', p.ime, p.prezime, p.klub.kratko].map(dio).join('-') + '.pdf';
   }
 
   // ============================================================

@@ -173,6 +173,7 @@ input:focus, select:focus {
 
 .privatnost { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
 .hidden { display: none !important; }
+.napomena-rod { margin: -0.35rem 0 0.75rem; font-style: italic; }
 </style>
 </head>
 <body>
@@ -196,14 +197,15 @@ input:focus, select:focus {
   <form id="forma" novalidate autocomplete="off">
 
     <div class="card">
-      <h2><span class="br">1</span> Klub i igrač-ica</h2>
+      <h2><span class="br">1</span> Klub i igrač</h2>
+      <p class="hint napomena-rod" id="napomenaRod"></p>
       <div class="grid2">
         <div>
           <label class="lbl" for="klub">Klub koji podnosi zahtjev <span class="req">*</span></label>
           <select id="klub" required></select>
         </div>
       </div>
-      <p class="hint">Zahtjev se podnosi i kad igrač-ica prelazi iz drugog kluba: registracijom za novi klub prestaje registracija za dosadašnji. Raniju registraciju Savez provjerava sam u Matičnoj knjizi.</p>
+      <p class="hint">Zahtjev se podnosi i kad igrač prelazi iz drugog kluba: registracijom za novi klub prestaje registracija za dosadašnji. Raniju registraciju Savez provjerava sam u Matičnoj knjizi.</p>
       <div class="grid2 razmak">
         <div>
           <label class="lbl" for="ime">Ime <span class="req">*</span></label>
