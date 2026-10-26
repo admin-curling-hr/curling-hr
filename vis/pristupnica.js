@@ -89,7 +89,7 @@
     ],
     odlomci: [
       { lead: 'Primatelji podataka: ',
-        tekst: 'Hrvatski curling savez, organizatori natjecanja u Hrvatskoj i inozemstvu te Svjetska curling federacija (registracija članova i natjecatelja, rezultati i statistika natjecanja, fotografije i videozapisi); pružatelj usluge e-pošte (Microsoft). Uvjerenja o zdravstvenoj sposobnosti sportaša ne šalju se Savezu ni drugim primateljima (Savezu klub samo potvrđuje da postoji valjana potvrda), a pristup imaju samo ovlaštene osobe kluba. Podaci se ne šalju drugim primateljima, osim kad to zahtijeva zakon.' },
+        tekst: 'Hrvatski curling savez, organizatori natjecanja u Hrvatskoj i inozemstvu te World Curling  (registracija članova i natjecatelja, rezultati i statistika natjecanja, fotografije i videozapisi); pružatelj usluge e-pošte (Microsoft). Uvjerenja o zdravstvenoj sposobnosti sportaša ne šalju se Savezu ni drugim primateljima (Savezu klub samo potvrđuje da postoji valjana potvrda), a pristup imaju samo ovlaštene osobe kluba. Podaci se ne šalju drugim primateljima, osim kad to zahtijeva zakon.' },
       { lead: 'Je li davanje podataka obvezno: ',
         tekst: v(
           'Podaci iz Pristupnice potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.',
