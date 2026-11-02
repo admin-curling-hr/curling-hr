@@ -1715,7 +1715,7 @@ img { max-width: 100%; height: auto; display: block; }
 .video-facade:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
 .video-wrap iframe { display: block; }
 
-/* --- Video u tekstu vijesti (generira ga editor, vidi edit/index.html): klikni-za-prikaz u stupcu teksta.
+/* --- Video u tekstu vijesti (generira ga uređivač vijesti na interno.curling.hr, repo interno-curling-hr, vijesti/index.html): klikni-za-prikaz u stupcu teksta.
    Vodoravni video je 16:9 u punoj širini stupca. Okomiti (Shorts) ima vlastiti uski okvir 9:16 -
    najviše 360 px širine i 80% visine zaslona (na mobitelu puna širina stupca) - pa unutar njega nema crnih rubova. --- */
 .vijest-video { margin: 1.5rem 0; }

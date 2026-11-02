@@ -63,7 +63,7 @@ img { max-width: 100%; height: auto; display: block; }
 .page-content th { background: var(--bg-secondary); font-weight: 600; }
 
 /* --- Zaglavlje --- */
-/* Jednostavno zaglavlje kao na /prijava/ i /edit/: logo kluba, naziv kluba i gumb Početna. */
+/* Jednostavno zaglavlje kao na /prijava/: logo kluba, naziv kluba i gumb Početna. */
 .app-header { background: #CC0000; color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
 .app-header-inner { max-width: 1100px; margin: 0 auto; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .header-brand { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
