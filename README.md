@@ -289,6 +289,11 @@ Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću ma
 
 ### 6. Obrazac za prijavu ekipe (`/prijava/`)
 
+> **Zastarjelo:** obrasci za prijavu ekipe i registraciju igrača premješteni su na interne stranice
+> (`interno.curling.hr/prijava/` i `/registracija/`, repo `interno-curling-hr`), dostupne ovlaštenim
+> osobama klubova nakon prijave. Javne stranice ostaju privremeno, bez poveznica, i bit će uklonjene.
+> Opis ispod vrijedi i za interne inačice (isti kod u `assets/js/prijava.js` i `registracija.js`).
+
 Stranica `prijava/index.html` služi da ovlaštena osoba kluba popuni inicijalnu prijavu ekipe i preuzme
 PDF, koji se šalje Savezu e-poštom na `natjecanja@curling.hr` (ispis i potpis nisu potrebni). Nema poveznice u izborniku (gore desno ima gumb
 *Početna*), ima `noindex` i nije u `sitemap.xml`: klubovima se šalje
