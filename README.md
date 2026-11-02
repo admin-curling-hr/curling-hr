@@ -37,7 +37,6 @@ vijesti/                — Vijesti (arhiva + pojedinačni članci)
   vijesti.json            — auto-generiran popis (NE uređivati ručno)
   TEMPLATE.html            — predložak za ručno dodavanje vijesti (rijetko se koristi, vidi niže)
   YYYY-MM-DD/index.html   — jedan članak po mapi (+ eventualne fotke u istoj mapi)
-edit/index.html         — WYSIWYG editor za pisanje vijesti (Quill.js), radi lokalno u pregledniku
 prijava/index.html       — obrazac za prijavu ekipe (bez poveznice u izborniku, noindex); izrađuje PDF na A4
 uzivo/index.html        — Rezultati uživo: SoftPeelR u okviru; stavka "Uživo" u izborniku samo dok traje natjecanje
 kalendar/index.html     — Kalendar natjecanja i treninga (ručno se uređuje)
@@ -129,15 +128,20 @@ izgledati krivo u jednom od dva načina.
 
 ### 1. Dodavanje vijesti
 
-Najlakši način — koristi ugrađeni editor, ne piši HTML ručno:
+Vijesti se pišu u uređivaču na internim stranicama Saveza:
+**https://interno.curling.hr/vijesti/** (repozitorij `interno-curling-hr`, prijava računom
+Saveza, potrebna uloga *Uređivanje vijesti*). Uređivač je s javne stranice uklonjen.
 
-1. Otvori `/edit/` na sajtu (`edit/index.html`) u pregledniku.
-2. Napiši vijest (naslov, kratki opis, tekst, po želji naslovna slika i galerija fotki).
-3. Klikni **Preuzmi** — preglednik generira ZIP koji sadrži gotovu mapu
-   `vijesti/YYYY-MM-DD/` s `index.html` i svim fotkama, spreman da se raspakira
-   izravno u korijen repozitorija.
-4. Raspakiraj ZIP u repo, commitaj i pushaj.
-5. GitHub Action (`generiraj-vijesti.yml`) automatski, u roku od par minuta,
+1. Napiši vijest (naslov, kratki opis, tekst, po želji naslovna slika i galerija fotki) i klikni
+   **Generiraj HTML**.
+2. Klikni **Objavi na curling.hr** — vijest (mapa `vijesti/YYYY-MM-DD/` s `index.html` i svim
+   fotkama) sprema se izravno u ovaj repozitorij kao jedan commit, preko GitHub API-ja s osobnim
+   fine-grained tokenom urednika (samo ovaj repozitorij, *Contents: Read and write*; token se
+   upisuje u *Postavke objave* uređivača i čuva samo u pregledniku urednika).
+   Alternativa: **Preuzmi ZIP**, raspakiraj u repo, commitaj i pushaj.
+3. Prije vlastitih izmjena u repozitoriju napravi Fetch/Pull u GitHub Desktopu, jer vijesti
+   nastaju izravno na GitHubu.
+4. GitHub Action (`generiraj-vijesti.yml`) automatski, u roku od par minuta,
    ponovno generira `vijesti/vijesti.json` i sam ga commita — **ne treba ga ručno
    dirati**. Isti Action u `<head>` svake vijesti održava i blok s Open Graph oznakama
    (omeđen komentarima `og:start`/`og:end`; pregled kartice pri dijeljenju linka na
@@ -166,7 +170,7 @@ Sličica videa je datoteka `video-ID.jpg` u mapi vijesti. Ako je u editoru **ne 
 skida je automatski GitHub Action „Dohvati sličice YouTube videa" nakon pusha (za okomite
 videe uz automatsko rezanje crnih bočnih traka); nakon par minuta napravi **Fetch/Pull** u
 GitHub Desktopu. Dok sličice nema, vidi se tamna pločica s naslovom. Ako je odabereš,
-editor je smanji, pretvori u JPEG i stavi u ZIP, a Action je ne prepisuje. Ručno uređena
+editor je smanji, pretvori u JPEG i doda u vijest (objava ili ZIP), a Action je ne prepisuje. Ručno uređena
 vijest (bez editora): vidi komentirani primjer u `vijesti/TEMPLATE.html` (video je `button`
 s klasom `video-tile` unutar `.foto-grid-vijest`; posebna skripta nije potrebna).
 
@@ -285,9 +289,14 @@ Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću ma
 
 ### 6. Obrazac za prijavu ekipe (`/prijava/`)
 
+> **Zastarjelo:** obrasci za prijavu ekipe i registraciju igrača premješteni su na interne stranice
+> (`interno.curling.hr/prijava/` i `/registracija/`, repo `interno-curling-hr`), dostupne ovlaštenim
+> osobama klubova nakon prijave. Javne stranice ostaju privremeno, bez poveznica, i bit će uklonjene.
+> Opis ispod vrijedi i za interne inačice (isti kod u `assets/js/prijava.js` i `registracija.js`).
+
 Stranica `prijava/index.html` služi da ovlaštena osoba kluba popuni inicijalnu prijavu ekipe i preuzme
-PDF, koji se šalje Savezu e-poštom na `natjecanja@curling.hr` (ispis i potpis nisu potrebni). Nema poveznice u izborniku (kao
-`/edit/`; gore desno ima gumb *Početna*), ima `noindex` i nije u `sitemap.xml`: klubovima se šalje
+PDF, koji se šalje Savezu e-poštom na `natjecanja@curling.hr` (ispis i potpis nisu potrebni). Nema poveznice u izborniku (gore desno ima gumb
+*Početna*), ima `noindex` i nije u `sitemap.xml`: klubovima se šalje
 izravna adresa `https://curling.hr/prijava/`. PDF je izgledom usklađen s Word obrascem „PHC-M –
 Prijava ekipe" (zaglavlje, tablice, fusnote, pravila, datum i predstavnik kluba).
 
