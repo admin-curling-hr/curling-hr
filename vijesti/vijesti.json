@@ -1,5 +1,11 @@
 [
   {
+    "datum": "2026-11-02",
+    "naslov": "Test",
+    "excerpt": "Testna vijest",
+    "slika": "u2.jpg"
+  },
+  {
     "datum": "2026-10-29",
     "naslov": "Curling u emisiji „Sport bez granica” na TV Areni",
     "excerpt": "U današnjem izdanju emisije „Sport bez granica” na TV Areni gostovao je predsjednik Hrvatskog curling saveza Alberto Skendrović i govorio o curlingu u Hrvatskoj.",
