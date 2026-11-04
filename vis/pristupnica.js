@@ -1,7 +1,7 @@
 // pristupnica.js — pristupnica za prijem novih članova Curling kluba Vis (stranica vis/pristupnica.html).
 // Podaci se upisuju samo u pregledniku; PDF (cilj: najviše 2 A4 stranice) izrađuje se na uređaju pomoću jsPDF
 // (vis/vendor/jspdf) i fonta s hrvatskim slovima (vis/fonts). Ništa se ne šalje niti sprema.
-// Stranica je samostalna: ne koristi nijednu datoteku izvan mape vis/.
+// Stranica je samostalna: ne koristi nijednu datoteku izvan mape vis/ (osim poveznice na Statut HCS-a u Izjavi člana).
 //
 // Tekstove (izjave, obavijest o zaštiti podataka, privole) i e-adresu kluba mijenja se u CONFIG-u ispod.
 // Ostatak koda i raspored PDF-a ne treba dirati.
@@ -27,11 +27,18 @@
   // v(null, 'tekst') znači da se odlomak prikazuje samo za maloljetne članove.
   const v = (clan, mal) => ({ clan, mal });
 
+  // Poveznice u Izjavi člana: na stranici se navedene riječi pretvaraju u poveznice (otvaraju se u novoj kartici,
+  // da se ne izgube upisani podaci); u PDF-u ostaju običan tekst.
+  const POVEZNICE = [
+    { tekst: 'Statut Curling kluba Vis', href: '/vis/statut.pdf' },
+    { tekst: 'Statut Hrvatskog curling saveza', href: '/o-nama/statut-hrvatskog-curling-saveza.pdf' }
+  ];
+
   const IZJAVA_CLANA = {
     naslov: v('Izjava člana', 'Izjava roditelja/skrbnika u ime člana'),
     tekst: v(
-      'Ovom Pristupnicom potvrđujem da su svi uneseni podaci točni, prihvaćam Statut Curling kluba Vis te se obvezujem pravovremeno plaćati članarinu. Pristajem na registraciju u Hrvatskom curling savezu za Curling klub Vis i prihvaćam Statut i opće akte Hrvatskog curling saveza.',
-      'Ovom Pristupnicom, kao roditelj/skrbnik člana mlađeg od 18 godina, potvrđujem da su svi uneseni podaci točni te u njegovo ime prihvaćam Statut Curling kluba Vis. Suglasan/na sam da se član registrira u Hrvatskom curling savezu za Curling klub Vis te u njegovo ime prihvaćam Statut i opće akte Hrvatskog curling saveza. Obvezujem se da će se članarina za člana pravovremeno plaćati.')
+      'Ovom Pristupnicom potvrđujem da su svi uneseni podaci točni, prihvaćam Statut Curling kluba Vis te se obvezujem pravovremeno plaćati članarinu. Pristajem na registraciju u Hrvatskom curling savezu za Curling klub Vis i prihvaćam Statut Hrvatskog curling saveza.',
+      'Ovom Pristupnicom, kao roditelj/skrbnik člana mlađeg od 18 godina, potvrđujem da su svi uneseni podaci točni te u njegovo ime prihvaćam Statut Curling kluba Vis. Suglasan/na sam da se član registrira u Hrvatskom curling savezu za Curling klub Vis te u njegovo ime prihvaćam Statut Hrvatskog curling saveza. Obvezujem se da će se članarina za člana pravovremeno plaćati.')
   };
 
   const ZDRAVLJE = {
@@ -195,9 +202,18 @@
   // ============================================================
   const lead = (l, t) => `<strong>${esc(l)}</strong> ${esc(t)}`;
 
+  // Escapira tekst i pretvara riječi iz POVEZNICE u poveznice.
+  function sPoveznicama(t) {
+    let h = esc(t);
+    POVEZNICE.forEach(({ tekst, href }) => {
+      h = h.split(esc(tekst)).join(`<a href="${esc(href)}" target="_blank" rel="noopener">${esc(tekst)}</a>`);
+    });
+    return h;
+  }
+
   function iscrtajIzjave(S) {
     const { IZJAVA_CLANA, ZDRAVLJE } = S;
-    let h = `<h3>${esc(IZJAVA_CLANA.naslov)}</h3><p>${esc(IZJAVA_CLANA.tekst)}</p>`;
+    let h = `<h3>${esc(IZJAVA_CLANA.naslov)}</h3><p>${sPoveznicama(IZJAVA_CLANA.tekst)}</p>`;
     h += `<h3>${esc(ZDRAVLJE.naslov)}</h3><p>${esc(ZDRAVLJE.uvod)}</p><ol>`;
     ZDRAVLJE.tocke.forEach((t, i) => {
       h += `<li>${lead(`${i + 1}. ${t.lead}`, t.tekst)}`;
