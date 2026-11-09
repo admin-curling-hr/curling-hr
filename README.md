@@ -206,11 +206,13 @@ element treba oba jezika, vidi gore). `podaci/hcs-web-data.xlsx` (listovi Kalend
 Klubovi, Info...) i `podaci/o-nama.docx`/`o-curlingu.docx` služe samo kao radna
 bilježnica/nacrt za admina — ništa ih automatski ne čita niti pretvara u HTML.
 
-Primjer iz prakse: kad se promijeni predsjednik kluba ili osvoji nova medalja, izmjena
-ide izravno u `klubovi/index.html` (ćelija `Predsjednik`, ćelija `Osvojene medalje`).
-Broj medalja po klubu **ne treba ručno zbrajati** — SPA stranica (Statistika → Klubovi,
-svi filteri na "sve") to već računa iz `prvenstva-data.json` i može poslužiti kao izvor
-istine za provjeru.
+Primjer iz prakse: kad se promijeni predsjednik kluba, izmjena ide izravno u
+`klubovi/index.html` (ćelija `Predsjednik`). Stupac **Osvojene medalje** računa se sam iz
+`assets/json/prvenstva-data.json` (skripta na dnu `klubovi/index.html`: 1., 2. i 3. mjesto u
+poretku svakog prvenstva, klub prema `clubs` u bazi), pa se nakon objave novih rezultata ne mijenja
+ručno. Brojevi upisani u HTML služe samo kao rezervni prikaz ako se baza ne učita. Svaka ćelija
+ima atribut `data-klub-medalje` s nazivom kluba **kako je u bazi** (npr. `Legija` za redak
+„Legija Slavonski Brod”); kod novog kluba treba ga dodati u novi redak.
 
 ### 3. Dodavanje novog prvenstva / rezultata
 
@@ -292,8 +294,7 @@ istine za provjeru.
    videi (16:9) izgledaju najbolje; YouTube okomite i kratke (≤ 3 min) automatski vodi
    kao *Shorts*, ali se ugrađuju jednako. Stari lokalni `1.mp4`, `2.mp4`... još rade kao
    rezerva (bez naslova), ali samo ako u `video.txt` nema nijednog YouTube retka.
-6. Ako se pritom promijenio broj medalja nekog kluba, ažuriraj i
-   `klubovi/index.html` ručno (vidi točku 2 gore).
+6. Broj medalja na stranici Klubovi ažurira se sam iz nove baze (vidi točku 2 gore).
 
 ### 4. Ažuriranje nastupa reprezentacije
 
