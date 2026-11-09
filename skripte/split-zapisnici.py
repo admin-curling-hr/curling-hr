@@ -53,8 +53,8 @@ KORIŠTENJE:
 PRIMJER:
   python3 split-zapisnici.py ./Ž-S-Zapisnici.pdf ./phc-data.json ./output
 
-Ovisnosti: pip install pymupdf pytesseract pillow numpy --break-system-packages
-(i sustavski paket "tesseract-ocr" mora biti instaliran za sam OCR engine).
+Ovisnosti: skripte/requirements-zapisnici.txt (pymupdf, pytesseract, pillow, numpy) i program
+Tesseract OCR (Linux: paket "tesseract-ocr"; Windows: instalacijski paket). Upute: README, odjeljak 5.
 
 Ako OCR ne uspije pročitati kod ni jednim pokušajem:
   - u interaktivnom terminalu (TTY), skripta pita korisnika izravno;
@@ -69,10 +69,22 @@ import re
 import sys
 from collections import Counter
 
-import fitz  # PyMuPDF
+try:
+    import pymupdf as fitz  # PyMuPDF (novi naziv modula)
+except ImportError:
+    import fitz  # PyMuPDF, starije inačice
 import numpy as np
 import pytesseract
 from PIL import Image
+
+# Windows: ako tesseract.exe nije u PATH-u, koristi se zadana instalacijska mapa
+# (C:\Program Files\Tesseract-OCR), pa PATH ne treba ručno mijenjati.
+if os.name == 'nt':
+    import shutil
+    if not shutil.which('tesseract'):
+        _tess = os.path.join(os.environ.get('ProgramFiles', r'C:\Program Files'), 'Tesseract-OCR', 'tesseract.exe')
+        if os.path.exists(_tess):
+            pytesseract.pytesseract.tesseract_cmd = _tess
 
 # ---- Podešavanja ----
 RENDER_SCALE = 3.0
