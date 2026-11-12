@@ -17,6 +17,7 @@ kao gotov fajl za download, koji se onda ručno prebaci u GitHub Desktop i commi
 - [Kako radi dvojezičnost (HR/EN)](#kako-radi-dvojezičnost-hren)
 - [Tema (svijetlo/tamno/auto)](#tema-svijetlotamnoauto)
 - [Uobičajeni zadaci održavanja](#uobičajeni-zadaci-održavanja)
+  - [Pokretanje Python skripti (Linux i Windows)](#pokretanje-python-skripti-linux-i-windows)
   - [Dodavanje vijesti](#1-dodavanje-vijesti)
   - [Ažuriranje statičnih stranica (Klubovi, O nama, Kalendar, O curlingu)](#2-ažuriranje-statičnih-stranica-klubovi-o-nama-kalendar-o-curlingu)
   - [Dodavanje novog prvenstva / rezultata](#3-dodavanje-novog-prvenstva--rezultata)
@@ -126,6 +127,26 @@ izgledati krivo u jednom od dva načina.
 
 ## Uobičajeni zadaci održavanja
 
+### Pokretanje Python skripti (Linux i Windows)
+
+Skripte u `skripte/` pokreću se iz **korijena repozitorija** (mapa u kojoj je ovaj README), jer su
+putanje u naredbama relativne na nju. Naredbe se na Linuxu i Windowsima razlikuju:
+
+| | Linux / macOS (terminal) | Windows (PowerShell) |
+|---|---|---|
+| Python | `python3` | `python` (ili `py`) |
+| Instalacija paketa | `python3 -m pip install … --break-system-packages` | `python -m pip install …` |
+| Putanje | `skripte/…` | `skripte\…` |
+
+- **Uvijek instalirati preko `-m pip`** (`python -m pip …`, a ne samo `pip …`). Tako se paketi instaliraju
+  u isti Python koji zatim pokreće skriptu. Na Windowsima `pip` i `python3` znaju biti dvije različite
+  instalacije (npr. `python3` je prečac na Python iz Microsoft Storea), pa skripta javi
+  `ModuleNotFoundError: No module named 'pandas'` iako je instalacija prošla.
+- `--break-system-packages` treba samo na Linuxu (Debian/Ubuntu); na Windowsima se ne piše.
+- Ako na Windowsima `python` otvori Microsoft Store ili ne postoji, umjesto njega koristiti `py`
+  (npr. `py -m pip install …`, `py skripte\…`). Koje su instalacije na računalu: `where.exe python python3 py`.
+- Paketi se instaliraju jednom po računalu; poslije je dovoljna samo naredba za pokretanje skripte.
+
 ### 1. Dodavanje vijesti
 
 Vijesti se pišu u uređivaču na internim stranicama Saveza:
@@ -185,21 +206,33 @@ element treba oba jezika, vidi gore). `podaci/hcs-web-data.xlsx` (listovi Kalend
 Klubovi, Info...) i `podaci/o-nama.docx`/`o-curlingu.docx` služe samo kao radna
 bilježnica/nacrt za admina — ništa ih automatski ne čita niti pretvara u HTML.
 
-Primjer iz prakse: kad se promijeni predsjednik kluba ili osvoji nova medalja, izmjena
-ide izravno u `klubovi/index.html` (ćelija `Predsjednik`, ćelija `Osvojene medalje`).
-Broj medalja po klubu **ne treba ručno zbrajati** — SPA stranica (Statistika → Klubovi,
-svi filteri na "sve") to već računa iz `prvenstva-data.json` i može poslužiti kao izvor
-istine za provjeru.
+Primjer iz prakse: kad se promijeni predsjednik kluba, izmjena ide izravno u
+`klubovi/index.html` (ćelija `Predsjednik`). Stupac **Osvojene medalje** računa se sam iz
+`assets/json/prvenstva-data.json` (skripta na dnu `klubovi/index.html`: 1., 2. i 3. mjesto u
+poretku svakog prvenstva, klub prema `clubs` u bazi), pa se nakon objave novih rezultata ne mijenja
+ručno. Brojevi upisani u HTML služe samo kao rezervni prikaz ako se baza ne učita. Svaka ćelija
+ima atribut `data-klub-medalje` s nazivom kluba **kako je u bazi** (npr. `Legija` za redak
+„Legija Slavonski Brod”); kod novog kluba treba ga dodati u novi redak.
 
 ### 3. Dodavanje novog prvenstva / rezultata
 
 1. Ažuriraj `podaci/prvenstva-data.xlsx` (listovi `Utakmice`, `Prvenstva`, `DBIgraci`,
    `DBEkipe`).
-2. Pokreni lokalno:
+2. Pokreni lokalno iz korijena repozitorija (paketi samo prvi put, vidi
+   [Pokretanje Python skripti](#pokretanje-python-skripti-linux-i-windows)):
+
+   Linux:
    ```
-   pip install pandas openpyxl --break-system-packages
+   python3 -m pip install pandas openpyxl --break-system-packages
    python3 skripte/generiraj-prvenstva-data.py podaci/prvenstva-data.xlsx assets/json/prvenstva-data.json
    ```
+   Windows (PowerShell):
+   ```
+   python -m pip install pandas openpyxl
+   python skripte\generiraj-prvenstva-data.py podaci\prvenstva-data.xlsx assets\json\prvenstva-data.json
+   ```
+   Izlaz mora biti `assets/json/prvenstva-data.json`; ako se drugi argument izostavi, datoteka
+   nastaje u trenutnoj mapi i web je ne vidi.
 3. Commitaj `assets/json/prvenstva-data.json`.
 4. GitHub Action (`generiraj-znacke.yml`) automatski pokreće generator značaka i sam
    commita rezultat u `assets/js/znacke-data.js` — ne treba ga ručno dirati (do
@@ -261,31 +294,96 @@ istine za provjeru.
    videi (16:9) izgledaju najbolje; YouTube okomite i kratke (≤ 3 min) automatski vodi
    kao *Shorts*, ali se ugrađuju jednako. Stari lokalni `1.mp4`, `2.mp4`... još rade kao
    rezerva (bez naslova), ali samo ako u `video.txt` nema nijednog YouTube retka.
-6. Ako se pritom promijenio broj medalja nekog kluba, ažuriraj i
-   `klubovi/index.html` ručno (vidi točku 2 gore).
+6. Broj medalja na stranici Klubovi ažurira se sam iz nove baze (vidi točku 2 gore).
 
 ### 4. Ažuriranje nastupa reprezentacije
 
 1. Ažuriraj `podaci/reprezentacija-data.xlsx` (list `Curling`).
-2. Pokreni lokalno:
+2. Pokreni lokalno iz korijena repozitorija (potrebni su isti paketi kao za prvenstva:
+   `pandas`, `openpyxl`):
+
+   Linux:
    ```
    python3 skripte/generiraj-reprezentacija-data.py podaci/reprezentacija-data.xlsx assets/json/reprezentacija-data.json
+   ```
+   Windows (PowerShell):
+   ```
+   python skripte\generiraj-reprezentacija-data.py podaci\reprezentacija-data.xlsx assets\json\reprezentacija-data.json
    ```
 3. Commitaj `assets/json/reprezentacija-data.json`. Nema automatskog workflowa za ovo.
 
 ### 5. Digitalizacija skeniranih zapisnika
 
-`skripte/split-zapisnici.py` uzima jedan skenirani PDF cijelog prvenstva (jedna
-stranica = jedna utakmica) i OCR-om (čita oznaku utakmice iz gornjeg desnog kuta)
-razdvaja ga u pojedinačne, ispravno imenovane PDF-ove:
+Zapisnici svih utakmica jednog prvenstva skeniraju se u **jedan PDF** (jedna stranica = jedna
+utakmica; u istom PDF-u smije biti i više disciplina/kategorija). Skripta `skripte/split-zapisnici.py`
+na svakoj stranici OCR-om pročita oznaku utakmice iz gornjeg desnog kuta (npr.
+`PHC-2026-2027-MC-S-A-K1-1`), od svake stranice napravi zaseban PDF s tim imenom i smanji ga na
+oko 150 KB. Ti se PDF-ovi otvaraju klikom na utakmicu u *Prvenstva Hrvatske → Pregled*.
 
+#### Jednokratna priprema računala
+
+Skripti trebaju dvije stvari:
+
+1. **Program Tesseract OCR**, koji stvarno „čita” tekst sa slike. Python paket `pytesseract` je
+   samo poveznica na njega i bez programa ne radi (greška `TesseractNotFoundError`).
+2. **Python paketi** s popisa `skripte/requirements-zapisnici.txt` (`pymupdf`, `pytesseract`,
+   `pillow`, `numpy`).
+
+**Windows:**
+
+1. Preuzeti instalacijski paket Tesseracta za Windows (*UB Mannheim* inačica; poveznica je na
+   stranici <https://github.com/UB-Mannheim/tesseract/wiki>) i instalirati ga sa zadanim
+   postavkama, u mapu `C:\Program Files\Tesseract-OCR`. Engleski jezik, koji skripta koristi,
+   dio je osnovne instalacije. Skripta Tesseract u toj mapi pronalazi sama, pa `PATH` ne treba
+   mijenjati (ako je instaliran negdje drugdje, ta mapa mora biti u `PATH`-u).
+   Provjera u PowerShellu: `& "C:\Program Files\Tesseract-OCR\tesseract.exe" --version`
+2. U PowerShellu, iz korijena repozitorija:
+   ```
+   python -m pip install -r skripte\requirements-zapisnici.txt
+   ```
+
+**Linux:**
 ```
-pip install pymupdf pytesseract pillow numpy --break-system-packages
-python3 skripte/split-zapisnici.py ./skenirano.pdf ./assets/json/prvenstva-data.json ./output
+sudo apt install tesseract-ocr
+python3 -m pip install -r skripte/requirements-zapisnici.txt --break-system-packages
 ```
 
-Rezultat ide u `output/<sezona>/`, odatle se ručno premjesti u odgovarajuću mapu pod
-`prvenstva/`.
+#### Postupak za svako prvenstvo
+
+1. **Najprije objaviti rezultate prvenstva** (odjeljak 3), tako da je nova
+   `assets/json/prvenstva-data.json` u repozitoriju. Skripta iz nje dohvaća podatke o
+   utakmicama.
+2. **Skenirani PDF staviti izvan repozitorija**, npr. u `C:\projekti\zapisnici\`. Izlazna mapa
+   također mora biti izvan repozitorija, inače se sve pojavi u GitHub Desktopu kao nove datoteke.
+3. **Pokrenuti skriptu** iz korijena repozitorija. Argumenti su: skenirani PDF, baza prvenstava
+   i izlazna mapa.
+
+   Windows (PowerShell):
+   ```
+   cd C:\projekti\curling-hr
+   python skripte\split-zapisnici.py C:\projekti\zapisnici\MC-S-scan.pdf assets\json\prvenstva-data.json C:\projekti\zapisnici\izlaz
+   ```
+   Linux:
+   ```
+   python3 skripte/split-zapisnici.py ../zapisnici/MC-S-scan.pdf assets/json/prvenstva-data.json ../zapisnici/izlaz
+   ```
+   Skripta za svaku stranicu ispiše što je pročitala, a na kraju popis spremljenih datoteka s
+   veličinom i oznakom `[✓]` (oznaka pouzdano pročitana) ili `[?]` (provjeriti ručno). Ako
+   oznaku na nekoj stranici ne može pročitati, **u terminalu pita** da se upiše ručno; izrezak
+   oznake tada sprema u `<izlaz>/_rucno/` da se može pogledati.
+4. **Provjeriti rezultat** u `<izlaz>\<sezona>\` (npr. `izlaz\2026-2027\`):
+   - svaki naziv mora odgovarati utakmici iz Pregleda (prvenstvo, skupina, kolo, utakmica).
+     Skripta čita ono što piše na papiru; ako je oznaka na zapisniku krivo napisana, datoteku
+     treba ručno preimenovati prema bazi;
+   - otvoriti nekoliko PDF-ova i provjeriti da su čitljivi.
+5. **Premjestiti PDF-ove u repozitorij**, u mapu prvenstva: `prvenstva/<sezona>/<disciplina>-<kategorija>/`,
+   npr. `prvenstva/2026-2027/MC-S/PHC-2026-2027-MC-S-A-K1-1.pdf`. Ako je u istom skenu bilo više
+   disciplina, svaku datoteku staviti u mapu prema oznaci u nazivu (`M-J`, `MC-S`…).
+6. **Commitati** u GitHub Desktopu i nakon objave provjeriti na webu (Ctrl+F5) da se klikom na
+   utakmicu otvara zapisnik.
+
+Prvi put kad se skripta pokreće na novom računalu, dobro je isprobati je na već obrađenom
+prvenstvu i usporediti nazive s postojećim datotekama u `prvenstva/`.
 
 ### 6. Obrazac za prijavu ekipe (`/prijava/`)
 
