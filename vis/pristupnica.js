@@ -54,15 +54,15 @@
       { lead: 'Upoznatost s rizicima i pravilima.',
         tekst: v(
           'Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da sam upućen/a u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da ću ih se pridržavati zajedno s uputama odgovorne osobe.',
-          'Suglasan/na sam sa sudjelovanjem člana na treninzima i natjecanjima. Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama odgovorne osobe.') },
+          'Suglasan/na sam sa sudjelovanjem člana na rekreativnom igranju, treninzima i natjecanjima. Upoznat/a sam da curling, kao i svaki sport, nosi rizik ozljeda (osobito padovi na ledu i udarci opremom), da je član upućen u osnovna sigurnosna pravila (obuća i metla, ponašanje na ledu) te da će ih se pridržavati zajedno s uputama odgovorne osobe.') },
       { lead: 'Prihvaćanje uobičajenog rizika.',
         tekst: v(
-          'Na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
-          'Član na treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjeluje dobrovoljno i uz moju suglasnost, a u njegovo ime prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.') },
+          'Na rekreativnom igranju, treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjelujem dobrovoljno i prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.',
+          'Član na rekreativnom igranju, treninzima, utakmicama i ostalim aktivnostima Curling kluba Vis i Hrvatskog curling saveza sudjeluje dobrovoljno i uz moju suglasnost, a u njegovo ime prihvaćam uobičajene rizike svojstvene ovom sportu. Ova izjava ne isključuje odgovornost kluba, Hrvatskog curling saveza ili drugih osoba u slučajevima u kojima je šteta prouzročena namjerom ili krajnjom nepažnjom.') },
       { lead: 'Prijava ozljede i osiguranje.',
         tekst: v(
-          'Ozljedu ili nezgodu na treningu ili natjecanju odmah ću prijaviti treneru ili odgovornoj osobi kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.',
-          'Ozljedu ili nezgodu člana na treningu ili natjecanju član će odmah prijaviti treneru ili odgovornoj osobi (a ja ću to učiniti čim saznam) kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.') }
+          'Ozljedu ili nezgodu na rekreativnom igranju, treningu ili natjecanju odmah ću prijaviti odgovornoj osobi kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.',
+          'Ozljedu ili nezgodu člana na rekreativnom igranju, treningu ili natjecanju član će odmah prijaviti odgovornoj osobi (a ja ću to učiniti čim saznam) kako bi se događaj evidentirao. Klub ne osigurava člana od posljedica nezgode; osiguranje od nezgode po želji osiguravam samostalno.') }
     ],
   };
 
@@ -84,11 +84,11 @@
        'Legitimni interes kluba i člana za sudjelovanje u natjecanjima',
        'Za vrijeme trajanja natjecanja; rezultati i podaci o natjecateljima se čuvaju trajno kao sportski arhiv'],
       ['Datum izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša, podatak da je član sposoban i preslika uvjerenja; dijagnoze i nalazi se ne prikupljaju',
-       'Provjera sposobnosti za bavljenje sportom (sigurnost treninga i natjecanja)',       
+       'Provjera sposobnosti za bavljenje sportom (sigurnost rekreativnog igranja, treninga i natjecanja)',       
        v('Izričita privola',
          'Izričita privola roditelja/skrbnika u ime člana'),
        'Do isteka valjanosti uvjerenja ili povlačenja privole; zatim se preslika vraća članu ili uništava'],
-      ['Fotografije i videozapisi s treninga, natjecanja i događanja',
+      ['Fotografije i videozapisi s rekreativnog igranja, treninga, natjecanja i događanja',
        'Objava fotografija i videozapisa člana',       
        v('Dobrovoljna privola, vidi dolje',
          'Dobrovoljna privola roditelja/skrbnika, vidi dolje'),
@@ -99,8 +99,8 @@
         tekst: 'Hrvatski curling savez, organizatori natjecanja u Hrvatskoj i inozemstvu te World Curling  (registracija članova i natjecatelja, rezultati i statistika natjecanja, fotografije i videozapisi); pružatelj usluge e-pošte (Microsoft). Uvjerenja o zdravstvenoj sposobnosti sportaša ne šalju se Savezu ni drugim primateljima (Savezu klub samo potvrđuje da postoji valjana potvrda), a pristup imaju samo ovlaštene osobe kluba. Podaci se ne šalju drugim primateljima, osim kad to zahtijeva zakon.' },
       { lead: 'Je li davanje podataka obvezno: ',
         tekst: v(
-          'Podaci iz Pristupnice potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.',
-          'Podaci iz Pristupnice (uključujući podatke roditelja/skrbnika) potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje člana na treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.') },
+          'Podaci iz Pristupnice potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje na rekreativnom igranju, treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.',
+          'Podaci iz Pristupnice (uključujući podatke roditelja/skrbnika) potrebni su za članstvo i bez njih se ne može postati članom. Privole za fotografije i videozapise su dobrovoljne. Za sudjelovanje člana na rekreativnom igranju, treninzima i natjecanjima potrebna je valjana liječnička potvrda o sposobnosti za bavljenje sportom.') },
       { lead: 'Vaša prava: ',
         tekst: v(
           'Pravo na pristup podacima, ispravak, brisanje, ograničenje obrade, prigovor te prenosivost podataka. Privolu možete povući u bilo kojem trenutku, bez utjecaja na zakonitost obrade prije povlačenja. Zahtjev pošaljite na ' + KLUB.kontaktPodaci + '; odgovorit ćemo najkasnije u roku od mjesec dana. Ako smatrate da se podaci obrađuju protivno propisima, imate pravo na pritužbu Agenciji za zaštitu osobnih podataka (AZOP), Selska cesta 136, 10000 Zagreb, azop.hr.',
@@ -116,8 +116,8 @@
         tekst: v('Objavljivanje mojih fotografija i videozapisa na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetske stranice i društvene mreže).',
                  'Objavljivanje fotografija i videozapisa člana na kanalima Curling kluba Vis i Hrvatskog curling saveza (internetska stranica i društvene mreže kluba).') },
       { id: 'potvrda-lijecnik', lead: 'Liječničko uvjerenje.',
-        tekst: v('Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na treninzima i natjecanjima.',
-                 'Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti člana i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na treninzima i natjecanjima.') }
+        tekst: v('Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti sportaša i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na rekreativnom igranju, treninzima i natjecanjima.',
+                 'Evidencija datuma izdavanja i isteka uvjerenja o zdravstvenoj sposobnosti člana i čuvanje preslike uvjerenja do isteka valjanosti. Klub ne traži i ne prikuplja dijagnoze ni nalaze. Ako ne pristanete, klub ne bilježi ni ne čuva podatke iz uvjerenja, ali je član dužan na traženje pokazati valjano uvjerenje. Bez valjanog uvjerenja nije moguće sudjelovati na rekreativnom igranju, treninzima i natjecanjima.') }
     ],
     napomene: [
       v(null, 'Kada član postane punoljetan, može zatražiti da sam potvrdi ili promijeni odgovore koje je u njegovo ime dao roditelj/skrbnik.')
