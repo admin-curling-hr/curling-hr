@@ -1,0 +1,33 @@
+name: Generiraj hero.json
+
+on:
+  push:
+    paths:
+      - 'assets/images/hero/**'   # Pokreće se kad se doda, promijeni ili obriše naslovna slika ili natpis
+
+jobs:
+  generiraj:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Potrebno za commit nazad u repo
+
+    steps:
+      - name: Dohvati kod
+        uses: actions/checkout@v4
+
+      - name: Postavi Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generiraj hero.json
+        run: python skripte/generiraj-hero.py
+
+      - name: Commitaj hero.json ako se promijenio
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/json/hero.json
+          git diff --cached --quiet || git commit -m "Auto: ažuriraj hero.json"
+          git pull --rebase
+          git push

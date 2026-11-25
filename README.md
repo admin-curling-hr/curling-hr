@@ -25,6 +25,7 @@ kao gotov fajl za download, koji se onda ručno prebaci u GitHub Desktop i commi
   - [Digitalizacija skeniranih zapisnika](#5-digitalizacija-skeniranih-zapisnika)
   - [Obrazac za prijavu ekipe (/prijava/)](#6-obrazac-za-prijavu-ekipe-prijava)
   - [Rezultati uživo (/uzivo/)](#7-rezultati-uživo-uzivo)
+  - [Naslovne slike na početnoj stranici](#8-naslovne-slike-na-početnoj-stranici)
 - [Skripte — pregled](#skripte--pregled)
 - [GitHub Actions (automatska generacija)](#github-actions-automatska-generacija)
 - [Domena i hosting](#domena-i-hosting)
@@ -452,11 +453,31 @@ i nedokumentirani JSON (`.json` na kraju adrese), ali bez CORS zaglavlja, pa ga 
 izravno čitati. Ako SoftPeelR jednom zabrani prikaz u okviru, ostaje poveznica na puni prikaz.
 `/uzivo/` nije u `sitemap.xml` jer je sadržaj privremen.
 
+### 8. Naslovne slike na početnoj stranici
+
+Na vrhu početne stranice izmjenjuju se **3 najnovije naslovne slike**: najnovija 10 s, ostale po 6 s,
+s prijelazom zdesna nalijevo. Posjetitelj može listati strelicama, točkicama ili povlačenjem prstom;
+vrtnja stoji dok je miš iznad slike. Logika je u `assets/js/hero.js` (konstante `BROJ`, `TRAJANJE_PRVA`,
+`TRAJANJE_OSTALE` na vrhu), stilovi u `<style>` u `index.html`.
+
+**Nova naslovna slika:**
+1. Pripremiti sliku **1100 × 200 px** (tako se prikazuje; važni dijelovi, npr. lica, u sredini visine).
+2. Spremiti je u `assets/images/hero/` s imenom **datuma objave**, npr. `assets/images/hero/2027-02-15.jpg`
+   (dopušteno `.jpg`, `.jpeg`, `.png`, `.webp`).
+3. Uz nju napraviti `2027-02-15.txt` (UTF-8) s natpisom: **1. redak hrvatski, 2. redak engleski**.
+4. Commitati. GitHub Action (`generiraj-hero.yml`) sam napravi `assets/json/hero.json` i commita ga;
+   nakon toga napraviti *Pull* u GitHub Desktopu.
+
+Starije slike mogu ostati u mapi (prikazuju se samo 3 najnovije) ili se mogu obrisati. Ručno pokretanje
+generatora: `python3 skripte/generiraj-hero.py` (Windows: `python skripte\generiraj-hero.py`).
+Slika upisana izravno u `index.html` služi samo kao rezervni prikaz ako se `hero.json` ne učita.
+
 ## Skripte — pregled
 
 | Skripta | Ulaz | Izlaz | Pokreće se |
 |---|---|---|---|
 | `generiraj-vijesti.py` | `vijesti/*/index.html` (meta tagovi) | `vijesti/vijesti.json` | Automatski (GitHub Actions) |
+| `generiraj-hero.py` | `assets/images/hero/*.jpg` + `.txt` | `assets/json/hero.json` | Automatski (GitHub Actions) |
 | `generiraj-znacke-data.py` | `assets/json/prvenstva-data.json` | `assets/js/znacke-data.js` | Automatski (GitHub Actions) |
 | `generiraj-prvenstva-data.py` | `podaci/prvenstva-data.xlsx` | `assets/json/prvenstva-data.json` | Ručno |
 | `generiraj-reprezentacija-data.py` | `podaci/reprezentacija-data.xlsx` | `assets/json/reprezentacija-data.json` | Ručno |
@@ -473,6 +494,8 @@ izravno čitati. Ako SoftPeelR jednom zabrani prikaz u okviru, ostaje poveznica 
 - `.github/workflows/dohvati-slicice-videa.yml` — okida se na svaki push koji mijenja
   `prvenstva/**/video.txt` ili `vijesti/**/index.html` (i ručno, *Run workflow*), pokreće
   `skripte/dohvati-slicice-videa.py` i sam commita nove `video-N.jpg`.
+- `.github/workflows/generiraj-hero.yml` — okida se na svaki push koji mijenja
+  `assets/images/hero/**`, pokreće `skripte/generiraj-hero.py` i sam commita `assets/json/hero.json`.
 
 ## Statistika posjeta
 

@@ -50,12 +50,89 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.65);
       background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%);
       border-radius: 0 0 6px 6px;
+      pointer-events: none;
     }
+    .hero-caption[hidden] { display: none; }
+
+    /* --- Vrtnja naslovnih slika (assets/js/hero.js) --- */
+    .hero-viewport {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      height: 200px;
+    }
+    .hero-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;   /* = PRIJELAZ u hero.js */
+      will-change: transform;
+    }
+    .hero-carousel .hero-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      max-width: none;
+      border-radius: 0;
+    }
+    .hero-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      width: 2.2rem;
+      height: 2.2rem;
+      margin-top: -1.1rem;
+      padding: 0 0 0.15rem;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.32);
+      color: #fff;
+      font: 400 1.7rem/1 system-ui, sans-serif;
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .hero-arrow-prev { left: 0.5rem; }
+    .hero-arrow-next { right: 0.5rem; }
+    .hero-figure:hover .hero-arrow, .hero-arrow:focus-visible { opacity: 1; }
+    .hero-arrow:hover { background: rgba(0,0,0,0.55); }
+    .hero-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+    .hero-dots {
+      position: absolute;
+      right: 0.7rem;
+      bottom: 0.55rem;
+      z-index: 2;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .hero-dots button {
+      width: 0.55rem;
+      height: 0.55rem;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.6);
+    }
+    .hero-dots button[aria-current="true"] { background: #fff; }
+    @media (hover: none) { .hero-arrow { opacity: 0.8; } }
+    @media (prefers-reduced-motion: reduce) { .hero-track { transition: none; } }
+
     @media (max-width: 600px) {
       .home-hero-img {
         height: auto;
         border-radius: 0;
       }
+      /* Vrtnja na mobitelu: traka zadržava omjer 11 : 2, pa sve slike imaju istu visinu */
+      .hero-viewport {
+        height: auto;
+        aspect-ratio: 11 / 2;
+        border-radius: 0;
+      }
+      .hero-carousel .hero-slide { height: 100%; }
+      .hero-arrow { width: 1.8rem; height: 1.8rem; margin-top: -0.9rem; font-size: 1.4rem; }
+      .hero-arrow-prev { left: 0.3rem; }
+      .hero-arrow-next { right: 0.3rem; }
+      .hero-dots { bottom: 0.35rem; right: 0.45rem; }
       /* Na uskim ekranima slika je preniska za tekst preko nje: opis ide ispod slike */
       .hero-caption {
         position: static;
@@ -75,8 +152,10 @@
 
 <main class="site-main">
 
-  <figure class="hero-figure">
-    <img src="assets/images/hero.jpg" alt="Prvaci Hrvatske u mješovitom curlingu, juniori i juniorke, Brunico 2026." class="home-hero-img">
+  <!-- Naslovne slike: assets/images/hero/ (GGGG-MM-DD.jpg + .txt), vrtnju radi assets/js/hero.js.
+       Slika ispod je samo rezervni prikaz ako se popis slika ne učita. -->
+  <figure class="hero-figure" id="heroFigure" aria-roledescription="carousel">
+    <img src="assets/images/hero/2026-11-09.jpg" alt="Prvaci Hrvatske u mješovitom curlingu, juniori i juniorke, Brunico 2026." class="home-hero-img">
     <figcaption class="hero-caption" data-hr="Prvaci Hrvatske: mješoviti curling, juniori i juniorke (Brunico, studeni 2026.)" data-en="Croatian champions: mixed curling, junior men and junior women (Brunico, November 2026)">Prvaci Hrvatske: mješoviti curling, juniori i juniorke (Brunico, studeni 2026.)</figcaption>
   </figure>
 
@@ -105,6 +184,7 @@
 </main>
 
 <script src="assets/js/header.js"></script>
+<script src="assets/js/hero.js"></script>
 <script>
 (function() {
   const BASE = window.HCS_BASE || '';  // definira header.js
