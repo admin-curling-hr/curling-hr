@@ -34,6 +34,15 @@ window.HCS_UZIVO = {
 
   natjecanja: [
     {
+      naziv: "7. prvenstvo Hrvatske (mješoviti parovi)",
+      nazivEn: "7th Croatian Championship (mixed doubles)",
+      mjesto: "Intercable Arena Bruneck, Brunico, Italija",
+      datumi: "28. – 29. 11. 2026.",
+      softpeelr: 2389,
+      prikaziOd: "2026-11-25",
+      prikaziDo: "2026-12-06"
+    },
+    {
       naziv: "4. prvenstvo Hrvatske (mješoviti curling)",
       nazivEn: "4th Croatian Championship (mix)",
       mjesto: "Intercable Arena Bruneck, Brunico, Italija",
