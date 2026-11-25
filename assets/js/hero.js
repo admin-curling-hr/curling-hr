@@ -186,7 +186,7 @@
         b.className = 'hero-arrow hero-arrow-' + smjer;
         b.innerHTML = smjer === 'prev' ? '&#8249;' : '&#8250;';
         b.addEventListener('click', () => (smjer === 'prev' ? idi(i - 1, -1) : idi(i + 1, 1)));
-        fig.appendChild(b);
+        okvir.appendChild(b);   // u okviru slike, pa je "sredina visine" sredina slike (i na mobitelu, gdje je natpis ispod)
         return b;
       };
       const bPrev = strelica('prev');

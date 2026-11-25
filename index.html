@@ -80,7 +80,7 @@
     .hero-arrow {
       position: absolute;
       top: 50%;
-      z-index: 2;
+      z-index: 5;
       width: 2.2rem;
       height: 2.2rem;
       margin-top: -1.1rem;
@@ -132,10 +132,13 @@
         border-radius: 0;
       }
       .hero-carousel .hero-slide { height: 100%; }
-      .hero-arrow { width: 1.8rem; height: 1.8rem; margin-top: -0.9rem; font-size: 1.4rem; }
+      /* Traka je na mobitelu niska (~70 px): manje strelice u sredini visine, točkice dolje na sredini,
+         pa se ne preklapaju */
+      .hero-arrow { width: 1.4rem; height: 1.4rem; margin-top: -0.7rem; padding-bottom: 0.1rem; font-size: 1.1rem; background: rgba(0,0,0,0.38); }
       .hero-arrow-prev { left: 0.3rem; }
       .hero-arrow-next { right: 0.3rem; }
-      .hero-dots { bottom: 0.35rem; right: 0.45rem; }
+      .hero-dots { bottom: 0.3rem; right: auto; left: 50%; transform: translateX(-50%); gap: 0.35rem; }
+      .hero-dots button { width: 0.45rem; height: 0.45rem; }
       /* Na uskim ekranima slika je preniska za tekst preko nje: opis ide ispod slike */
       .hero-caption {
         position: static;
