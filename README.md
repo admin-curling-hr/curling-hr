@@ -455,10 +455,27 @@ izravno čitati. Ako SoftPeelR jednom zabrani prikaz u okviru, ostaje poveznica 
 
 ### 8. Naslovne slike na početnoj stranici
 
-Na vrhu početne stranice izmjenjuju se **3 najnovije naslovne slike**: najnovija 10 s, ostale po 6 s,
-s prijelazom zdesna nalijevo. Posjetitelj može listati strelicama, točkicama ili povlačenjem prstom;
-vrtnja stoji dok je miš iznad slike. Logika je u `assets/js/hero.js` (konstante `BROJ`, `TRAJANJE_PRVA`,
-`TRAJANJE_OSTALE` na vrhu), stilovi u `<style>` u `index.html`.
+Na vrhu početne stranice izmjenjuju se **3 najnovije naslovne slike**: najnovija 10 s, ostale po 6 s.
+Posjetitelj može listati strelicama, točkicama ili povlačenjem prstom; vrtnja stoji dok je miš iznad
+slike. Logika je u `assets/js/hero.js` (konstante `BROJ`, `TRAJANJE_PRVA`, `TRAJANJE_OSTALE` na vrhu),
+stilovi u `<style>` u `index.html`.
+
+**Prijelaz se mijenja po danu u tjednu** (po zagrebačkom vremenu; cijeli dan isti za sve posjetitelje),
+tablica `PRIJELAZ_PO_DANU` u `hero.js`:
+
+| Dan | Prijelaz | Opis |
+|---|---|---|
+| ponedjeljak | `klizanje` | nova slika gura staru zdesna nalijevo |
+| utorak | `pretapanje` | nova slika se polako pojavi preko stare |
+| srijeda | `zavjesa` | nova slika se otkriva zdesna nalijevo |
+| četvrtak | `zum` | pretapanje, a slika se dok je prikazana polako približava |
+| petak | `paralaksa` | nova slika uklizi preko stare, stara se sporije odmiče i potamni |
+| subota | `zamucenje` | stara slika se zamuti, nova se pojavi i izoštri |
+| nedjelja | `sredina` | nova slika se otvara od sredine prema rubovima |
+
+Za isprobavanje bilo kojeg prijelaza neovisno o danu: `https://curling.hr/?prijelaz=sredina`.
+Posjetitelji sa sustavnom postavkom „smanjeno kretanje” nemaju automatsku vrtnju, a strelice mijenjaju
+sliku kratkim pretapanjem.
 
 **Nova naslovna slika:**
 1. Pripremiti sliku **1100 × 200 px** (tako se prikazuje; važni dijelovi, npr. lica, u sredini visine).
