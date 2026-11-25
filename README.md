@@ -40,6 +40,7 @@ vijesti/                — Vijesti (arhiva + pojedinačni članci)
   YYYY-MM-DD/index.html   — jedan članak po mapi (+ eventualne fotke u istoj mapi)
 prijava/index.html       — obrazac za prijavu ekipe (bez poveznice u izborniku, noindex); izrađuje PDF na A4
 uzivo/index.html        — Rezultati uživo: SoftPeelR u okviru; stavka "Uživo" u izborniku samo dok traje natjecanje
+(stranica Curling kluba Vis nije u ovom repozitoriju: https://vis.curling.hr, repozitorij admin-curling-hr/vis-curling-hr)
 kalendar/index.html     — Kalendar natjecanja i treninga (ručno se uređuje)
 klubovi/index.html      — Popis aktivnih/neaktivnih klubova (ručno se uređuje)
 o-nama/index.html       — O savezu, kontakt, tijela, članarine, akti (+ PDF-ovi akata)
