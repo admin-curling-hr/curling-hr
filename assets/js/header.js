@@ -24,7 +24,7 @@ window.hcsMedalize = function (str) {
       <img src="${BASE}/assets/images/hcs-logo.png" alt="HCS Logo" class="header-logo">
       <div class="header-titles">
         <span class="header-title header-title-full" data-hr="Hrvatski curling savez" data-en="Croatian Curling Association">Hrvatski curling savez</span>
-        <span class="header-title header-title-short" data-hr="HCS" data-en="CCA">HCS</span>
+        <span class="header-title header-title-short" data-hr="HR curling" data-en="CRO curling">HR curling</span>
         <span class="header-subtitle" data-hr="Croatian Curling Association" data-en="Hrvatski curling savez">Croatian Curling Association</span>
       </div>
     </a>
