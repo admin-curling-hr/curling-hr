@@ -229,6 +229,20 @@ window.hcsMedalize = function (str) {
   }
 
   initHeader();
+
+  // ===== Statistika posjeta: Cloudflare Web Analytics =====
+  // Bez kolačića i bez praćenja pojedinih posjetitelja. Skripta se učitava samo na pravoj domeni,
+  // pa lokalno testiranje i stari github.io URL ne ulaze u statistiku. Pregled: Cloudflare →
+  // Observability → Analytics → Web analytics → curling.hr. Token nije tajan (vidljiv je u kodu stranice).
+  (function () {
+    const CF_WEB_ANALYTICS_TOKEN = 'e70ff1b7466640dea155029d39be0ad3';
+    if (!/^(www\.)?curling\.hr$/.test(location.hostname)) return;
+    const s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    s.setAttribute('data-cf-beacon', JSON.stringify({ token: CF_WEB_ANALYTICS_TOKEN }));
+    document.head.appendChild(s);
+  })();
   initUzivo();
 
   // ===== Uživo =====

@@ -474,6 +474,16 @@ izravno čitati. Ako SoftPeelR jednom zabrani prikaz u okviru, ostaje poveznica 
   `prvenstva/**/video.txt` ili `vijesti/**/index.html` (i ručno, *Run workflow*), pokreće
   `skripte/dohvati-slicice-videa.py` i sam commita nove `video-N.jpg`.
 
+## Statistika posjeta
+
+Broj posjeta prati **Cloudflare Web Analytics** (besplatno, bez kolačića, bez praćenja pojedinih
+posjetitelja): Cloudflare → *Observability → Analytics → Web analytics* → `curling.hr`. Način rada je
+*Enable with JS Snippet installation*, jer promet prema `curling.hr` ide izravno na GitHub (sivi oblak),
+pa automatsko ubacivanje skripte ne bi radilo. Skriptu ubacuje `assets/js/header.js` (blok „Statistika
+posjeta”) na svim stranicama koje učitavaju header, i to samo na domeni `curling.hr`, tako da lokalno
+testiranje ne ulazi u brojke. Token je u konstanti `CF_WEB_ANALYTICS_TOKEN`; nije tajan.
+Brojke su donja granica: blokatori oglasa ponekad blokiraju i ovu skriptu.
+
 ## Domena i hosting
 
 Sajt je na GitHub Pages, grana `main`. Nema `CNAME` datoteke u repou — prilagođena
